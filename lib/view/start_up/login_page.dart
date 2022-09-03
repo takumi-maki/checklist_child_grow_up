@@ -1,3 +1,5 @@
+import 'package:demo_sns_app/view/account/account_page.dart';
+import 'package:demo_sns_app/view/start_up/create_account_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               const SizedBox(height: 50),
-              const Text('Flutter SNS', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              const Text('Flutter SNS', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black54)),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 child: SizedBox(
@@ -52,7 +54,10 @@ class _LoginPageState extends State<LoginPage> {
                   TextSpan(text: 'こちら',
                     style: const TextStyle(color: Colors.blue),
                     recognizer: TapGestureRecognizer()..onTap = () {
-                      debugPrint('アカウントを作成');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => CreateAccountPage())
+                      );
                     }
                   ),
                 ]
