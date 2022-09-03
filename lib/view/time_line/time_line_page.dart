@@ -18,6 +18,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
     name: 'takumi',
     imagePath: 'https://thumb.photo-ac.com/f5/f5118d1dee2e1e2cec87f643e8010390_w.jpeg',
     userId: 'takumi_maki_1203',
+    selfIntroduction: 'I am Programmer',
     createdTime: DateTime.now()
   );
   List<Post> postList = [

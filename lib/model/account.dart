@@ -3,6 +3,7 @@ class Account {
   String name;
   String imagePath;
   String userId;
+  String selfIntroduction;
   DateTime? createdTime;
   DateTime? updatedTime;
 
@@ -11,6 +12,7 @@ class Account {
     required this.name,
     required this.imagePath,
     required this.userId,
+    required this.selfIntroduction,
     this.createdTime,
     this.updatedTime,
   });
