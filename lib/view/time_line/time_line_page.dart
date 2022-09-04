@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_sns_app/model/account.dart';
 import 'package:demo_sns_app/view/time_line/post_page.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
     imagePath: 'https://thumb.photo-ac.com/f5/f5118d1dee2e1e2cec87f643e8010390_w.jpeg',
     userId: 'takumi_maki_1203',
     selfIntroduction: 'I am Programmer',
-    createdTime: DateTime.now()
+    createdTime: Timestamp.now()
   );
   List<Post> postList = [
     Post(

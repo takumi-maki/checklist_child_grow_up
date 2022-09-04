@@ -2,9 +2,14 @@
 import 'dart:io';
 
 import 'package:demo_sns_app/utils/authentication.dart';
+import 'package:demo_sns_app/utils/firestore/users.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:image_picker/image_picker.dart';
+
+import '../../model/account.dart';
 
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({Key? key}) : super(key: key);
@@ -31,6 +36,15 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     }
   }
 
+  Future<String> uploadImage(String uid) async {
+    final FirebaseStorage storageInstance = FirebaseStorage.instance;
+    final Reference ref = storageInstance.ref();
+    await ref.child(uid).putFile(image!);
+    String downloadUrl = await storageInstance.ref(uid).getDownloadURL();
+    print('image_path: $downloadUrl');
+    return downloadUrl;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,13 +67,13 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 },
                 child: CircleAvatar(
                   foregroundImage: image == null ? null : FileImage(image!),
-                  radius: 40,
                   backgroundColor: Colors.grey,
+                  radius: 40,
                   child: const Icon(Icons.add, color: Colors.white),
                 ),
               ),
             ),
-            const SizedBox(height: 40,),
+            const SizedBox(height: 40),
             SizedBox(
               width: 300,
               child: TextField(
@@ -121,11 +135,22 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   && passwordController.text.isNotEmpty
                   && image != null) {
                   var result = await Authentication.signUp(email: emailController.text, password: passwordController.text);
-                  if (result) {
-                    Navigator.pop(context);
+                  if (result is UserCredential) {
+                    String imagePath = await uploadImage(result.user!.uid);
+                    Account newAccount = Account(
+                      id: result.user!.uid,
+                      name: nameController.text,
+                      userId: userIdController.text,
+                      selfIntroduction: selfIntroductionController.text,
+                      imagePath: imagePath,
+                    );
+                    var setUserResult = await UserFirestore.setUser(newAccount);
+                    if(setUserResult) {
+                      Navigator.pop(context);
+                    }
                   }
                 }
-            },
+              },
               style: ButtonStyle(
                 backgroundColor: MaterialStateColor.resolveWith((states) => Colors.grey),
               ),
