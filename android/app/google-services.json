@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "674317899233",
+    "project_id": "fir-sns-app",
+    "storage_bucket": "fir-sns-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674317899233:android:231a9bfe57d10b0932eea0",
+        "android_client_info": {
+          "package_name": "com.example.demo_sns_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674317899233-lj0iok13rhras99b3ma1pkp9utsqgv1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_L28r9aGQm_AYO7vzYFzQsspd-Qz8oNY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674317899233-lj0iok13rhras99b3ma1pkp9utsqgv1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "674317899233-amoj0mlrnt0hcftagra1egaods1em95f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.demoSnsApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

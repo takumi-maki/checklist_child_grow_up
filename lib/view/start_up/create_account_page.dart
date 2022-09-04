@@ -1,5 +1,10 @@
 
+import 'dart:io';
+
+import 'package:demo_sns_app/utils/authentication.dart';
 import 'package:flutter/material.dart';
+
+import 'package:image_picker/image_picker.dart';
 
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({Key? key}) : super(key: key);
@@ -14,6 +19,18 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   TextEditingController selfIntroductionController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  File? image;
+  ImagePicker picker = ImagePicker();
+
+  Future<void> getImageFromGallery() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        image = File(pickedFile.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,12 +45,18 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         child: Column(
           children: [
             const SizedBox(height: 30),
-            const SizedBox(
+            SizedBox(
               width: double.infinity,
-              child: CircleAvatar(
-                radius: 40,
-                backgroundColor: Colors.grey,
-                child: Icon(Icons.add, color: Colors.white),
+              child: GestureDetector(
+                onTap: () {
+                  getImageFromGallery();
+                },
+                child: CircleAvatar(
+                  foregroundImage: image == null ? null : FileImage(image!),
+                  radius: 40,
+                  backgroundColor: Colors.grey,
+                  child: const Icon(Icons.add, color: Colors.white),
+                ),
               ),
             ),
             const SizedBox(height: 40,),
@@ -90,13 +113,17 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             ),
             const SizedBox(height: 50),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if(nameController.text.isNotEmpty
                   && userIdController.text.isNotEmpty
                   && selfIntroductionController.text.isNotEmpty
                   && emailController.text.isNotEmpty
-                  && passwordController.text.isNotEmpty) {
-                  Navigator.pop(context);
+                  && passwordController.text.isNotEmpty
+                  && image != null) {
+                  var result = await Authentication.signUp(email: emailController.text, password: passwordController.text);
+                  if (result == true) {
+                    Navigator.pop(context);
+                  }
                 }
             },
               style: ButtonStyle(

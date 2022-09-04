@@ -1,4 +1,3 @@
-import 'package:demo_sns_app/view/account/account_page.dart';
 import 'package:demo_sns_app/view/start_up/create_account_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

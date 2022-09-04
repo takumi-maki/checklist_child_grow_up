@@ -45,5 +45,11 @@
 	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>写真を取得するにはフォトライブラリへのアクセスが必要です</string>
+	<key>NSCameraUsageDescription</key>
+  <string>写真を撮るにはカメラへのアクセスが必要です</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Need microphone access for uploading videos</string>
 </dict>
 </plist>
