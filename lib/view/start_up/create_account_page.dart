@@ -121,7 +121,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   && passwordController.text.isNotEmpty
                   && image != null) {
                   var result = await Authentication.signUp(email: emailController.text, password: passwordController.text);
-                  if (result == true) {
+                  if (result) {
                     Navigator.pop(context);
                   }
                 }

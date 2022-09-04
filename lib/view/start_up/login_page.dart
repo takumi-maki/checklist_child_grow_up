@@ -1,3 +1,4 @@
+import 'package:demo_sns_app/utils/authentication.dart';
 import 'package:demo_sns_app/view/start_up/create_account_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -63,11 +64,14 @@ class _LoginPageState extends State<LoginPage> {
               )),
               const SizedBox(height: 70),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Screen())
-                  );
+                onPressed: () async {
+                  var result = await Authentication.emailSignIn(email: emailController.text, password: passwordController.text);
+                  if(result) {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Screen())
+                    );
+                  }
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateColor.resolveWith((states) => Colors.grey)
