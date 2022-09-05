@@ -1,5 +1,7 @@
 import 'package:demo_sns_app/utils/authentication.dart';
+import 'package:demo_sns_app/utils/firestore/users.dart';
 import 'package:demo_sns_app/view/start_up/create_account_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -66,11 +68,14 @@ class _LoginPageState extends State<LoginPage> {
               ElevatedButton(
                 onPressed: () async {
                   var result = await Authentication.emailSignIn(email: emailController.text, password: passwordController.text);
-                  if(result) {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Screen())
-                    );
+                  if(result is UserCredential) {
+                    var user = await UserFirestore.getUser(result.user!.uid);
+                    if (user) {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Screen())
+                      );
+                    }
                   }
                 },
                 style: ButtonStyle(
