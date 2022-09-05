@@ -1,10 +1,7 @@
 import 'package:demo_sns_app/firebase_options.dart';
-import 'package:demo_sns_app/view/screen.dart';
 import 'package:demo_sns_app/view/start_up/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
-import 'time_line/time_line_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

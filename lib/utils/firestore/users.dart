@@ -20,7 +20,7 @@ class UserFirestore {
       debugPrint('新規ユーザー作成完了');
       return true;
     } on FirebaseException catch (e) {
-      debugPrint('新規ユーザー作成エラー');
+      debugPrint('新規ユーザー作成エラー: $e');
       return false;
     }
   }
@@ -42,9 +42,26 @@ class UserFirestore {
       debugPrint('ユーザー取得完了');
       return true;
     } on FirebaseException catch (e) {
-      debugPrint('ユーザー取得エラー');
+      debugPrint('ユーザー取得エラー: $e');
       return false;
-
     }
   }
+
+  static Future<bool> updateUser(Account updateAccount) async {
+    try {
+      await users.doc(updateAccount.id).update({
+        'name': updateAccount.name,
+        'image_path': updateAccount.imagePath,
+        'user_id': updateAccount.userId,
+        'self_introduction': updateAccount.selfIntroduction,
+        'updated_time': Timestamp.now(),
+      });
+      debugPrint('ユーザー情報の更新完了');
+      return true;
+    } on FirebaseException catch (e) {
+      debugPrint('ユーザー情報の更新エラー : $e');
+      return false;
+    }
+  }
+
 }

@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_sns_app/utils/authentication.dart';
+import 'package:demo_sns_app/view/account/edit_account_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -53,6 +53,7 @@ class _AccountPageState extends State<AccountPage> {
                               CircleAvatar(
                                 radius: 32,
                                 foregroundImage: NetworkImage(myAccount.imagePath),
+                                backgroundColor: Colors.grey,
                               ),
                               const SizedBox(width: 10),
                               Column(
@@ -64,7 +65,15 @@ class _AccountPageState extends State<AccountPage> {
                               )
                             ],
                           ),
-                          OutlinedButton(onPressed: () {}, child: const Text('編集'))
+                          OutlinedButton(onPressed: () async {
+                            var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => const EditAccountPage())) as bool;
+                            // result == trueであれば、アカウントの編集がされたので、最新のアカウントの情報を取得する
+                            if (result) {
+                              setState(() {
+                                myAccount = Authentication.myAccount!;
+                              });
+                            }
+                          }, child: const Text('編集'))
                         ],
                       ),
                       const SizedBox(height: 15),

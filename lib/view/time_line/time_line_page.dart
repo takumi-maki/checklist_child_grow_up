@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_sns_app/model/account.dart';
 import 'package:demo_sns_app/utils/authentication.dart';
-import 'package:demo_sns_app/view/time_line/post_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -73,7 +71,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
                           children: [
                             Row(
                               children: [
-                                Text(myAccount.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                                Text(myAccount.name, style: const TextStyle(fontWeight: FontWeight.bold)),
                                 Text('@${myAccount.userId}'),
                               ],
                             ),
