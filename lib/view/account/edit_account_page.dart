@@ -4,6 +4,7 @@ import 'package:demo_sns_app/utils/authentication.dart';
 import 'package:demo_sns_app/utils/firestore/users.dart';
 import 'package:demo_sns_app/utils/function_utils.dart';
 import 'package:demo_sns_app/utils/widget_utils.dart';
+import 'package:demo_sns_app/view/start_up/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -131,7 +132,23 @@ class _EditAccountPageState extends State<EditAccountPage> {
                   style: ButtonStyle(
                     backgroundColor: MaterialStateColor.resolveWith((states) => Colors.grey),
                   ),
-                  child: const Text('更新'))
+                  child: const Text('更新')
+              ),
+              const SizedBox(height: 50),
+              ElevatedButton(
+                onPressed: () {
+                  Authentication.signOut();
+                  // popできる状態であればpopする
+                  while(Navigator.canPop(context)) {
+                    Navigator.pop(context);
+                  }
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateColor.resolveWith((states) => Colors.grey),
+                ),
+                child: const Text('ログアウト')
+              ),
             ],
           ),
         ),
