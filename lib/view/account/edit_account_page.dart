@@ -104,35 +104,33 @@ class _EditAccountPageState extends State<EditAccountPage> {
               ),
               const SizedBox(height: 50),
               ElevatedButton(
-                  onPressed: () async {
-                    if(nameController.text.isNotEmpty
-                        && userIdController.text.isNotEmpty
-                        && selfIntroductionController.text.isNotEmpty) {
-                      String imagePath = '';
-                      if (image == null) {
-                        imagePath = myAccount.imagePath;
-                      } else {
-                        imagePath = await FunctionUtils.uploadImage(myAccount.id, image!);
-                      }
-                      Account updateAccount = Account(
-                        id: myAccount.id,
-                        name: nameController.text,
-                        userId: userIdController.text,
-                        selfIntroduction: selfIntroductionController.text,
-                        imagePath: imagePath
-                      );
-                      // AuthenticationのmyAccountも更新
-                      Authentication.myAccount = updateAccount;
-                      var result = await UserFirestore.updateUser(updateAccount);
-                      if(result) {
-                        Navigator.pop(context, true);
-                      }
+                onPressed: () async {
+                  if(nameController.text.isNotEmpty
+                      && userIdController.text.isNotEmpty
+                      && selfIntroductionController.text.isNotEmpty) {
+                    String imagePath = '';
+                    if (image == null) {
+                      imagePath = myAccount.imagePath;
+                    } else {
+                      imagePath = await FunctionUtils.uploadImage(myAccount.id, image!);
                     }
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateColor.resolveWith((states) => Colors.grey),
-                  ),
-                  child: const Text('更新')
+                    Account updateAccount = Account(
+                      id: myAccount.id,
+                      name: nameController.text,
+                      userId: userIdController.text,
+                      selfIntroduction: selfIntroductionController.text,
+                      imagePath: imagePath
+                    );
+                    // AuthenticationのmyAccountも更新
+                    Authentication.myAccount = updateAccount;
+                    var result = await UserFirestore.updateUser(updateAccount);
+                    if(result) {
+                      Navigator.pop(context, true);
+                    }
+                  }
+                },
+                style: ElevatedButton.styleFrom(primary: Colors.grey),
+                child: const Text('更新')
               ),
               const SizedBox(height: 50),
               ElevatedButton(
@@ -144,11 +142,22 @@ class _EditAccountPageState extends State<EditAccountPage> {
                   }
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
                 },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateColor.resolveWith((states) => Colors.grey),
-                ),
+                style: ElevatedButton.styleFrom(primary: Colors.grey),
                 child: const Text('ログアウト')
               ),
+              const SizedBox(height: 50),
+              ElevatedButton(
+                onPressed: () {
+                  UserFirestore.deleteUser(myAccount.id);
+                  Authentication.deleteAuth();
+                  while(Navigator.canPop(context)) {
+                    Navigator.pop(context);
+                  }
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                },
+                style: ElevatedButton.styleFrom(primary: Colors.red),
+                child: const Text('アカウントを削除')
+              )
             ],
           ),
         ),

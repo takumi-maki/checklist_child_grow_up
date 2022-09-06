@@ -50,4 +50,14 @@ class PostFirestore {
       return null;
     }
   }
+
+  static Future<dynamic> deletePosts(String accountId) async {
+    final CollectionReference userPosts = _firebaseFirestore.collection('users')
+        .doc(accountId).collection('my_posts');
+    var snapShot = await userPosts.get();
+    for (var doc in snapShot.docs) {
+      await posts.doc(doc.id).delete();
+      await userPosts.doc(doc.id).delete();
+    }
+  }
 }

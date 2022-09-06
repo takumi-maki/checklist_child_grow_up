@@ -129,16 +129,14 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         imagePath: imagePath,
                       );
                       // firestoreにユーザー情報を追加
-                      var setUserResult = await UserFirestore.setUser(newAccount);
-                      if(setUserResult) {
+                      var resultSetUser = await UserFirestore.setUser(newAccount);
+                      if(resultSetUser) {
                         Navigator.pop(context);
                       }
                     }
                   }
                 },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateColor.resolveWith((states) => Colors.grey),
-                ),
+                style: ElevatedButton.styleFrom(primary: Colors.grey),
                 child: const Text('アカウントを作成'))
             ],
           ),

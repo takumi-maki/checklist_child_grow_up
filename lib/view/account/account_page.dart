@@ -55,7 +55,7 @@ class _AccountPageState extends State<AccountPage> {
                             ],
                           ),
                           OutlinedButton(onPressed: () async {
-                            var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => const EditAccountPage())) as bool;
+                            var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => const EditAccountPage()));
                             // result == trueであれば、アカウントの編集がされたので、最新のアカウントの情報を取得する
                             if (result) {
                               setState(() {

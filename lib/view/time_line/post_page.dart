@@ -48,9 +48,7 @@ class _PostPageState extends State<PostPage> {
                   }
                 }
               },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateColor.resolveWith((states) => Colors.grey),
-              ),
+              style: ElevatedButton.styleFrom(primary: Colors.grey),
               child: const Text('投稿'),
             ),
           ],

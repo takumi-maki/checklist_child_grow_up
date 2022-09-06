@@ -78,9 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   }
                 },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateColor.resolveWith((states) => Colors.grey)
-                ),
+                style: ElevatedButton.styleFrom(primary: Colors.grey),
                 child: const Text('emailでログイン')
               ),
             ],
