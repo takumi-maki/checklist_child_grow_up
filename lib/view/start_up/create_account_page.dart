@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../model/account.dart';
+import 'check_email_page.dart';
 
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({Key? key}) : super(key: key);
@@ -131,7 +132,16 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       // firestoreにユーザー情報を追加
                       var resultSetUser = await UserFirestore.setUser(newAccount);
                       if(resultSetUser) {
-                        Navigator.pop(context);
+                        userCredential.user!.sendEmailVerification();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CheckEmailPage(
+                              email: emailController.text,
+                              password: passwordController.text,
+                            )
+                          )
+                        );
                       }
                     }
                   }

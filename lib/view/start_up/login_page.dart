@@ -69,12 +69,14 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () async {
                   var result = await Authentication.emailSignIn(email: emailController.text, password: passwordController.text);
                   if(result is UserCredential) {
-                    var user = await UserFirestore.getUser(result.user!.uid);
-                    if (user) {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => const Screen())
-                      );
+                    if(result.user!.emailVerified){
+                      var user = await UserFirestore.getUser(result.user!.uid);
+                      if (user) {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => const Screen())
+                        );
+                      }
                     }
                   }
                 },
