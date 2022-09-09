@@ -1,5 +1,6 @@
 import 'package:demo_sns_app/utils/authentication.dart';
 import 'package:demo_sns_app/utils/firestore/users.dart';
+import 'package:demo_sns_app/view/room/room_list_page.dart';
 import 'package:demo_sns_app/view/start_up/create_account_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -26,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               const SizedBox(height: 50),
-              const Text('Flutter SNS', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black54)),
+              const Text('わが子の成長チェックリスト', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black54)),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 child: SizedBox(
@@ -74,14 +75,14 @@ class _LoginPageState extends State<LoginPage> {
                       if (user) {
                         Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => const Screen())
+                            MaterialPageRoute(builder: (context) => const RoomListPage())
                         );
                       }
                     }
                   }
                 },
                 style: ElevatedButton.styleFrom(primary: Colors.grey),
-                child: const Text('emailでログイン')
+                child: const Text('ログイン')
               ),
             ],
           ),

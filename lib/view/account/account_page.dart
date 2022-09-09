@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 
 import '../../model/account.dart';
 import '../../model/post.dart';
+import '../room/room_list_page.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -79,6 +80,13 @@ class _AccountPageState extends State<AccountPage> {
                     )),
                   ),
                   child: const Text('投稿', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold)),
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const RoomListPage()));
+                    },
+                    style: ElevatedButton.styleFrom(primary: Colors.grey),
+                    child: const Text('ルーム一覧')
                 ),
                 Expanded(child: StreamBuilder<QuerySnapshot>(
                   // 自分のusersのドキュメントidからmy_postsのスナップショットを取得
@@ -156,6 +164,7 @@ class _AccountPageState extends State<AccountPage> {
                       return Container();
                     }
                   },
+
                 )),
               ],
             ),
