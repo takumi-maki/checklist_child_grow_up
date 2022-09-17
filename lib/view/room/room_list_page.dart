@@ -1,15 +1,16 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:demo_sns_app/model/room.dart';
 import 'package:demo_sns_app/utils/firestore/rooms.dart';
 import 'package:demo_sns_app/view/room/create_room_page.dart';
+import 'package:demo_sns_app/view/room/room_member_email_list_page.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/check_list.dart';
 import '../../utils/authentication.dart';
-import '../../utils/widget_utils.dart';
 import '../start_up/login_page.dart';
-import 'room_tab_bar.dart';
+import '../check_list/room_tab_bar_widget.dart';
 
 class RoomListPage extends StatefulWidget {
   const RoomListPage({Key? key}) : super(key: key);
@@ -20,6 +21,7 @@ class RoomListPage extends StatefulWidget {
 
 class _RoomListPageState extends State<RoomListPage> {
   User user = Authentication.currentFirebaseUser!;
+  String _selectedMenu = '';
 
   @override
   Widget build(BuildContext context) {
@@ -31,17 +33,27 @@ class _RoomListPageState extends State<RoomListPage> {
         title: Text('ルーム一覧', style: const TextStyle(color: Colors.black54)),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () {
-              Authentication.signOut();
-              while(Navigator.canPop(context)) {
-                Navigator.pop(context);
-              }
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
-            },
-            icon: Icon(Icons.logout)
-          )
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            child: PopupMenuButton<RoomListPopupMenuItem>(
+                onSelected: (RoomListPopupMenuItem value) {
+                  switch(value) {
+                    case RoomListPopupMenuItem.signOut:
+                      Authentication.signOut();
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                  }
+                },
+                child: Icon(Icons.menu),
+                itemBuilder: (context) => <PopupMenuEntry<RoomListPopupMenuItem>>[
+                  PopupMenuItem(
+                      value: RoomListPopupMenuItem.signOut,
+                      child: Text('ログアウト')
+                  )
+                ]
+            ),
+          ),
         ],
+
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: RoomFirestore.rooms
@@ -68,12 +80,12 @@ class _RoomListPageState extends State<RoomListPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
-                        leading: Icon(Icons.bedroom_baby),
+                        leading: Image.asset('assets/images/hiyoko_up.png', height: 36),
                         title: Text('${data['child_name']} の ルーム'),
                         trailing: Icon(Icons.arrow_forward_ios),
                         onTap: () {
                           Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => RoomTabBar(
+                              MaterialPageRoute(builder: (context) => RoomTabBarWidget(
                                   childName: data['child_name'],
                                   roomId: roomSnapshot.data!.docs[index].id)
                               )
@@ -97,6 +109,8 @@ class _RoomListPageState extends State<RoomListPage> {
         child: const Icon(Icons.add),
       ),
     );
+  }
+  void roomPopupMenuSelected(CheckListPopupMenuItem selectedMenu) {
 
   }
 }
