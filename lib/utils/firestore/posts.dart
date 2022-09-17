@@ -50,7 +50,6 @@ class PostFirestore {
       return null;
     }
   }
-
   static Future<dynamic> deletePosts(String accountId) async {
     final CollectionReference userPosts = _firebaseFirestore.collection('users')
         .doc(accountId).collection('my_posts');
