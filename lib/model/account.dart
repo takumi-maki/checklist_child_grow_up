@@ -6,6 +6,7 @@ class Account {
   String imagePath;
   String userId;
   String selfIntroduction;
+  String email;
   Timestamp? createdTime;
   Timestamp? updatedTime;
 
@@ -15,6 +16,7 @@ class Account {
     required this.imagePath,
     required this.userId,
     required this.selfIntroduction,
+    required this.email,
     this.createdTime,
     this.updatedTime,
   });

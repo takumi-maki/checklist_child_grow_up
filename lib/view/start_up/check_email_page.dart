@@ -22,8 +22,11 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
       appBar: WidgetUtils.createAppBar('メールアドレスを確認'),
       body: Column(
         children: [
-          const Text('登録したメールアドレスあてに確認のメールを送信しております。'),
-          const Text('そちらに記載されているURLをクリックして認証をお願いします。'),
+          const Text('登録したメールアドレスあてに'),
+          const Text('確認のメールを送信しております。'),
+          SizedBox(height: 20),
+          const Text('そちらに記載されているURLを'),
+          const Text('クリックして認証をお願いします。'),
           ElevatedButton(
             onPressed: () async {
               var result = await Authentication.emailSignIn(
@@ -42,7 +45,7 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
                 }
               }
             },
-
+            style: ElevatedButton.styleFrom(primary: Colors.grey),
             child: const Text('認証完了'))
 
         ],

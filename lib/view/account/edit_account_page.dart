@@ -119,6 +119,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                       name: nameController.text,
                       userId: userIdController.text,
                       selfIntroduction: selfIntroductionController.text,
+                      email: myAccount.email,
                       imagePath: imagePath
                     );
                     // AuthenticationのmyAccountも更新

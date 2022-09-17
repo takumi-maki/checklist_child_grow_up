@@ -14,6 +14,7 @@ class UserFirestore {
         'name': newAccount.name,
         'user_id': newAccount.userId,
         'self_introduction': newAccount.selfIntroduction,
+        'email': newAccount.email,
         'image_path': newAccount.imagePath,
         'created_time': Timestamp.now(),
         'updated_time': Timestamp.now(),
@@ -35,6 +36,7 @@ class UserFirestore {
         name: data['name'],
         userId: data['user_id'],
         selfIntroduction: data['self_introduction'],
+        email: data['email'],
         imagePath: data['image_path'],
         createdTime: data['created_time'],
         updatedTime: data['updated_time']
@@ -47,7 +49,6 @@ class UserFirestore {
       return false;
     }
   }
-
   static Future<bool> updateUser(Account updateAccount) async {
     try {
       await users.doc(updateAccount.id).update({
@@ -55,6 +56,7 @@ class UserFirestore {
         'image_path': updateAccount.imagePath,
         'user_id': updateAccount.userId,
         'self_introduction': updateAccount.selfIntroduction,
+        'email': updateAccount.email,
         'updated_time': Timestamp.now(),
       });
       debugPrint('ユーザー情報の更新完了');
@@ -78,6 +80,7 @@ class UserFirestore {
           userId: data['user_id'],
           imagePath: data['image_path'],
           selfIntroduction: data['self_introduction'],
+          email: data['email'],
           createdTime: data['created_time'],
           updatedTime: data['updated_time'],
         );

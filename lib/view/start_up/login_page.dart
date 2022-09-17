@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               const SizedBox(height: 50),
-              const Text('わが子の成長チェックリスト', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black54)),
+              const Text('わが子の成長チェックリスト', style: TextStyle(fontSize: 24, color: Colors.black54)),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 child: SizedBox(

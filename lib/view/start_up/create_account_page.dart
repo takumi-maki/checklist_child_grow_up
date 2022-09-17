@@ -127,6 +127,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         name: nameController.text,
                         userId: userIdController.text,
                         selfIntroduction: selfIntroductionController.text,
+                        email: userCredential.user!.email!,
                         imagePath: imagePath,
                       );
                       // firestoreにユーザー情報を追加
