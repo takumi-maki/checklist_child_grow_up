@@ -12,7 +12,6 @@ class CommentFireStore {
     final CollectionReference collectionReference = _firebaseFirestore
         .collection('rooms').doc(checkList.roomId)
         .collection('check_lists').doc(checkList.id)
-        .collection('items').doc(newComment.itemId)
         .collection('comments');
     try {
       await collectionReference.add({

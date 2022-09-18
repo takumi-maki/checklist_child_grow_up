@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_sns_app/model/comment.dart';
 import 'package:demo_sns_app/utils/authentication.dart';
+import 'package:demo_sns_app/utils/firestore/check_lists.dart';
 import 'package:demo_sns_app/utils/firestore/comments.dart';
-import 'package:demo_sns_app/utils/firestore/items.dart';
 import 'package:demo_sns_app/utils/firestore/rooms.dart';
 import 'package:demo_sns_app/utils/firestore/users.dart';
 import 'package:demo_sns_app/utils/widget_utils.dart';
@@ -14,8 +14,9 @@ import '../../model/check_list.dart';
 
 class ItemDetail extends StatefulWidget {
   final CheckList checkList;
+  final int itemIndex;
   final Item item;
-  const ItemDetail({Key? key, required this.checkList, required this.item}) : super(key: key);
+  const ItemDetail({Key? key, required this.checkList, required this.itemIndex, required this.item}) : super(key: key);
 
   @override
   State<ItemDetail> createState() => _ItemDetailState();
@@ -43,11 +44,10 @@ class _ItemDetailState extends State<ItemDetail> {
                       month: widget.item.month,
                       isComplete: widget.item.isComplete ? false : true,
                       content: widget.item.content,
-                      checkListId: widget.item.checkListId,
                       hasComment: widget.item.hasComment,
                       completedTime: widget.item.isComplete ? null : Timestamp.now()
                   );
-                  var result = await ItemFireStore.updateItem(updateItem, widget.checkList);
+                  var result = await CheckListFirestore.updateItem(updateItem, widget.checkList);
                   if (result) {
                     Navigator.pop(context);
                   }
@@ -57,11 +57,11 @@ class _ItemDetailState extends State<ItemDetail> {
             ),
             const SizedBox(height: 30),
             const Divider(),
+
             Expanded(child: StreamBuilder<QuerySnapshot>(
               stream: RoomFirestore.rooms.doc(widget.checkList.roomId)
                 .collection('check_lists').doc(widget.checkList.id)
-                .collection('items').doc(widget.item.id)
-                .collection('comments').orderBy('created_time', descending: false)
+                .collection('comments').where('item_id', isEqualTo: widget.checkList.items[widget.itemIndex].id)
                 .snapshots(),
               builder: (context, commentSnapshot) {
                 if(commentSnapshot.hasData) {
@@ -227,7 +227,8 @@ class _ItemDetailState extends State<ItemDetail> {
                   maxLines: 2,
                   controller: commentController,
                   decoration: const InputDecoration(
-                      border: InputBorder.none
+                    hintText: 'コメントを入力',
+                    border: InputBorder.none
                   ),
                 ),
               ),
@@ -249,11 +250,10 @@ class _ItemDetailState extends State<ItemDetail> {
                       month: widget.item.month,
                       isComplete: widget.item.isComplete,
                       content: widget.item.content,
-                      checkListId: widget.item.checkListId,
                       hasComment: true,
                       completedTime: widget.item.completedTime
                   );
-                  var itemUpdated = await ItemFireStore.updateItem(updateItem, widget.checkList);
+                  var itemUpdated = await CheckListFirestore.updateItem(updateItem, widget.checkList);
                   if (itemUpdated) {
                     commentController..clearComposing()..clear();
                     FocusScope.of(context).unfocus();

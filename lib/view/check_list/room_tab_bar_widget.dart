@@ -101,7 +101,19 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
               if(snapshot.hasData) {
                 return TabBarView(
                   children: snapshot.data!.docs.map((doc) {
-                    CheckList checkList = CheckList(id: doc['id'], roomId: doc['room_id'], type: doc['type']);
+                    List<Item> items = [];
+                    doc['items'].forEach((element) {
+                      Item item = Item(
+                        id: element['id'],
+                        month: element['month'],
+                        isComplete: element['is_complete'],
+                        content: element['content'],
+                        hasComment: element['has_comment'],
+                        completedTime: element['completed_time']
+                      );
+                      items.add(item);
+                    });
+                    CheckList checkList = CheckList(id: doc['id'], roomId: doc['room_id'], type: doc['type'], items: items);
                     return CheckListWidget(checkList: checkList);
                   }).toList()
                 );

@@ -4,11 +4,13 @@ class CheckList {
   String id;
   String roomId;
   int type;
+  List<Item> items;
 
   CheckList({
     required this.id,
     required this.roomId,
     required this.type,
+    required this.items,
   });
 }
 
@@ -17,7 +19,6 @@ class Item {
   int month;
   bool isComplete;
   String content;
-  String checkListId;
   bool hasComment;
   Timestamp? completedTime;
 
@@ -26,7 +27,6 @@ class Item {
     required this.month,
     required this.isComplete,
     required this.content,
-    required this.checkListId,
     required this.hasComment,
     this.completedTime,
   });
