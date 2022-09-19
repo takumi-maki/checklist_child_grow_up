@@ -55,7 +55,7 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                   Room newRoom = Room(
                     id: '',
                     childName: childNameController.text,
-                    joinedAccounts: [Authentication.currentFirebaseUser!.email, partnerEmailController.text],
+                    joinedAccounts: partnerEmailController.text.isEmpty ? [Authentication.currentFirebaseUser!.email] : [Authentication.currentFirebaseUser!.email, partnerEmailController.text],
                     createdTime: Timestamp.now(),
                   );
                   var roomId = await RoomFirestore.setRoom(newRoom);
