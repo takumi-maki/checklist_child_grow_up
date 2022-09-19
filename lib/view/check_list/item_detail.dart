@@ -5,12 +5,14 @@ import 'package:demo_sns_app/utils/firestore/check_lists.dart';
 import 'package:demo_sns_app/utils/firestore/comments.dart';
 import 'package:demo_sns_app/utils/firestore/rooms.dart';
 import 'package:demo_sns_app/utils/firestore/users.dart';
+import 'package:demo_sns_app/utils/loading_dialog.dart';
 import 'package:demo_sns_app/utils/widget_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../model/account.dart';
 import '../../model/check_list.dart';
+import '../../utils/loading_elevated_button.dart';
 
 class ItemDetail extends StatefulWidget {
   final CheckList checkList;
@@ -37,8 +39,9 @@ class _ItemDetailState extends State<ItemDetail> {
             Center(child: Image.asset(imagePath, height: 80)),
             Text(widget.item.content,  style: const TextStyle(fontSize: 18, color: Colors.black87)),
             const SizedBox(height: 20),
-            ElevatedButton(
+            LoadingElevatedButton(
                 onPressed: () async {
+                  await showLoadingDialog(context);
                   Item updateItem = Item(
                       id: widget.item.id,
                       month: widget.item.month,
@@ -49,10 +52,11 @@ class _ItemDetailState extends State<ItemDetail> {
                   );
                   var result = await CheckListFirestore.updateItem(updateItem, widget.checkList);
                   if (result) {
+                    hideLoadingDialog();
+                    if(!mounted) return;
                     Navigator.pop(context);
                   }
                 },
-                style: ElevatedButton.styleFrom(primary: Colors.grey),
                 child: widget.item.isComplete ? const Text('達成をキャンセル') : const Text('達成')
             ),
             const SizedBox(height: 30),

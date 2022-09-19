@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_sns_app/utils/firestore/rooms.dart';
 import 'package:demo_sns_app/utils/firestore/users.dart';
+import 'package:demo_sns_app/utils/loading_dialog.dart';
 import 'package:demo_sns_app/utils/widget_utils.dart';
 import 'package:demo_sns_app/view/room/add_email_page.dart';
 import 'package:flutter/material.dart';
-
-import '../../model/account.dart';
-import '../../model/room.dart';
 
 class RoomMemberEmailListPage extends StatefulWidget {
   final String roomId;
@@ -45,7 +43,8 @@ class _RoomMemberEmailListPageState extends State<RoomMemberEmailListPage> {
         }
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
+          if(!mounted) return;
           Navigator.push(context, MaterialPageRoute(builder: (context) => AddEmailPage(roomId: widget.roomId)));
         },
         backgroundColor: Colors.grey,

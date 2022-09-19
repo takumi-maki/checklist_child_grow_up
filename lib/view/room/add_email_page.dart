@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_sns_app/utils/firestore/rooms.dart';
+import 'package:demo_sns_app/utils/loading_dialog.dart';
 import 'package:demo_sns_app/utils/widget_utils.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/room.dart';
+import '../../utils/loading_elevated_button.dart';
 
 class AddEmailPage extends StatefulWidget {
   final String roomId;
@@ -36,8 +38,9 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
               ),
             ),
             SizedBox(height: 30),
-            ElevatedButton(
+            LoadingElevatedButton(
               onPressed: () async {
+                await showLoadingDialog(context);
                 if(emailController.text.isNotEmpty) {
                   DocumentSnapshot documentSnapshot = await RoomFirestore.rooms.doc(widget.roomId).get();
                   Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
@@ -51,11 +54,12 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                   );
                   var result = await RoomFirestore.updateRoom(updateRoom);
                   if(result) {
+                    hideLoadingDialog();
+                    if(!mounted) return;
                     Navigator.pop(context);
                   }
                 }
               },
-              style: ElevatedButton.styleFrom(primary: Colors.grey),
               child: const Text('追加')),
           ],
         )

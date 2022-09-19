@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../model/account.dart';
+import '../../utils/loading_dialog.dart';
+import '../../utils/loading_elevated_button.dart';
 import 'check_email_page.dart';
 
 class CreateAccountPage extends StatefulWidget {
@@ -110,8 +112,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 ),
               ),
               const SizedBox(height: 50),
-              ElevatedButton(
+              LoadingElevatedButton(
                 onPressed: () async {
+                  await showLoadingDialog(context);
                   if(nameController.text.isNotEmpty
                     && userIdController.text.isNotEmpty
                     && selfIntroductionController.text.isNotEmpty
@@ -134,6 +137,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       var resultSetUser = await UserFirestore.setUser(newAccount);
                       if(resultSetUser) {
                         userCredential.user!.sendEmailVerification();
+                        hideLoadingDialog();
+                        if(!mounted) return;
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -147,7 +152,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     }
                   }
                 },
-                style: ElevatedButton.styleFrom(primary: Colors.grey),
                 child: const Text('アカウントを作成'))
             ],
           ),

@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../model/room.dart';
+import '../../utils/loading_dialog.dart';
+import '../../utils/loading_elevated_button.dart';
 
 class CreateRoomPage extends StatefulWidget {
   const CreateRoomPage({Key? key}) : super(key: key);
@@ -49,8 +51,9 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
               ),
             ),
             const SizedBox(height: 50),
-            ElevatedButton(
+            LoadingElevatedButton(
               onPressed: () async {
+                await showLoadingDialog(context);
                 if(childNameController.text.isNotEmpty) {
                   Room newRoom = Room(
                     id: '',
@@ -76,10 +79,11 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                       await CheckListFirestore.setCheckList(index, roomId, items);
                     }
                   }
+                  hideLoadingDialog();
+                  if(!mounted) return;
                   Navigator.pop(context);
                 }
               },
-              style: ElevatedButton.styleFrom(primary: Colors.grey),
               child: const Text('作成')
             ),
           ],

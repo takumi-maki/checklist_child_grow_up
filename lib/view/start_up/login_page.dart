@@ -6,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import '../../utils/loading_dialog.dart';
+import '../../utils/loading_elevated_button.dart';
 import '../screen.dart';
 
 class LoginPage extends StatefulWidget {
@@ -66,22 +68,25 @@ class _LoginPageState extends State<LoginPage> {
                 ]
               )),
               const SizedBox(height: 70),
-              ElevatedButton(
+              LoadingElevatedButton(
                 onPressed: () async {
+                  await showLoadingDialog(context);
                   var result = await Authentication.emailSignIn(email: emailController.text, password: passwordController.text);
                   if(result is UserCredential) {
                     if(result.user!.emailVerified){
                       var user = await UserFirestore.getUser(result.user!.uid);
                       if (user) {
+                        hideLoadingDialog();
+                        if(!mounted) return;
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(builder: (context) => const RoomListPage())
                         );
+
                       }
                     }
                   }
                 },
-                style: ElevatedButton.styleFrom(primary: Colors.grey),
                 child: const Text('ログイン')
               ),
             ],
