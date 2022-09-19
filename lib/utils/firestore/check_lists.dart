@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_sns_app/model/check_list.dart';
+import 'package:demo_sns_app/utils/firestore/comments.dart';
 import 'package:demo_sns_app/utils/firestore/rooms.dart';
 import 'package:flutter/material.dart';
 
@@ -66,6 +67,21 @@ class CheckListFirestore {
       return false;
     }
   }
-
+  static Future<bool> deleteChecklists(String roomId) async {
+    try {
+      final CollectionReference collectionReference = RoomFirestore.rooms.doc(roomId)
+        .collection('check_lists');
+      var snapShot = await collectionReference.get();
+      for(var doc in snapShot.docs) {
+        await collectionReference.doc(doc.id).delete();
+        await CommentFireStore.deleteComments(roomId, doc.id);
+      }
+      debugPrint('チェックリスト完了');
+      return true;
+    } on FirebaseException catch(e){
+      debugPrint('チェックリスト削除エラー: $e');
+      return false;
+    }
+  }
 }
 

@@ -1,5 +1,5 @@
 import 'package:demo_sns_app/model/check_list.dart';
-import 'package:demo_sns_app/view/item_detail/item_detail.dart';
+import 'package:demo_sns_app/view/check_list/item_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

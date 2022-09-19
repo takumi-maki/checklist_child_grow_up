@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_sns_app/model/room.dart';
 import 'package:demo_sns_app/utils/firestore/rooms.dart';
+import 'package:demo_sns_app/view/room/room_list_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';
@@ -56,6 +57,10 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
                       switch(value) {
                         case CheckListPopupMenuItem.memberList:
                           Navigator.push(context, MaterialPageRoute(builder: (context) => RoomMemberEmailListPage(roomId: widget.roomId)));
+                          break;
+                        case CheckListPopupMenuItem.deleteRoom:
+                          roomDeleteAlertDialog();
+                          break;
                       }
                     },
                     child: Icon(Icons.menu),
@@ -63,6 +68,11 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
                       PopupMenuItem(
                           value: CheckListPopupMenuItem.memberList,
                           child: Text('登録しているメールアドレス一覧')
+                      ),
+                      PopupMenuDivider(),
+                      PopupMenuItem(
+                          value: CheckListPopupMenuItem.deleteRoom,
+                          child: Text('ルーム削除')
                       ),
                     ]
                 ),
@@ -99,6 +109,14 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
               .snapshots(),
             builder: (context, snapshot) {
               if(snapshot.hasData) {
+                // ルーム削除中エラーを出力しないための応急処置
+                if (snapshot.data!.docs.length < 4) {
+                  return TabBarView(
+                      children: tabBarList.map((element) {
+                        return Container();
+                      }).toList()
+                  );
+                }
                 return TabBarView(
                   children: snapshot.data!.docs.map((doc) {
                     List<Item> items = [];
@@ -127,6 +145,39 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
             }
           ),
       )
+    );
+  }
+  Future roomDeleteAlertDialog() async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('ルームの削除'),
+          content: Text('本当に${widget.childName}のルームを削除してもいいですか?'),
+          actions: [
+            TextButton(
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+                child: Text('キャンセル')
+            ),
+            TextButton(
+                onPressed: () async {
+                  var result = await RoomFirestore.deleteRoom(widget.roomId);
+                  if(result) {
+                    if(!mounted) return;
+                    while(Navigator.canPop(context)) {
+                      Navigator.pop(context);
+                    }
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RoomListPage()));
+                  }
+                },
+                child: Text('削除')
+            )
+          ],
+        );
+      },
     );
   }
 }

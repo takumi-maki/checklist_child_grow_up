@@ -33,6 +33,7 @@ class Item {
 }
 
 enum CheckListPopupMenuItem {
-  memberList
+  memberList,
+  deleteRoom
 }
 

@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import '../../model/check_list.dart';
 import '../../utils/authentication.dart';
 import '../start_up/login_page.dart';
-import '../check_list/room_tab_bar_widget.dart';
+import '../check_list/check_list_tab_bar_widget.dart';
 
 class RoomListPage extends StatefulWidget {
   const RoomListPage({Key? key}) : super(key: key);

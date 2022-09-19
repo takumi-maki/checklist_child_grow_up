@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:demo_sns_app/utils/firestore/rooms.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';
@@ -9,8 +10,7 @@ class CommentFireStore {
   static final CollectionReference comments = _firebaseFirestore.collection('messages');
 
   static Future<bool> addComment(CheckList checkList, Comment newComment) async {
-    final CollectionReference collectionReference = _firebaseFirestore
-        .collection('rooms').doc(checkList.roomId)
+    final CollectionReference collectionReference = RoomFirestore.rooms.doc(checkList.roomId)
         .collection('check_lists').doc(checkList.id)
         .collection('comments');
     try {
@@ -24,6 +24,23 @@ class CommentFireStore {
       return true;
     } on FirebaseException catch(e) {
       debugPrint('メッセージの作成エラー: $e');
+      return false;
+    }
+  }
+
+  static Future<bool> deleteComments(String roomId, String checkListId) async {
+    try{
+      final CollectionReference collectionReference = RoomFirestore.rooms.doc(roomId)
+          .collection('check_lists').doc(checkListId)
+          .collection('comments');
+      var snapshot = await collectionReference.get();
+      for (var doc in snapshot.docs) {
+        await collectionReference.doc(doc.id).delete();
+      }
+      debugPrint('コメント削除完了');
+      return true;
+    } on FirebaseException catch(e) {
+      debugPrint('コメント削除エラー: $e');
       return false;
     }
   }

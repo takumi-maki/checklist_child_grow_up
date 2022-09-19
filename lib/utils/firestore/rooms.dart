@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_sns_app/model/room.dart';
+import 'package:demo_sns_app/utils/firestore/check_lists.dart';
 import 'package:flutter/material.dart';
 
 class RoomFirestore {
@@ -34,6 +35,17 @@ class RoomFirestore {
       return true;
     } on FirebaseException catch(e) {
       debugPrint('ルーム情報更新エラー: $e');
+      return false;
+    }
+  }
+  static Future<bool> deleteRoom(String roomId) async {
+    try {
+      await rooms.doc(roomId).delete();
+      await CheckListFirestore.deleteChecklists(roomId);
+      debugPrint('ルーム削除完了');
+      return true;
+    } on FirebaseException catch(e) {
+      debugPrint('ルーム削除エラー: $e');
       return false;
     }
   }
