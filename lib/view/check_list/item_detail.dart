@@ -61,7 +61,7 @@ class _ItemDetailState extends State<ItemDetail> {
             Expanded(child: StreamBuilder<QuerySnapshot>(
               stream: RoomFirestore.rooms.doc(widget.checkList.roomId)
                 .collection('check_lists').doc(widget.checkList.id)
-                .collection('comments').where('item_id', isEqualTo: widget.checkList.items[widget.itemIndex].id)
+                .collection('comments').orderBy('created_time', descending: false).where('item_id', isEqualTo: widget.checkList.items[widget.itemIndex].id)
                 .snapshots(),
               builder: (context, commentSnapshot) {
                 if(commentSnapshot.hasData) {
@@ -113,7 +113,7 @@ class _ItemDetailState extends State<ItemDetail> {
   }
   Container someoneCommentWidget(BuildContext context, Comment comment, Account postAccount) {
     return Container(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -122,20 +122,13 @@ class _ItemDetailState extends State<ItemDetail> {
                 maxWidth: MediaQuery.of(context).size.width * 0.80
             ),
             padding: const EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(18),
-                  topRight: Radius.circular(18),
-                  bottomRight: Radius.circular(18),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                  bottomRight: Radius.circular(16),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5
-                  )
-                ]
             ),
             child: Text(comment.text, style: const TextStyle(color: Colors.black54)),
           ),
@@ -154,7 +147,7 @@ class _ItemDetailState extends State<ItemDetail> {
 
   Container myCommentWidget(BuildContext context, Comment comment, Account postAccount) {
     return Container(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -163,20 +156,13 @@ class _ItemDetailState extends State<ItemDetail> {
                 maxWidth: MediaQuery.of(context).size.width * 0.80
             ),
             padding: const EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: Colors.grey,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(18),
-                  topRight: Radius.circular(18),
-                  bottomLeft: Radius.circular(18),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                  bottomLeft: Radius.circular(16),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5
-                  )
-                ]
             ),
             child: Text(comment.text, style: const TextStyle(color: Colors.white)),
           ),
@@ -255,7 +241,7 @@ class _ItemDetailState extends State<ItemDetail> {
                   );
                   var itemUpdated = await CheckListFirestore.updateItem(updateItem, widget.checkList);
                   if (itemUpdated) {
-                    commentController..clearComposing()..clear();
+                    commentController.clear();
                     FocusScope.of(context).unfocus();
                   }
                 }
