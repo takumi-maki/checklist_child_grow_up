@@ -38,19 +38,21 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
             SizedBox(height: 30),
             ElevatedButton(
               onPressed: () async {
-                DocumentSnapshot documentSnapshot = await RoomFirestore.rooms.doc(widget.roomId).get();
-                Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
-                List<dynamic> newJoinedAccounts = data['joined_accounts'];
-                newJoinedAccounts.add(emailController.text);
-                Room updateRoom = Room(
-                  id: widget.roomId,
-                  childName: data['child_name'],
-                  joinedAccounts: newJoinedAccounts,
-                  createdTime: data['created_time']
-                );
-                var result = await RoomFirestore.updateRoom(updateRoom);
-                if(result) {
-                  Navigator.pop(context);
+                if(emailController.text.isNotEmpty) {
+                  DocumentSnapshot documentSnapshot = await RoomFirestore.rooms.doc(widget.roomId).get();
+                  Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+                  List<dynamic> newJoinedAccounts = data['joined_accounts'];
+                  newJoinedAccounts.add(emailController.text);
+                  Room updateRoom = Room(
+                      id: widget.roomId,
+                      childName: data['child_name'],
+                      joinedAccounts: newJoinedAccounts,
+                      createdTime: data['created_time']
+                  );
+                  var result = await RoomFirestore.updateRoom(updateRoom);
+                  if(result) {
+                    Navigator.pop(context);
+                  }
                 }
               },
               style: ElevatedButton.styleFrom(primary: Colors.grey),
