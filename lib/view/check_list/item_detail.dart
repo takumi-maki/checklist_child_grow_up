@@ -6,6 +6,7 @@ import 'package:demo_sns_app/utils/firestore/comments.dart';
 import 'package:demo_sns_app/utils/firestore/rooms.dart';
 import 'package:demo_sns_app/utils/firestore/users.dart';
 import 'package:demo_sns_app/utils/loading_dialog.dart';
+import 'package:demo_sns_app/utils/loading_icon_button.dart';
 import 'package:demo_sns_app/utils/widget_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -224,7 +225,7 @@ class _ItemDetailState extends State<ItemDetail> {
               ),
             )
           ),
-          IconButton(
+          LoadingIconButton(
             onPressed: () async {
               if (commentController.text.isNotEmpty) {
                 Comment newComment = Comment(
@@ -246,6 +247,7 @@ class _ItemDetailState extends State<ItemDetail> {
                   var itemUpdated = await CheckListFirestore.updateItem(updateItem, widget.checkList);
                   if (itemUpdated) {
                     commentController.clear();
+                    if(!mounted) return;
                     FocusScope.of(context).unfocus();
                   }
                 }
