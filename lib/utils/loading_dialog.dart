@@ -32,3 +32,25 @@ Future<void> hideLoadingDialog() async {
     loadingDialogContext = null;
   }
 }
+
+Future<void> congratulationDialog(BuildContext context) async {
+  if(loadingDialogContext != null) {
+    return;
+  }
+  showDialog(context: context, builder: (context) {
+    loadingDialogContext = context;
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints.expand(width: 300, height: 300),
+        child: Column(
+          children: [
+            Image.asset('assets/images/congratulations.png', width: 300),
+            Image.asset('assets/images/hiyoko_like.png', width: 250)
+          ],
+        )
+      ),
+    );
+  });
+  await Future.delayed(const Duration(seconds: 2));
+  return;
+}

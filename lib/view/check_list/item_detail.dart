@@ -42,7 +42,10 @@ class _ItemDetailState extends State<ItemDetail> {
             const SizedBox(height: 20),
             LoadingElevatedButton(
                 onPressed: () async {
-                  await showLoadingDialog(context);
+                  widget.item.isComplete
+                    ? await showLoadingDialog(context)
+                    : await congratulationDialog(context);
+
                   Item updateItem = Item(
                       id: widget.item.id,
                       month: widget.item.month,
