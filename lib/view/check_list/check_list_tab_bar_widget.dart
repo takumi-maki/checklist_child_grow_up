@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_sns_app/model/room.dart';
 import 'package:demo_sns_app/utils/firestore/rooms.dart';
+import 'package:demo_sns_app/utils/loading_dialog.dart';
+import 'package:demo_sns_app/utils/loading_elevated_button.dart';
 import 'package:demo_sns_app/view/room/room_list_page.dart';
 import 'package:flutter/material.dart';
 
@@ -156,17 +158,19 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
           title: const Text('ルームの削除'),
           content: Text('本当に${widget.childName}のルームを削除してもいいですか?'),
           actions: [
-            TextButton(
-                onPressed: (){
-                  Navigator.of(context).pop();
-                },
-                child: Text('キャンセル')
+            OutlinedButton(onPressed: () {
+              Navigator.of(context).pop();
+            },
+              style: OutlinedButton.styleFrom(primary: Colors.grey),
+              child: Text('キャンセル'),
             ),
-            TextButton(
+            LoadingElevatedButton(
                 onPressed: () async {
+                  await showLoadingDialog(context);
                   var result = await RoomFirestore.deleteRoom(widget.roomId);
                   if(result) {
                     if(!mounted) return;
+                    hideLoadingDialog();
                     while(Navigator.canPop(context)) {
                       Navigator.pop(context);
                     }
