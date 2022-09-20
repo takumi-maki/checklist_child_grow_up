@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 
 import '../../utils/loading_dialog.dart';
 import '../../utils/loading_elevated_button.dart';
-import '../screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -24,73 +23,90 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SizedBox(
-          width: double.infinity,
-          child: Column(
-            children: [
-              const SizedBox(height: 50),
-              const Text('わが子の成長チェックリスト', style: TextStyle(fontSize: 24, color: Colors.black54)),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
-                child: SizedBox(
-                  width: 300,
-                  child: TextField(
-                    controller: emailController,
-                    decoration: const InputDecoration(
-                      hintText: 'メールアドレス',
+        child: SingleChildScrollView(
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              children: [
+                const SizedBox(height: 50),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Image.asset('assets/images/hiyoko_memo.png', height: 300, width: 350),
+                    const Positioned(
+                      left: 70,
+                      top: 190,
+                      child: Text('わが子の成長チェックリスト', style: TextStyle(fontSize: 14, color: Colors.black87, letterSpacing: 3.0))
+                    ),
+                    const Positioned(
+                        left: 90,
+                        top: 120,
+                        child: Text('welcome', style: TextStyle(fontSize: 14, color: Colors.black87, letterSpacing: 3.0))
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: SizedBox(
+                    width: 300,
+                    child: TextField(
+                      controller: emailController,
+                      decoration: const InputDecoration(
+                        hintText: 'メールアドレス',
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                width: 300,
-                child: TextField(
-                  controller: passwordController,
-                  decoration: const InputDecoration(
-                    hintText: 'パスワード'
+                SizedBox(
+                  width: 300,
+                  child: TextField(
+                    controller: passwordController,
+                    decoration: const InputDecoration(
+                      hintText: 'パスワード'
+                    ),
+                    obscureText: true,
                   ),
-                  obscureText: true,
                 ),
-              ),
-              const SizedBox(height: 10.0),
-              RichText(text: TextSpan(
-                style: const TextStyle(color: Colors.black54),
-                children: [
-                  const TextSpan(text: 'アカウントを作成していない方は'),
-                  TextSpan(text: 'こちら',
-                    style: const TextStyle(color: Colors.blue),
-                    recognizer: TapGestureRecognizer()..onTap = () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const CreateAccountPage())
-                      );
-                    }
-                  ),
-                ]
-              )),
-              const SizedBox(height: 70),
-              LoadingElevatedButton(
-                onPressed: () async {
-                  await showLoadingDialog(context);
-                  var result = await Authentication.emailSignIn(email: emailController.text, password: passwordController.text);
-                  if(result is UserCredential) {
-                    if(result.user!.emailVerified){
-                      var user = await UserFirestore.getUser(result.user!.uid);
-                      if (user) {
-                        hideLoadingDialog();
-                        if(!mounted) return;
-                        Navigator.pushReplacement(
+                const SizedBox(height: 10.0),
+                RichText(text: TextSpan(
+                  style: const TextStyle(color: Colors.black54),
+                  children: [
+                    const TextSpan(text: 'アカウントを作成していない方は'),
+                    TextSpan(text: 'こちら',
+                      style: const TextStyle(color: Colors.blue),
+                      recognizer: TapGestureRecognizer()..onTap = () {
+                        Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const RoomListPage())
+                            MaterialPageRoute(builder: (context) => const CreateAccountPage())
                         );
+                      }
+                    ),
+                  ]
+                )),
+                const SizedBox(height: 50),
+                LoadingElevatedButton(
+                  onPressed: () async {
+                    await showLoadingDialog(context);
+                    var result = await Authentication.emailSignIn(email: emailController.text, password: passwordController.text);
+                    if(result is UserCredential) {
+                      if(result.user!.emailVerified){
+                        var user = await UserFirestore.getUser(result.user!.uid);
+                        if (user) {
+                          hideLoadingDialog();
+                          if(!mounted) return;
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => const RoomListPage())
+                          );
 
+                        }
                       }
                     }
-                  }
-                },
-                child: const Text('ログイン')
-              ),
-            ],
+                  },
+                  child: const Text('ログイン')
+                ),
+              ],
+            ),
           ),
         ),
       ),
