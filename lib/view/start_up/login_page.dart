@@ -49,6 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: const InputDecoration(
                     hintText: 'パスワード'
                   ),
+                  obscureText: true,
                 ),
               ),
               const SizedBox(height: 10.0),
