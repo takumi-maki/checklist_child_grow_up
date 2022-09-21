@@ -12,12 +12,7 @@ class UserFirestore {
     try {
       await users.doc(newAccount.id).set({
         'name': newAccount.name,
-        'user_id': newAccount.userId,
-        'self_introduction': newAccount.selfIntroduction,
-        'email': newAccount.email,
-        'image_path': newAccount.imagePath,
-        'created_time': Timestamp.now(),
-        'updated_time': Timestamp.now(),
+        'created_time': newAccount.createdTime,
       });
       debugPrint('新規ユーザー作成完了');
       return true;
@@ -34,12 +29,7 @@ class UserFirestore {
       Account myAccount = Account(
         id: uid,
         name: data['name'],
-        userId: data['user_id'],
-        selfIntroduction: data['self_introduction'],
-        email: data['email'],
-        imagePath: data['image_path'],
         createdTime: data['created_time'],
-        updatedTime: data['updated_time']
       );
       Authentication.myAccount = myAccount;
       debugPrint('ユーザー取得完了');
@@ -53,10 +43,6 @@ class UserFirestore {
     try {
       await users.doc(updateAccount.id).update({
         'name': updateAccount.name,
-        'image_path': updateAccount.imagePath,
-        'user_id': updateAccount.userId,
-        'self_introduction': updateAccount.selfIntroduction,
-        'email': updateAccount.email,
         'updated_time': Timestamp.now(),
       });
       debugPrint('ユーザー情報の更新完了');
@@ -77,12 +63,7 @@ class UserFirestore {
         Account postAccount = Account(
           id: accountId,
           name: data['name'],
-          userId: data['user_id'],
-          imagePath: data['image_path'],
-          selfIntroduction: data['self_introduction'],
-          email: data['email'],
           createdTime: data['created_time'],
-          updatedTime: data['updated_time'],
         );
         map[accountId] = postAccount;
       });

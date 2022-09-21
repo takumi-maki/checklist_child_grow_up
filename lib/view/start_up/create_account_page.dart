@@ -1,6 +1,7 @@
 
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_sns_app/utils/authentication.dart';
 import 'package:demo_sns_app/utils/firestore/users.dart';
 import 'package:demo_sns_app/utils/function_utils.dart';
@@ -8,12 +9,10 @@ import 'package:demo_sns_app/utils/widget_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'package:image_picker/image_picker.dart';
-
 import '../../model/account.dart';
 import '../../utils/loading_dialog.dart';
 import '../../utils/loading_elevated_button.dart';
-import 'check_email_page.dart';
+
 
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({Key? key}) : super(key: key);
@@ -24,12 +23,8 @@ class CreateAccountPage extends StatefulWidget {
 
 class _CreateAccountPageState extends State<CreateAccountPage> {
   TextEditingController nameController = TextEditingController();
-  TextEditingController userIdController = TextEditingController();
-  TextEditingController selfIntroductionController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  File? image;
-  ImagePicker picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -40,25 +35,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             width: double.infinity,
           child: Column(
             children: [
-              const SizedBox(height: 30),
-              SizedBox(
-                child: GestureDetector(
-                  onTap: () async {
-                    var pickedFile = await FunctionUtils.getImageFromGallery();
-                    if(pickedFile != null) {
-                      setState(() {
-                        image = File(pickedFile.path);
-                      });
-                    }
-                  },
-                  child: CircleAvatar(
-                    foregroundImage: image == null ? null : FileImage(image!),
-                    backgroundColor: Colors.grey,
-                    radius: 40,
-                    child: const Icon(Icons.add, color: Colors.white),
-                  ),
-                ),
-              ),
               const SizedBox(height: 40),
               SizedBox(
                 width: 300,
@@ -74,30 +50,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 child: SizedBox(
                   width: 300,
                   child: TextField(
-                    controller: userIdController,
-                    decoration: const InputDecoration(
-                        hintText: 'ユーザーID'
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 300,
-                child: TextField(
-                  controller: selfIntroductionController,
-                  decoration: const InputDecoration(
-                      hintText: '自己紹介'
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
-                child: SizedBox(
-                  width: 300,
-                  child: TextField(
                     controller: emailController,
                     decoration: const InputDecoration(
-                        hintText: 'メールアドレス'
+                      hintText: 'メールアドレス'
                     ),
                   ),
                 ),
@@ -107,7 +62,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 child: TextField(
                   controller: passwordController,
                   decoration: const InputDecoration(
-                      hintText: 'パスワード'
+                    hintText: 'パスワード'
                   ),
                 ),
               ),
@@ -116,38 +71,23 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 onPressed: () async {
                   await showLoadingDialog(context);
                   if(nameController.text.isNotEmpty
-                    && userIdController.text.isNotEmpty
-                    && selfIntroductionController.text.isNotEmpty
                     && emailController.text.isNotEmpty
                     && passwordController.text.isNotEmpty
-                    && image != null) {
+                    ) {
                     // Authenticationにユーザーを登録
                     var userCredential = await Authentication.signUp(email: emailController.text, password: passwordController.text);
                     if (userCredential is UserCredential) {
-                      String imagePath = await FunctionUtils.uploadImage(userCredential.user!.uid, image!);
                       Account newAccount = Account(
                         id: userCredential.user!.uid,
                         name: nameController.text,
-                        userId: userIdController.text,
-                        selfIntroduction: selfIntroductionController.text,
-                        email: userCredential.user!.email!,
-                        imagePath: imagePath,
+                        createdTime: Timestamp.now(),
                       );
                       // firestoreにユーザー情報を追加
                       var resultSetUser = await UserFirestore.setUser(newAccount);
                       if(resultSetUser) {
-                        userCredential.user!.sendEmailVerification();
                         hideLoadingDialog();
                         if(!mounted) return;
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CheckEmailPage(
-                              email: emailController.text,
-                              password: passwordController.text,
-                            )
-                          )
-                        );
+                        Navigator.of(context).pop;
                       }
                     }
                   }
