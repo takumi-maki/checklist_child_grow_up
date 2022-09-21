@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_sns_app/model/account.dart';
 import 'package:demo_sns_app/utils/authentication.dart';
-import 'package:demo_sns_app/utils/firestore/posts.dart';
 import 'package:flutter/material.dart';
 
 class UserFirestore {
@@ -73,11 +72,5 @@ class UserFirestore {
       debugPrint('投稿ユーザーの情報取得エラー: $e');
       return null;
     }
-  }
-
-  static Future<dynamic> deleteUser(String accountId) async {
-    // ユーザーのドキュメントを削除
-    await users.doc(accountId).delete();
-    PostFirestore.deletePosts(accountId);
   }
 }
