@@ -44,6 +44,12 @@ dependencies:
   nil: ^1.1.1
   uuid: ^3.0.6
   flutter_chat_ui: ^1.6.4
+  flutter_launcher_icons: ^0.10.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/hiyoko_pen.png"
 
 dev_dependencies:
   flutter_test:
