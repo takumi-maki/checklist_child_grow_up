@@ -25,7 +25,7 @@ Future<void> showLoadingDialog(BuildContext context,
   return;
 }
 
-Future<void> hideLoadingDialog() async {
+Future<void> hideLoadingDialog(BuildContext context) async {
   final context = loadingDialogContext;
   if(context != null) {
     Navigator.of(context).pop();

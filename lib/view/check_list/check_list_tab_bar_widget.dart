@@ -170,7 +170,7 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
                   var result = await RoomFirestore.deleteRoom(widget.roomId);
                   if(result) {
                     if(!mounted) return;
-                    hideLoadingDialog();
+                    hideLoadingDialog(context);
                     while(Navigator.canPop(context)) {
                       Navigator.pop(context);
                     }

@@ -79,7 +79,7 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                       await CheckListFirestore.setCheckList(index, roomId, items);
                     }
                   }
-                  hideLoadingDialog();
+                  hideLoadingDialog(context);
                   if(!mounted) return;
                   Navigator.pop(context);
                 }

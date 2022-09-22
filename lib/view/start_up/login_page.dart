@@ -90,15 +90,14 @@ class _LoginPageState extends State<LoginPage> {
                     var result = await Authentication.emailSignIn(email: emailController.text, password: passwordController.text);
                     if(result is UserCredential) {
                       if(result.user!.emailVerified){
-                        var user = await UserFirestore.getUser(result.user!.uid);
-                        if (user) {
-                          hideLoadingDialog();
+                        var getUserResult = await UserFirestore.getUser(result.user!.uid);
+                        if (getUserResult) {
+                          hideLoadingDialog(context);
                           if(!mounted) return;
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(builder: (context) => const RoomListPage())
                           );
-
                         }
                       }
                     }
