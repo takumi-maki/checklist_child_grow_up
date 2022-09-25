@@ -53,6 +53,7 @@ class CheckListFirestore {
               'is_complete': item['is_complete'],
               'content': item['content'],
               'has_comment': item['has_comment'],
+              'completed_time': item['completed_time']
             });
           }
         }

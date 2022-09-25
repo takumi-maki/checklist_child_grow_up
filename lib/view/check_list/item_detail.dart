@@ -56,8 +56,8 @@ class _ItemDetailState extends State<ItemDetail> {
                   );
                   var result = await CheckListFirestore.updateItem(updateItem, widget.checkList);
                   if (result) {
-                    hideLoadingDialog(context);
                     if(!mounted) return;
+                    hideLoadingDialog(context);
                     Navigator.pop(context);
                   }
                 },
