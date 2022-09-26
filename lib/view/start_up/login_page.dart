@@ -34,14 +34,19 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Image.asset('assets/images/hiyoko_memo.png', height: 300, width: 350),
                     const Positioned(
-                      left: 70,
-                      top: 190,
-                      child: Text('わが子の成長チェックリスト', style: TextStyle(fontSize: 14, color: Colors.black87, letterSpacing: 3.0))
+                        left: 90,
+                        top: 125,
+                        child: Text('welcome', style: TextStyle(fontSize: 14, letterSpacing: 3.0))
                     ),
                     const Positioned(
-                        left: 90,
-                        top: 120,
-                        child: Text('welcome', style: TextStyle(fontSize: 14, color: Colors.black87, letterSpacing: 3.0))
+                      left:  90,
+                      top: 185,
+                      child: Text('わが子の', style: TextStyle(fontSize: 14, letterSpacing: 3.0))
+                    ),
+                    const Positioned(
+                        left: 110,
+                        top: 210,
+                        child: Text('成長チェックリスト', style: TextStyle(fontSize: 14, letterSpacing: 3.0))
                     ),
                   ],
                 ),
