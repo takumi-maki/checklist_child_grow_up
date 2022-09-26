@@ -1,15 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo_sns_app/model/room.dart';
 import 'package:demo_sns_app/utils/firestore/rooms.dart';
-import 'package:demo_sns_app/utils/loading_dialog.dart';
-import 'package:demo_sns_app/utils/loading_elevated_button.dart';
 import 'package:demo_sns_app/view/room/room_list_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';
-import '../../utils/authentication.dart';
+import '../../utils/loading/loading_dialog.dart';
+import '../../utils/loading/loading_elevated_button.dart';
 import '../room/room_member_email_list_page.dart';
-import '../start_up/login_page.dart';
 import 'check_list_widget.dart';
 
 class RoomTabBarWidget extends StatefulWidget {

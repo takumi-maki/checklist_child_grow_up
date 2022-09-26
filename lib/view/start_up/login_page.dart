@@ -6,8 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../../utils/loading_dialog.dart';
-import '../../utils/loading_elevated_button.dart';
+import '../../utils/loading/loading_dialog.dart';
+import '../../utils/loading/loading_elevated_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -92,8 +92,8 @@ class _LoginPageState extends State<LoginPage> {
                       if(result.user!.emailVerified){
                         var getUserResult = await UserFirestore.getUser(result.user!.uid);
                         if (getUserResult) {
-                          hideLoadingDialog(context);
                           if(!mounted) return;
+                          hideLoadingDialog(context);
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(builder: (context) => const RoomListPage())

@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_sns_app/utils/firestore/rooms.dart';
-import 'package:demo_sns_app/utils/firestore/users.dart';
-import 'package:demo_sns_app/utils/loading_dialog.dart';
 import 'package:demo_sns_app/utils/widget_utils.dart';
 import 'package:demo_sns_app/view/room/add_email_page.dart';
 import 'package:flutter/material.dart';
