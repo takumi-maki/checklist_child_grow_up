@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_sns_app/utils/firestore/rooms.dart';
-import 'package:demo_sns_app/view/room/room_list_page.dart';
+import 'package:demo_sns_app/utils/room_delete_alert_dialog.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';
-import '../../utils/loading/loading_dialog.dart';
-import '../../utils/loading/loading_elevated_button.dart';
 import '../room/room_member_email_list_page.dart';
 import 'check_list_widget.dart';
 
@@ -55,10 +53,19 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
                     onSelected: (CheckListPopupMenuItem value) {
                       switch(value) {
                         case CheckListPopupMenuItem.memberList:
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => RoomMemberEmailListPage(roomId: widget.roomId)));
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) =>
+                                  RoomMemberEmailListPage(roomId: widget
+                                      .roomId)));
                           break;
                         case CheckListPopupMenuItem.deleteRoom:
-                          roomDeleteAlertDialog();
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) {
+                              return RoomDeleteAlertDialog(childName: widget.childName, roomId: widget.roomId);
+                            }
+                          );
                           break;
                       }
                     },
@@ -144,41 +151,6 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
             }
           ),
       )
-    );
-  }
-  Future roomDeleteAlertDialog() async {
-    return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('ルームの削除'),
-          content: Text('本当に${widget.childName}のルームを削除してもいいですか?'),
-          actions: [
-            OutlinedButton(onPressed: () {
-              Navigator.of(context).pop();
-            },
-              style: OutlinedButton.styleFrom(primary: Colors.grey),
-              child: Text('キャンセル'),
-            ),
-            LoadingElevatedButton(
-                onPressed: () async {
-                  await showLoadingDialog(context);
-                  var result = await RoomFirestore.deleteRoom(widget.roomId);
-                  if(result) {
-                    if(!mounted) return;
-                    hideLoadingDialog(context);
-                    while(Navigator.canPop(context)) {
-                      Navigator.pop(context);
-                    }
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RoomListPage()));
-                  }
-                },
-                child: Text('削除')
-            )
-          ],
-        );
-      },
     );
   }
 }
