@@ -10,12 +10,16 @@ class Authentication {
 
   static Future<dynamic> signUp({required String email, required String password}) async {
     try {
-      UserCredential newAccount = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-      debugPrint('auth登録完了');
-      return newAccount;
+      UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+      return userCredential;
     } on FirebaseAuthException catch(e) {
-      debugPrint('auth登録エラー: $e');
-      return false;
+      if (e.code == 'email-already-in-use') {
+        return '指定したメールアドレスは登録済みです';
+      } else if (e.code == 'operation-not-allowed') {
+        return '指定したメールアドレス・パスワードは現在使用できません';
+      } else {
+        return 'アカウントの作成に失敗しました';
+      }
     }
   }
 
@@ -29,6 +33,13 @@ class Authentication {
       debugPrint('authサインイン完了');
       return userCredential;
     } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        return 'このアカウントは存在しません';
+      } else if (e.code == 'wrong-password') {
+        return 'パスワードが正しくありません';
+      } else {
+        return 'ログインに失敗しました';
+      }
       debugPrint('authサインインエラー: $e');
       return false;
     }

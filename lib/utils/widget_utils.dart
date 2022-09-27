@@ -10,4 +10,10 @@ class WidgetUtils {
       centerTitle: true,
     );
   }
+  static SnackBar errorSnackBar(String title) {
+    return SnackBar(
+        backgroundColor: const Color.fromRGBO(255, 102, 102, 1),
+        content: Text('$title')
+    );
+  }
 }

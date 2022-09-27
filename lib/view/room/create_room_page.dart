@@ -3,13 +3,14 @@ import 'package:demo_sns_app/utils/authentication.dart';
 import 'package:demo_sns_app/utils/firestore/check_lists.dart';
 import 'package:demo_sns_app/utils/firestore/rooms.dart';
 import 'package:demo_sns_app/utils/function_utils.dart';
+import 'package:demo_sns_app/utils/validator.dart';
 import 'package:demo_sns_app/utils/widget_utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../model/room.dart';
-import '../../utils/loading_dialog.dart';
-import '../../utils/loading_elevated_button.dart';
+import '../../utils/loading/loading_elevated_button.dart';
 
 class CreateRoomPage extends StatefulWidget {
   const CreateRoomPage({Key? key}) : super(key: key);
@@ -19,7 +20,9 @@ class CreateRoomPage extends StatefulWidget {
 }
 
 class _CreateRoomPageState extends State<CreateRoomPage> {
+  User user = Authentication.currentFirebaseUser!;
   TextEditingController childNameController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   var uuid = const Uuid();
   @override
@@ -28,37 +31,53 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
       appBar: WidgetUtils.createAppBar('ルーム作成'),
       body: SizedBox(
         width: double.infinity,
-        child: Column(
-          children: [
-            const SizedBox(height: 30),
-            SizedBox(
-              width: 300,
-              child: TextField(
-                controller: childNameController,
-                decoration: const InputDecoration(
-                  hintText: 'お子さんのお名前'
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              const SizedBox(height: 30),
+              SizedBox(
+                width: 300,
+                child: TextFormField(
+                  controller: childNameController,
+                  validator: (value) {
+                    return Validator.getRequiredValidatorMessage(value);
+                  },
+                  decoration: const InputDecoration(
+                    hintText: 'お子さんのお名前'
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 30),
-            SizedBox(
-              width: 300,
-              child: TextField(
-                controller: partnerEmailController,
-                decoration: const InputDecoration(
-                    hintText: 'パートナーのメールアドレス'
+              const SizedBox(height: 30),
+              SizedBox(
+                width: 300,
+                child: TextFormField(
+                  controller: partnerEmailController,
+                  validator: (value) {
+                    if(partnerEmailController.text.isEmpty) return null;
+                    return Validator.getEmailRegValidatorMessage(value);
+                  },
+                  decoration: const InputDecoration(
+                      hintText: 'パートナーのメールアドレス'
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 50),
-            LoadingElevatedButton(
-              onPressed: () async {
-                await showLoadingDialog(context);
-                if(childNameController.text.isNotEmpty) {
+              const SizedBox(height: 50),
+              LoadingElevatedButton(
+                onPressed: () async {
+                  if(!formKey.currentState!.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      WidgetUtils.errorSnackBar('ルームの作成に失敗しました')
+                    );
+                    return;
+                  }
+                  List<dynamic> joinedAccounts =  partnerEmailController.text.isEmpty
+                      ? [user.email]
+                      : [user.email, partnerEmailController.text];
                   Room newRoom = Room(
                     id: '',
                     childName: childNameController.text,
-                    joinedAccounts: partnerEmailController.text.isEmpty ? [Authentication.currentFirebaseUser!.email] : [Authentication.currentFirebaseUser!.email, partnerEmailController.text],
+                    joinedAccounts: joinedAccounts,
                     createdTime: Timestamp.now(),
                   );
                   var roomId = await RoomFirestore.setRoom(newRoom);
@@ -79,14 +98,13 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                       await CheckListFirestore.setCheckList(index, roomId, items);
                     }
                   }
-                  hideLoadingDialog(context);
                   if(!mounted) return;
                   Navigator.pop(context);
-                }
-              },
-              child: const Text('作成')
-            ),
-          ],
+                },
+                child: const Text('作成')
+              ),
+            ],
+          ),
         ),
       ),
     );

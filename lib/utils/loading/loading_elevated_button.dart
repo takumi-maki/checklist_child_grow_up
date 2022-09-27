@@ -24,7 +24,7 @@ class _LoadingElevatedButtonState extends State<LoadingElevatedButton> {
         });
       },
       style: ElevatedButton.styleFrom(primary: Colors.grey),
-      child: widget.child,
+      child: _waiting ? Text('読み込み中...') : widget.child,
     );
   }
 }

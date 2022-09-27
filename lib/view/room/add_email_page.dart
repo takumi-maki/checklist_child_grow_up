@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_sns_app/utils/firestore/rooms.dart';
-import 'package:demo_sns_app/utils/loading_dialog.dart';
+import 'package:demo_sns_app/utils/validator.dart';
 import 'package:demo_sns_app/utils/widget_utils.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/room.dart';
-import '../../utils/loading_elevated_button.dart';
+import '../../utils/loading/loading_elevated_button.dart';
 
 class AddEmailPage extends StatefulWidget {
   final String roomId;
@@ -18,9 +18,6 @@ class AddEmailPage extends StatefulWidget {
 class _RoomAddEmailPageState extends State<AddEmailPage> {
   TextEditingController emailController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  final emailRegExp = RegExp(
-    r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +35,7 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                 child: TextFormField(
                   controller: emailController,
                   validator: (value) {
-                    bool emailRegValidationResult = value!.contains(emailRegExp);
-                    return emailRegValidationResult ? null : '無効なメールアドレスです';
+                    return Validator.getEmailRegValidatorMessage(value);
                   },
                   decoration: const InputDecoration(
                     hintText: 'メールアドレス'
@@ -51,11 +47,10 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                 onPressed: () async {
                   if(!formKey.currentState!.validate()) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('有効なメールアドレスを入力して下さい'))
+                      WidgetUtils.errorSnackBar('メールアドレスの追加に失敗しました')
                     );
                     return;
                   }
-                  await showLoadingDialog(context);
                   if(emailController.text.isNotEmpty) {
                     DocumentSnapshot documentSnapshot = await RoomFirestore.rooms.doc(widget.roomId).get();
                     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
@@ -69,7 +64,6 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                     );
                     var result = await RoomFirestore.updateRoom(updateRoom);
                     if(result) {
-                      hideLoadingDialog(context);
                       if(!mounted) return;
                       Navigator.pop(context);
                     }

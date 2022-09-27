@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../view/room/room_list_page.dart';
 import 'firestore/rooms.dart';
-import 'loading/loading_dialog.dart';
 import 'loading/loading_elevated_button.dart';
 
 class RoomDeleteAlertDialog extends StatefulWidget {
@@ -29,11 +28,9 @@ class _RoomDeleteAlertDialogState extends State<RoomDeleteAlertDialog> {
             ),
             LoadingElevatedButton(
                 onPressed: () async {
-                  await showLoadingDialog(context);
                   var result = await RoomFirestore.deleteRoom(widget.roomId);
                   if(result) {
                     if(!mounted) return;
-                      hideLoadingDialog(context);
                     while(Navigator.canPop(context)) {
                       Navigator.pop(context);
                     }
