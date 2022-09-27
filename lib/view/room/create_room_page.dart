@@ -99,6 +99,9 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                     }
                   }
                   if(!mounted) return;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    WidgetUtils.successSnackBar('ルームを作成しました')
+                  );
                   Navigator.pop(context);
                 },
                 child: const Text('作成')
