@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo_sns_app/utils/authentication.dart';
+import 'package:demo_sns_app/utils/firestore/authentications.dart';
 import 'package:demo_sns_app/utils/firestore/check_lists.dart';
 import 'package:demo_sns_app/utils/firestore/rooms.dart';
 import 'package:demo_sns_app/utils/function_utils.dart';
@@ -20,7 +20,7 @@ class CreateRoomPage extends StatefulWidget {
 }
 
 class _CreateRoomPageState extends State<CreateRoomPage> {
-  User user = Authentication.currentFirebaseUser!;
+  User user = AuthenticationFirestore.currentFirebaseUser!;
   TextEditingController childNameController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 

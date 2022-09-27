@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo_sns_app/utils/authentication.dart';
+import 'package:demo_sns_app/utils/firestore/authentications.dart';
 import 'package:demo_sns_app/utils/firestore/users.dart';
 import 'package:demo_sns_app/utils/widget_utils.dart';
+import 'package:demo_sns_app/view/start_up/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -78,7 +79,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 const SizedBox(height: 50),
                 LoadingElevatedButton(
                   onPressed: () async {
-                    print('コンテキストは ${context}');
                     if(!formKey.currentState!.validate()) {
                       if(!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -86,7 +86,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       );
                       return;
                     }
-                    var signUpResult = await Authentication.signUp(
+                    var signUpResult = await AuthenticationFirestore.signUp(
                       email: emailController.text,
                       password: passwordController.text
                     );
@@ -105,7 +105,10 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     var setUserResult = await UserFirestore.setUser(newAccount);
                     if(setUserResult) {
                       if(!mounted) return;
-                      Navigator.of(context).pop;
+                      while(Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
                     }
                   },
                   child: const Text('作成')

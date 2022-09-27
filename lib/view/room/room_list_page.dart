@@ -8,7 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';
-import '../../utils/authentication.dart';
+import '../../utils/firestore/authentications.dart';
 import '../check_list/room_list_page_action_menus.dart';
 import '../start_up/login_page.dart';
 import '../check_list/check_list_tab_bar_widget.dart';
@@ -21,7 +21,7 @@ class RoomListPage extends StatefulWidget {
 }
 
 class _RoomListPageState extends State<RoomListPage> {
-  User user = Authentication.currentFirebaseUser!;
+  User user = AuthenticationFirestore.currentFirebaseUser!;
 
   @override
   Widget build(BuildContext context) {

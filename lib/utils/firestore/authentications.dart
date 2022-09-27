@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../model/account.dart';
+import '../../model/account.dart';
 
-class Authentication {
+class AuthenticationFirestore {
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   static User? currentFirebaseUser;
   static Account? myAccount;
@@ -40,8 +40,6 @@ class Authentication {
       } else {
         return 'ログインに失敗しました';
       }
-      debugPrint('authサインインエラー: $e');
-      return false;
     }
   }
 

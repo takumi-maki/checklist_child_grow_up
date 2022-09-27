@@ -1,4 +1,4 @@
-import 'package:demo_sns_app/utils/authentication.dart';
+import 'package:demo_sns_app/utils/firestore/authentications.dart';
 import 'package:demo_sns_app/utils/firestore/users.dart';
 import 'package:demo_sns_app/utils/validator.dart';
 import 'package:demo_sns_app/utils/widget_utils.dart';
@@ -8,7 +8,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../../utils/loading/loading_dialog.dart';
 import '../../utils/loading/loading_elevated_button.dart';
 
 class LoginPage extends StatefulWidget {
@@ -109,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                         return;
                       }
                       // await showLoadingDialog(context);
-                      var signInResult = await Authentication.emailSignIn(email: emailController.text, password: passwordController.text);
+                      var signInResult = await AuthenticationFirestore.emailSignIn(email: emailController.text, password: passwordController.text);
                       if(signInResult is! UserCredential) {
                         if(!mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -117,17 +116,13 @@ class _LoginPageState extends State<LoginPage> {
                         );
                         return;
                       }
-                      if(signInResult.user!.emailVerified){
-                        var getUserResult = await UserFirestore.getUser(signInResult.user!.uid);
-                        if (getUserResult) {
-                          if(!mounted) return;
-                          // hideLoadingDialog(context);
-                          print('getUserResult');
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (context) => const RoomListPage())
-                          );
-                        }
+                      var getUserResult = await UserFirestore.getUser(signInResult.user!.uid);
+                      if (getUserResult) {
+                        if(!mounted) return;
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => const RoomListPage())
+                        );
                       }
                      },
                     child: const Text('ログイン')

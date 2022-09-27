@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../model/room.dart';
-import '../../utils/authentication.dart';
+import '../../utils/firestore/authentications.dart';
 import '../start_up/login_page.dart';
 
 class RoomListPageActionMenus extends StatelessWidget {
@@ -17,7 +17,7 @@ class RoomListPageActionMenus extends StatelessWidget {
           onSelected: (RoomListPopupMenuItem value) {
             switch(value) {
               case RoomListPopupMenuItem.signOut:
-                Authentication.signOut();
+                AuthenticationFirestore.signOut();
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
             }
           },

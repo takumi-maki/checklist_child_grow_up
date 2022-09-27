@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_sns_app/model/account.dart';
-import 'package:demo_sns_app/utils/authentication.dart';
+import 'package:demo_sns_app/utils/firestore/authentications.dart';
 import 'package:flutter/material.dart';
 
 class UserFirestore {
@@ -30,7 +30,7 @@ class UserFirestore {
         name: data['name'],
         createdTime: data['created_time'],
       );
-      Authentication.myAccount = myAccount;
+      AuthenticationFirestore.myAccount = myAccount;
       debugPrint('ユーザー取得完了');
       return true;
     } on FirebaseException catch (e) {

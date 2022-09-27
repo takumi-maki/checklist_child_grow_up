@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_sns_app/model/comment.dart';
-import 'package:demo_sns_app/utils/authentication.dart';
+import 'package:demo_sns_app/utils/firestore/authentications.dart';
 import 'package:demo_sns_app/utils/firestore/check_lists.dart';
 import 'package:demo_sns_app/utils/firestore/comments.dart';
 import 'package:demo_sns_app/utils/firestore/rooms.dart';
@@ -27,7 +27,7 @@ class ItemDetail extends StatefulWidget {
 
 class _ItemDetailState extends State<ItemDetail> {
   TextEditingController commentController = TextEditingController();
-  Account myAccount = Authentication.myAccount!;
+  Account myAccount = AuthenticationFirestore.myAccount!;
 
   @override
   Widget build(BuildContext context) {
