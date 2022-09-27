@@ -35,6 +35,9 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                 child: TextFormField(
                   controller: emailController,
                   validator: (value) {
+                    if(emailController.text.contains(value.toString())) {
+                      return '登録済みのメールアドレスです';
+                    }
                     return Validator.getEmailRegValidatorMessage(value);
                   },
                   decoration: const InputDecoration(
