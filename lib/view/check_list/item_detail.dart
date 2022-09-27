@@ -5,6 +5,7 @@ import 'package:demo_sns_app/utils/firestore/check_lists.dart';
 import 'package:demo_sns_app/utils/firestore/comments.dart';
 import 'package:demo_sns_app/utils/firestore/rooms.dart';
 import 'package:demo_sns_app/utils/firestore/users.dart';
+import 'package:demo_sns_app/utils/function_utils.dart';
 import 'package:demo_sns_app/utils/loading/loading_icon_button.dart';
 import 'package:demo_sns_app/utils/widget_utils.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,6 @@ import 'package:intl/intl.dart';
 
 import '../../model/account.dart';
 import '../../model/check_list.dart';
-import '../../utils/loading/loading_dialog.dart';
 import '../../utils/loading/loading_elevated_button.dart';
 
 class ItemDetail extends StatefulWidget {
@@ -42,10 +42,7 @@ class _ItemDetailState extends State<ItemDetail> {
             const SizedBox(height: 20),
             LoadingElevatedButton(
                 onPressed: () async {
-                  widget.item.isComplete
-                    ? await showLoadingDialog(context)
-                    : await congratulationDialog(context);
-
+                  !widget.item.isComplete ? await FunctionUtils.congratulationDialog(context) : null;
                   Item updateItem = Item(
                       id: widget.item.id,
                       month: widget.item.month,
@@ -57,7 +54,6 @@ class _ItemDetailState extends State<ItemDetail> {
                   var result = await CheckListFirestore.updateItem(updateItem, widget.checkList);
                   if (result) {
                     if(!mounted) return;
-                    hideLoadingDialog(context);
                     Navigator.pop(context);
                   }
                 },
