@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';
 import '../../utils/authentication.dart';
+import '../check_list/room_list_page_action_menus.dart';
 import '../start_up/login_page.dart';
 import '../check_list/check_list_tab_bar_widget.dart';
 
@@ -21,7 +22,6 @@ class RoomListPage extends StatefulWidget {
 
 class _RoomListPageState extends State<RoomListPage> {
   User user = Authentication.currentFirebaseUser!;
-  String _selectedMenu = '';
 
   @override
   Widget build(BuildContext context) {
@@ -32,26 +32,8 @@ class _RoomListPageState extends State<RoomListPage> {
         iconTheme: const IconThemeData(color: Colors.black54),
         title: Text('ルーム一覧', style: const TextStyle(color: Colors.black54)),
         centerTitle: true,
-        actions: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
-            child: PopupMenuButton<RoomListPopupMenuItem>(
-                onSelected: (RoomListPopupMenuItem value) {
-                  switch(value) {
-                    case RoomListPopupMenuItem.signOut:
-                      Authentication.signOut();
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
-                  }
-                },
-                child: Icon(Icons.menu),
-                itemBuilder: (context) => <PopupMenuEntry<RoomListPopupMenuItem>>[
-                  PopupMenuItem(
-                      value: RoomListPopupMenuItem.signOut,
-                      child: Text('ログアウト')
-                  )
-                ]
-            ),
-          ),
+        actions: const [
+          RoomListPageActionMenus(),
         ],
 
       ),
