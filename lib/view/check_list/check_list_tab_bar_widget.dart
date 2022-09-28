@@ -48,15 +48,14 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
             centerTitle: true,
             actions: [
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
                 child: PopupMenuButton<CheckListPopupMenuItem>(
                     onSelected: (CheckListPopupMenuItem value) {
                       switch(value) {
                         case CheckListPopupMenuItem.memberList:
                           Navigator.push(context, MaterialPageRoute(
                               builder: (context) =>
-                                  RoomMemberEmailListPage(roomId: widget
-                                      .roomId)));
+                                  RoomMemberEmailListPage(roomId: widget.roomId)));
                           break;
                         case CheckListPopupMenuItem.deleteRoom:
                           showDialog(
