@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../view/room/room_list_page.dart';
-import 'firestore/rooms.dart';
-import 'loading/loading_elevated_button.dart';
+import 'room_list_page.dart';
+import '../../utils/firestore/rooms.dart';
+import '../../utils/loading/loading_elevated_button.dart';
 
 class RoomDeleteAlertDialog extends StatefulWidget {
   final String childName;

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_sns_app/utils/firestore/rooms.dart';
-import 'package:demo_sns_app/utils/room_delete_alert_dialog.dart';
+import 'package:demo_sns_app/view/room/room_delete_alert_dialog.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';
