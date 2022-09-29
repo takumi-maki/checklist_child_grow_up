@@ -38,7 +38,9 @@ class _ItemDetailState extends State<ItemDetail> {
         child: Column(
           children: [
             Center(child: Image.asset(imagePath, height: 80)),
-            Text(widget.item.content,  style: const TextStyle(fontSize: 18, color: Colors.black87)),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Text('「　${widget.item.content}　」',  style: const TextStyle(fontSize: 18, color: Colors.black87))),
             const SizedBox(height: 20),
             LoadingElevatedButton(
                 onPressed: () async {
