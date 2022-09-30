@@ -24,7 +24,7 @@ class _RoomDeleteAlertDialogState extends State<RoomDeleteAlertDialog> {
               Navigator.of(context).pop();
             },
               style: OutlinedButton.styleFrom(primary: Colors.grey),
-              child: Text('キャンセル'),
+              child: const Text('キャンセル'),
             ),
             LoadingElevatedButton(
                 onPressed: () async {
@@ -34,10 +34,11 @@ class _RoomDeleteAlertDialogState extends State<RoomDeleteAlertDialog> {
                     while(Navigator.canPop(context)) {
                       Navigator.pop(context);
                     }
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RoomListPage()));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RoomListPage()));
                   }
                 },
-                child: Text('削除')
+                buttonStyle: ElevatedButton.styleFrom(primary: Colors.red),
+                child: const Text('削除')
             )
           ],
         );

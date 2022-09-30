@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_sns_app/utils/firestore/rooms.dart';
+import 'package:demo_sns_app/view/check_list/check_list_page_action_menus.dart';
 import 'package:demo_sns_app/view/room/room_delete_alert_dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -37,6 +38,7 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
   ];
   @override
   Widget build(BuildContext context) {
+    
     return DefaultTabController(
         length: tabBarList.length,
         child: Scaffold(
@@ -44,48 +46,13 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
             backgroundColor: Colors.transparent,
             iconTheme: const IconThemeData(color: Colors.black54),
             elevation: 0,
-            title: Text('${widget.childName} の ルーム', style: TextStyle(color: Colors.black54)),
+            title: Text('${widget.childName} の ルーム', style: const TextStyle(color: Colors.black54)),
             centerTitle: true,
             actions: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                child: PopupMenuButton<CheckListPopupMenuItem>(
-                    onSelected: (CheckListPopupMenuItem value) {
-                      switch(value) {
-                        case CheckListPopupMenuItem.memberList:
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) =>
-                                  RoomMemberEmailListPage(roomId: widget.roomId)));
-                          break;
-                        case CheckListPopupMenuItem.deleteRoom:
-                          showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (context) {
-                              return RoomDeleteAlertDialog(childName: widget.childName, roomId: widget.roomId);
-                            }
-                          );
-                          break;
-                      }
-                    },
-                    child: Icon(Icons.menu),
-                    itemBuilder: (context) => <PopupMenuEntry<CheckListPopupMenuItem>>[
-                      PopupMenuItem(
-                          value: CheckListPopupMenuItem.memberList,
-                          child: Text('登録中メールアドレス一覧')
-                      ),
-                      PopupMenuDivider(),
-                      PopupMenuItem(
-                          value: CheckListPopupMenuItem.deleteRoom,
-                          child: Text('ルーム削除')
-                      ),
-                    ]
-                ),
-              ),
+              CheckListPageActionMenus(childName: widget.childName, roomId: widget.roomId)
             ],
-
             bottom: PreferredSize(
-              preferredSize: Size.fromHeight(80.0),
+              preferredSize: const Size.fromHeight(80.0),
               child: TabBar(
                 labelColor: Colors.redAccent,
                 indicatorColor: Colors.redAccent,
