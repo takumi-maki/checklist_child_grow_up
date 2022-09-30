@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'わが子の成長チェックリスト',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+       colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.orange[700])
         ),
       home: const LoginPage(),
       debugShowCheckedModeBanner: false,

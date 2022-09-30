@@ -93,7 +93,7 @@ class _RoomListPageState extends State<RoomListPage> {
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateRoomPage()));
           },
-          backgroundColor: Colors.orange,
+          backgroundColor: Theme.of(context).colorScheme.secondary,
           child: const Icon(Icons.add),
         ),
       ),

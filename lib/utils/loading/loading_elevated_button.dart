@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 class LoadingElevatedButton extends StatefulWidget {
   final dynamic onPressed;
   final Widget? child;
-  const LoadingElevatedButton({Key? key, required this.onPressed, this.child}) : super(key: key);
+  final ButtonStyle? buttonStyle;
+  const LoadingElevatedButton({
+    Key? key,
+    required this.onPressed,
+    this.child,
+    this.buttonStyle
+  }) : super(key: key);
 
   @override
   State<LoadingElevatedButton> createState() => _LoadingElevatedButtonState();
@@ -23,8 +29,8 @@ class _LoadingElevatedButtonState extends State<LoadingElevatedButton> {
           _waiting = false;
         });
       },
-      style: ElevatedButton.styleFrom(primary: Colors.grey),
-      child: _waiting ? Text('読み込み中...') : widget.child,
+      style: widget.buttonStyle ?? ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.secondary),
+      child: _waiting ? const Text('読み込み中...') : widget.child,
     );
   }
 }

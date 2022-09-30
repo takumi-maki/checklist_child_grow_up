@@ -55,7 +55,7 @@ class _RoomMemberEmailListPageState extends State<RoomMemberEmailListPage> {
             if(!mounted) return;
             Navigator.push(context, MaterialPageRoute(builder: (context) => AddEmailPage(roomId: widget.roomId)));
           },
-          backgroundColor: Colors.orange,
+          backgroundColor: Theme.of(context).colorScheme.secondary,
           child: const Icon(Icons.add),
         ),
       ),

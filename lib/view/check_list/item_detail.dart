@@ -60,57 +60,59 @@ class _ItemDetailState extends State<ItemDetail> {
                     Navigator.pop(context);
                   }
                 },
+                buttonStyle: ElevatedButton.styleFrom(primary: widget.item.isComplete ? Colors.grey : Theme.of(context).colorScheme.secondary),
                 child: widget.item.isComplete ? const Text('達成をキャンセル') : const Text('達成')
             ),
             const SizedBox(height: 30),
             const AdBanner(),
             const Divider(),
-            Expanded(child: StreamBuilder<QuerySnapshot>(
-              stream: RoomFirestore.rooms.doc(widget.checkList.roomId)
-                .collection('check_lists').doc(widget.checkList.id)
-                .collection('comments').orderBy('created_time', descending: false).where('item_id', isEqualTo: widget.checkList.items[widget.itemIndex].id)
-                .snapshots(),
-              builder: (context, commentSnapshot) {
-                if(commentSnapshot.hasData) {
-                  List<String> postAccountIds = [];
-                  for (var doc in commentSnapshot.data!.docs) {
-                    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-                  if (!postAccountIds.contains(data['post_account_id'])) {
-                    postAccountIds.add(data['post_account_id']);
-                   }
-                  }
-                  return FutureBuilder<Map<String, Account>?>(
-                    future: UserFirestore.getPostUserMap(postAccountIds),
-                    builder: (context, userSnapshot) {
-                      if(userSnapshot.hasData && userSnapshot.connectionState == ConnectionState.done) {
-                        if (commentSnapshot.data!.docs.isEmpty) return Container(padding: const EdgeInsets.symmetric(vertical: 20.0), child: const Text('コメントはまだありません'));
-                        return ListView.builder(
-                            itemCount: commentSnapshot.data!.docs.length,
-                            itemBuilder: (context, index) {
-                              Map<String, dynamic> data = commentSnapshot.data!.docs[index].data() as Map<String, dynamic>;
-                              Comment comment = Comment(
-                                  text: data['text'],
-                                  itemId: data['item_id'],
-                                  postAccountId: data['post_account_id'],
-                                  createdTime: data['created_time']
-                              );
-                              Account postAccount = userSnapshot.data![comment.postAccountId]!;
-                              if (comment.postAccountId == myAccount.id) {
-                                return myCommentWidget(context, comment, postAccount);
-                              } else {
-                                return someoneCommentWidget(context, comment, postAccount);
-                              }
-                            });
-                      } else {
-                        return Container();
-                      }
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: RoomFirestore.rooms.doc(widget.checkList.roomId)
+                  .collection('check_lists').doc(widget.checkList.id)
+                  .collection('comments').orderBy('created_time', descending: false).where('item_id', isEqualTo: widget.checkList.items[widget.itemIndex].id)
+                  .snapshots(),
+                builder: (context, commentSnapshot) {
+                  if(commentSnapshot.hasData) {
+                    List<String> postAccountIds = [];
+                    for (var doc in commentSnapshot.data!.docs) {
+                      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+                    if (!postAccountIds.contains(data['post_account_id'])) {
+                      postAccountIds.add(data['post_account_id']);
+                     }
                     }
-                  );
-                } else {
-                  return Container();
+                    return FutureBuilder<Map<String, Account>?>(
+                      future: UserFirestore.getPostUserMap(postAccountIds),
+                      builder: (context, userSnapshot) {
+                        if(userSnapshot.hasData && userSnapshot.connectionState == ConnectionState.done) {
+                          if (commentSnapshot.data!.docs.isEmpty) return Container(padding: const EdgeInsets.symmetric(vertical: 20.0), child: const Text('コメントはまだありません'));
+                          return ListView.builder(
+                              itemCount: commentSnapshot.data!.docs.length,
+                              itemBuilder: (context, index) {
+                                Map<String, dynamic> data = commentSnapshot.data!.docs[index].data() as Map<String, dynamic>;
+                                Comment comment = Comment(
+                                    text: data['text'],
+                                    itemId: data['item_id'],
+                                    postAccountId: data['post_account_id'],
+                                    createdTime: data['created_time']
+                                );
+                                Account postAccount = userSnapshot.data![comment.postAccountId]!;
+                                if (comment.postAccountId == myAccount.id) {
+                                  return myCommentWidget(context, comment, postAccount);
+                                } else {
+                                  return someoneCommentWidget(context, comment, postAccount);
+                                }
+                              });
+                        } else {
+                          return Container();
+                        }
+                      }
+                    );
+                  } else {
+                    return Container();
+                  }
                 }
-              }
-            ),
+              ),
             ),
             textInputWidget(context)
           ],
@@ -164,7 +166,7 @@ class _ItemDetailState extends State<ItemDetail> {
             ),
             padding: const EdgeInsets.all(10.0),
             decoration: const BoxDecoration(
-                color: Colors.grey,
+                color: Colors.black54,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(16),
                   topRight: Radius.circular(16),

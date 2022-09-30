@@ -46,7 +46,7 @@ class _CheckListWidgetState extends State<CheckListWidget> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 2.0),
                         child: Icon(Icons.star,
-                            color: item.isComplete ? Colors.yellow : Colors.black12
+                            color: item.isComplete ? Colors.amber : Colors.black12
                         ),
                       ),
                     ],
