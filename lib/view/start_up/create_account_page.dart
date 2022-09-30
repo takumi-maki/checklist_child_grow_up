@@ -105,10 +105,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     var setUserResult = await UserFirestore.setUser(newAccount);
                     if(setUserResult) {
                       if(!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        WidgetUtils.successSnackBar('アカウントを作成しました')
-                      );
-                      if(!mounted) return;
                       while(Navigator.canPop(context)) {
                         Navigator.pop(context);
                       }

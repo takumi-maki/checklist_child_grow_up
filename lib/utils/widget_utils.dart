@@ -10,13 +10,6 @@ class WidgetUtils {
       centerTitle: true,
     );
   }
-  static SnackBar successSnackBar(String title) {
-    return SnackBar(
-      backgroundColor: Colors.green,
-      content: Text(title)
-    );
-  }
-  
   static SnackBar errorSnackBar(String title) {
     return SnackBar(
         backgroundColor: Colors.red,
