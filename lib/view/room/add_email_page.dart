@@ -35,9 +35,6 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                 child: TextFormField(
                   controller: emailController,
                   validator: (value) {
-                    if(emailController.text.contains(value.toString())) {
-                      return '登録済みのメールアドレスです';
-                    }
                     return Validator.getEmailRegValidatorMessage(value);
                   },
                   decoration: const InputDecoration(
@@ -58,6 +55,13 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                     DocumentSnapshot documentSnapshot = await RoomFirestore.rooms.doc(widget.roomId).get();
                     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
                     List<dynamic> newJoinedAccounts = data['joined_accounts'];
+                    if(newJoinedAccounts.contains(emailController.text)) {
+                      if(!mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          WidgetUtils.errorSnackBar('既に登録済みのメールアドレスです')
+                      );
+                      return;
+                    }
                     newJoinedAccounts.add(emailController.text);
                     Room updateRoom = Room(
                         id: widget.roomId,
