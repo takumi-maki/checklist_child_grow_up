@@ -1,6 +1,6 @@
 import 'package:demo_sns_app/model/check_list.dart';
 import 'package:demo_sns_app/view/banner/ad_banner.dart';
-import 'package:demo_sns_app/view/check_list/item_detail.dart';
+import 'package:demo_sns_app/view/item/item_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -46,7 +46,7 @@ class _CheckListWidgetState extends State<CheckListWidget> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 2.0),
                         child: Icon(Icons.star,
-                            color: item.isComplete ? Colors.amber : Colors.black12
+                            color: item.isComplete ? Colors.yellow : Colors.black12
                         ),
                       ),
                     ],
