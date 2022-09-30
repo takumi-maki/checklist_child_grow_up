@@ -72,7 +72,7 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
                     itemBuilder: (context) => <PopupMenuEntry<CheckListPopupMenuItem>>[
                       PopupMenuItem(
                           value: CheckListPopupMenuItem.memberList,
-                          child: Text('登録しているメールアドレス一覧')
+                          child: Text('登録中メールアドレス一覧')
                       ),
                       PopupMenuDivider(),
                       PopupMenuItem(

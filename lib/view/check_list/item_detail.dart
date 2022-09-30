@@ -8,6 +8,7 @@ import 'package:demo_sns_app/utils/firestore/users.dart';
 import 'package:demo_sns_app/utils/function_utils.dart';
 import 'package:demo_sns_app/utils/loading/loading_icon_button.dart';
 import 'package:demo_sns_app/utils/widget_utils.dart';
+import 'package:demo_sns_app/view/banner/ad_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -62,8 +63,8 @@ class _ItemDetailState extends State<ItemDetail> {
                 child: widget.item.isComplete ? const Text('達成をキャンセル') : const Text('達成')
             ),
             const SizedBox(height: 30),
+            const AdBanner(),
             const Divider(),
-
             Expanded(child: StreamBuilder<QuerySnapshot>(
               stream: RoomFirestore.rooms.doc(widget.checkList.roomId)
                 .collection('check_lists').doc(widget.checkList.id)
