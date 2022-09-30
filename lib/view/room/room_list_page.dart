@@ -27,7 +27,7 @@ class _RoomListPageState extends State<RoomListPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black54),
-        title: Text('ルーム一覧', style: const TextStyle(color: Colors.black54)),
+        title: const Text('ルーム一覧', style: TextStyle(color: Colors.black54)),
         centerTitle: true,
         actions: const [
           RoomListPageActionMenus(),
@@ -37,6 +37,7 @@ class _RoomListPageState extends State<RoomListPage> {
       body: StreamBuilder<QuerySnapshot>(
         stream: RoomFirestore.rooms
               .where('joined_accounts', arrayContains: user.email)
+              .orderBy('created_time', descending: true)
               .snapshots(),
         builder: (context, roomSnapshot) {
           if(roomSnapshot.hasData) {
@@ -64,7 +65,7 @@ class _RoomListPageState extends State<RoomListPage> {
                             child: ListTile(
                               leading: Image.asset('assets/images/hiyoko_up.png', height: 36),
                               title: Text('${data['child_name']} の ルーム'),
-                              trailing: Icon(Icons.arrow_forward_ios),
+                              trailing: const Icon(Icons.arrow_forward_ios),
                               onTap: () {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) => RoomTabBarWidget(
@@ -88,7 +89,7 @@ class _RoomListPageState extends State<RoomListPage> {
         }
       ),
       floatingActionButton: Container(
-        padding: EdgeInsets.only(bottom: 54.0),
+        padding: const EdgeInsets.only(bottom: 54.0),
         child: FloatingActionButton(
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateRoomPage()));
