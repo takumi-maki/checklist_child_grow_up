@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.demo_sns_app">
+    package="com.example.checklist_child_grow_up">
    <application
         android:label="わが子の成長チェックリスト"
         android:name="${applicationName}"

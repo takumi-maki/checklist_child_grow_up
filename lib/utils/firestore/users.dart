@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo_sns_app/model/account.dart';
-import 'package:demo_sns_app/utils/firestore/authentications.dart';
+import 'package:checklist_child_grow_up/model/account.dart';
+import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
 import 'package:flutter/material.dart';
 
 class UserFirestore {

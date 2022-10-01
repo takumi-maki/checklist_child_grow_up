@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo_sns_app/utils/firestore/rooms.dart';
-import 'package:demo_sns_app/utils/widget_utils.dart';
-import 'package:demo_sns_app/view/banner/ad_banner.dart';
-import 'package:demo_sns_app/view/room/add_email_page.dart';
+import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
+import 'package:checklist_child_grow_up/utils/widget_utils.dart';
+import 'package:checklist_child_grow_up/view/banner/ad_banner.dart';
+import 'package:checklist_child_grow_up/view/room/add_email_page.dart';
 import 'package:flutter/material.dart';
 
 class RoomMemberEmailListPage extends StatefulWidget {

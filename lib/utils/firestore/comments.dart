@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo_sns_app/utils/firestore/rooms.dart';
+import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';

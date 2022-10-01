@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo_sns_app/utils/firestore/rooms.dart';
-import 'package:demo_sns_app/view/check_list/check_list_page_action_menus.dart';
-import 'package:demo_sns_app/view/room/room_delete_alert_dialog.dart';
+import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
+import 'package:checklist_child_grow_up/view/check_list/check_list_page_action_menus.dart';
+import 'package:checklist_child_grow_up/view/room/room_delete_alert_dialog.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';

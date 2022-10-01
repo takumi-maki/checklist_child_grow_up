@@ -1,6 +1,6 @@
-import 'package:demo_sns_app/model/check_list.dart';
-import 'package:demo_sns_app/view/banner/ad_banner.dart';
-import 'package:demo_sns_app/view/item/item_detail.dart';
+import 'package:checklist_child_grow_up/model/check_list.dart';
+import 'package:checklist_child_grow_up/view/banner/ad_banner.dart';
+import 'package:checklist_child_grow_up/view/item/item_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

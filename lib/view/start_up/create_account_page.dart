@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo_sns_app/utils/firestore/authentications.dart';
-import 'package:demo_sns_app/utils/firestore/users.dart';
-import 'package:demo_sns_app/utils/widget_utils.dart';
-import 'package:demo_sns_app/view/start_up/login_page.dart';
+import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
+import 'package:checklist_child_grow_up/utils/firestore/users.dart';
+import 'package:checklist_child_grow_up/utils/widget_utils.dart';
+import 'package:checklist_child_grow_up/view/start_up/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

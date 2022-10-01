@@ -1,9 +1,9 @@
-import 'package:demo_sns_app/utils/firestore/authentications.dart';
-import 'package:demo_sns_app/utils/firestore/users.dart';
-import 'package:demo_sns_app/utils/validator.dart';
-import 'package:demo_sns_app/utils/widget_utils.dart';
-import 'package:demo_sns_app/view/room/room_list_page.dart';
-import 'package:demo_sns_app/view/start_up/create_account_page.dart';
+import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
+import 'package:checklist_child_grow_up/utils/firestore/users.dart';
+import 'package:checklist_child_grow_up/utils/validator.dart';
+import 'package:checklist_child_grow_up/utils/widget_utils.dart';
+import 'package:checklist_child_grow_up/view/room/room_list_page.dart';
+import 'package:checklist_child_grow_up/view/start_up/create_account_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

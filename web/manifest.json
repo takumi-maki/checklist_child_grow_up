@@ -1,6 +1,6 @@
 {
-    "name": "demo_sns_app",
-    "short_name": "demo_sns_app",
+    "name": "checklist_child_grow_up",
+    "short_name": "checklist_child_grow_up",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

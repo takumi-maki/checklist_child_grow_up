@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo_sns_app/model/room.dart';
-import 'package:demo_sns_app/utils/firestore/check_lists.dart';
+import 'package:checklist_child_grow_up/model/room.dart';
+import 'package:checklist_child_grow_up/utils/firestore/check_lists.dart';
 import 'package:flutter/material.dart';
 
 class RoomFirestore {
