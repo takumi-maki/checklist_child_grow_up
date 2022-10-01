@@ -1,7 +1,7 @@
 {
   "file_generated_by": "FlutterFire CLI",
   "purpose": "FirebaseAppID & ProjectID for this Firebase app in this directory",
-  "GOOGLE_APP_ID": "1:674317899233:ios:4e41bd1ef13e87a432eea0",
-  "FIREBASE_PROJECT_ID": "fir-sns-app",
-  "GCM_SENDER_ID": "674317899233"
+  "GOOGLE_APP_ID": "1:391100103110:ios:6d0fa75e54350dfa10dac7",
+  "FIREBASE_PROJECT_ID": "checklist-child-grow-up",
+  "GCM_SENDER_ID": "391100103110"
 }

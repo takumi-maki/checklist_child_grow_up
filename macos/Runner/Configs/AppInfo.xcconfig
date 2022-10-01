@@ -8,7 +8,7 @@
 PRODUCT_NAME = checklist_child_grow_up
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.demoSnsApp
+PRODUCT_BUNDLE_IDENTIFIER = ChecklistChildGrowUp
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2022 com.example. All rights reserved.

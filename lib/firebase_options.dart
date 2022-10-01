@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -25,7 +28,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -43,41 +49,21 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyC4I0Js9fM1rG1_QVRLGPlii12yhrKScbk',
-    appId: '1:674317899233:web:53b58d9037c52ab332eea0',
-    messagingSenderId: '674317899233',
-    projectId: 'fir-sns-app',
-    authDomain: 'fir-sns-app.firebaseapp.com',
-    storageBucket: 'fir-sns-app.appspot.com',
-    measurementId: 'G-GMLV2SS51T',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB_L28r9aGQm_AYO7vzYFzQsspd-Qz8oNY',
-    appId: '1:674317899233:android:231a9bfe57d10b0932eea0',
-    messagingSenderId: '674317899233',
-    projectId: 'fir-sns-app',
-    storageBucket: 'fir-sns-app.appspot.com',
+    apiKey: 'AIzaSyC4wHkoY26IB2DLuid3byxspC4NSaVxvc4',
+    appId: '1:391100103110:android:850aae6393eba66410dac7',
+    messagingSenderId: '391100103110',
+    projectId: 'checklist-child-grow-up',
+    storageBucket: 'checklist-child-grow-up.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBejXrhRw9Y0KojVjMN7-SmN-4dq5Ql9io',
-    appId: '1:674317899233:ios:4e41bd1ef13e87a432eea0',
-    messagingSenderId: '674317899233',
-    projectId: 'fir-sns-app',
-    storageBucket: 'fir-sns-app.appspot.com',
-    iosClientId: '674317899233-amoj0mlrnt0hcftagra1egaods1em95f.apps.googleusercontent.com',
-    iosBundleId: 'com.example.demoSnsApp',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBejXrhRw9Y0KojVjMN7-SmN-4dq5Ql9io',
-    appId: '1:674317899233:ios:4e41bd1ef13e87a432eea0',
-    messagingSenderId: '674317899233',
-    projectId: 'fir-sns-app',
-    storageBucket: 'fir-sns-app.appspot.com',
-    iosClientId: '674317899233-amoj0mlrnt0hcftagra1egaods1em95f.apps.googleusercontent.com',
-    iosBundleId: 'com.example.demoSnsApp',
+    apiKey: 'AIzaSyDNp_uxMVHLcCl724246opAw5GuKxCPnEg',
+    appId: '1:391100103110:ios:27a67d311540926b10dac7',
+    messagingSenderId: '391100103110',
+    projectId: 'checklist-child-grow-up',
+    storageBucket: 'checklist-child-grow-up.appspot.com',
+    iosClientId: '391100103110-a7ve2pc337h3nc46qg711g45s0fmbsr9.apps.googleusercontent.com',
+    iosBundleId: 'ChecklistChildGrowUp',
   );
 }

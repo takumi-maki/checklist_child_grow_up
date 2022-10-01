@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>674317899233-amoj0mlrnt0hcftagra1egaods1em95f.apps.googleusercontent.com</string>
+	<string>391100103110-a7ve2pc337h3nc46qg711g45s0fmbsr9.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.674317899233-amoj0mlrnt0hcftagra1egaods1em95f</string>
+	<string>com.googleusercontent.apps.391100103110-a7ve2pc337h3nc46qg711g45s0fmbsr9</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBejXrhRw9Y0KojVjMN7-SmN-4dq5Ql9io</string>
+	<string>AIzaSyDNp_uxMVHLcCl724246opAw5GuKxCPnEg</string>
 	<key>GCM_SENDER_ID</key>
-	<string>674317899233</string>
+	<string>391100103110</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>ChecklistChildGrowUp</string>
 	<key>PROJECT_ID</key>
-	<string>fir-sns-app</string>
+	<string>checklist-child-grow-up</string>
 	<key>STORAGE_BUCKET</key>
-	<string>fir-sns-app.appspot.com</string>
+	<string>checklist-child-grow-up.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:674317899233:ios:4e41bd1ef13e87a432eea0</string>
+	<string>1:391100103110:ios:27a67d311540926b10dac7</string>
 </dict>
 </plist>
