@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import 'room_list_page.dart';
 import '../../utils/firestore/rooms.dart';
-import '../../utils/loading/loading_elevated_button.dart';
+import '../../utils/loading/loading_button.dart';
 
 class RoomDeleteAlertDialog extends StatefulWidget {
   final String childName;
@@ -14,33 +15,54 @@ class RoomDeleteAlertDialog extends StatefulWidget {
 }
 
 class _RoomDeleteAlertDialogState extends State<RoomDeleteAlertDialog> {
+  final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
+
   @override
   Widget build(BuildContext context) {
-      return AlertDialog(
-          title: const Text('ルームの削除'),
-          content: Text('本当に${widget.childName}のルームを削除してもいいですか?'),
-          actions: [
-            OutlinedButton(onPressed: () {
-              Navigator.of(context).pop();
-            },
-              style: OutlinedButton.styleFrom(primary: Colors.grey),
-              child: const Text('キャンセル'),
-            ),
-            LoadingElevatedButton(
-                onPressed: () async {
-                  var result = await RoomFirestore.deleteRoom(widget.roomId);
-                  if(result) {
-                    if(!mounted) return;
-                    while(Navigator.canPop(context)) {
-                      Navigator.pop(context);
-                    }
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RoomListPage()));
-                  }
+    return AlertDialog(
+        title: const Text('ルームの削除'),
+        content: Text('本当に${widget.childName}のルームを削除してもいいですか?'),
+        actions: [
+          Column(
+            children: [
+              OutlinedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
                 },
-                buttonStyle: ElevatedButton.styleFrom(primary: Colors.red),
-                child: const Text('削除')
-            )
-          ],
-        );
+                style: OutlinedButton.styleFrom(
+                  primary: Colors.grey,
+                  minimumSize: const Size(150, 36),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0)
+                  )
+                ),
+                child: const Text('キャンセル'),
+              ),
+
+              const SizedBox(height: 6.0),
+              LoadingButton(
+                  btnController: btnController,
+                  onPressed: () async {
+                    var result = await RoomFirestore.deleteRoom(widget.roomId);
+                    if(result) {
+                      if(!mounted) return;
+                      while(Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                      Navigator.pushReplacement(
+                        context, MaterialPageRoute(
+                          builder: (context) => const RoomListPage()
+                        )
+                      );
+                    }
+                  },
+                  color: Colors.red,
+                  child: const Text('ルーム削除')
+              ),
+              const SizedBox(height: 16.0),
+            ],
+          ),
+        ],
+      );
     }
 }

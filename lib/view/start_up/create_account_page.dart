@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
 import 'package:checklist_child_grow_up/utils/firestore/users.dart';
@@ -5,9 +7,10 @@ import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/start_up/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../model/account.dart';
-import '../../utils/loading/loading_elevated_button.dart';
+import '../../utils/loading/loading_button.dart';
 import '../../utils/validator.dart';
 
 
@@ -23,6 +26,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
 
   @override
   Widget build(BuildContext context) {
@@ -77,13 +81,17 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   ),
                 ),
                 const SizedBox(height: 50),
-                LoadingElevatedButton(
+                LoadingButton(
+                  btnController: btnController,
                   onPressed: () async {
                     if(!formKey.currentState!.validate()) {
+                      btnController.error();
                       if(!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
                         WidgetUtils.errorSnackBar('アカウントの作成に失敗しました')
                       );
+                      await Future.delayed(const Duration(milliseconds: 4000));
+                      btnController.reset();
                       return;
                     }
                     var signUpResult = await AuthenticationFirestore.signUp(
@@ -91,10 +99,13 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       password: passwordController.text
                     );
                     if (signUpResult is! UserCredential) {
+                      btnController.error();
                       if(!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
                         WidgetUtils.errorSnackBar(signUpResult)
                       );
+                      await Future.delayed(const Duration(milliseconds: 4000));
+                      btnController.reset();
                       return;
                     }
                     Account newAccount = Account(
@@ -104,11 +115,14 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     );
                     var setUserResult = await UserFirestore.setUser(newAccount);
                     if(setUserResult) {
+                      btnController.success();
+                      await Future.delayed(const Duration(milliseconds: 1500));
                       if(!mounted) return;
-                      while(Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      }
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                      Navigator.pushReplacement(
+                          context, MaterialPageRoute(
+                          builder: (context) => const LoginPage()
+                      )
+                      );
                     }
                   },
                   child: const Text('作成')
