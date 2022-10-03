@@ -53,7 +53,7 @@ class _CheckListWidgetState extends State<CheckListWidget> {
                   ),
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                        ItemDetail(checkList: widget.checkList, itemIndex: index, item: item),
+                        ItemDetail(checkList: widget.checkList, item: item),
                     )
                     );
                   },

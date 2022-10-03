@@ -33,15 +33,15 @@ class _SomeOneCommentWidgetState extends State<SomeOneCommentWidget> {
                 bottomRight: Radius.circular(16),
               ),
             ),
-            child: Text(widget.comment.text, style: const TextStyle(color: Colors.black54)),
+            child: Text(widget.comment.text, style: const TextStyle(color: Colors.black87)),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
-            child: Text(DateFormat('yyyy/MM/dd').format(widget.comment.createdTime.toDate())),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 5.0),
-            child: Text(widget.postAccount.name),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(DateFormat('yyyy/MM/dd').format(widget.comment.createdTime.toDate())),
+              const SizedBox(width: 10.0),
+              Text(widget.postAccount.name),
+            ],
           ),
         ],
       ),
