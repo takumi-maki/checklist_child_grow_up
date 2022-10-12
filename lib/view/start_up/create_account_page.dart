@@ -114,16 +114,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       createdTime: Timestamp.now(),
                     );
                     var setUserResult = await UserFirestore.setUser(newAccount);
-                    if(setUserResult) {
-                      btnController.success();
-                      await Future.delayed(const Duration(milliseconds: 1500));
-                      if(!mounted) return;
-                      Navigator.pushReplacement(
-                          context, MaterialPageRoute(
-                          builder: (context) => const LoginPage()
-                      )
-                      );
-                    } else {
+                    if(!setUserResult) {
                       btnController.error();
                       if(!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -133,6 +124,14 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       btnController.reset();
                       return;
                     }
+                    btnController.success();
+                    await Future.delayed(const Duration(milliseconds: 1500));
+                    if(!mounted) return;
+                    Navigator.pushReplacement(
+                      context, MaterialPageRoute(
+                        builder: (context) => const LoginPage()
+                      )
+                    );
                   },
                   child: const Text('作成')
                 )
