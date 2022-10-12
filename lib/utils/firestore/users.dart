@@ -21,37 +21,6 @@ class UserFirestore {
     }
   }
 
-  static Future<dynamic> getUser(String uid) async {
-    try {
-      DocumentSnapshot documentSnapshot = await users.doc(uid).get();
-      Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
-      Account myAccount = Account(
-        id: uid,
-        name: data['name'],
-        createdTime: data['created_time'],
-      );
-      AuthenticationFirestore.myAccount = myAccount;
-      debugPrint('ユーザー取得完了');
-      return true;
-    } on FirebaseException catch (e) {
-      debugPrint('ユーザー取得エラー: $e');
-      return false;
-    }
-  }
-  static Future<bool> updateUser(Account updateAccount) async {
-    try {
-      await users.doc(updateAccount.id).update({
-        'name': updateAccount.name,
-        'updated_time': Timestamp.now(),
-      });
-      debugPrint('ユーザー情報の更新完了');
-      return true;
-    } on FirebaseException catch (e) {
-      debugPrint('ユーザー情報の更新エラー : $e');
-      return false;
-    }
-  }
-
   // タイムラインに表示するusersの情報を取得 型はmap 引数はaccountのid等
   static Future<Map<String, Account>?> getPostUserMap(List<String> accountIds) async {
     Map<String, Account> map = {};
