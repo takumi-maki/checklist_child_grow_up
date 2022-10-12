@@ -115,14 +115,25 @@ class _LoginPageState extends State<LoginPage> {
                         btnController.reset();
                         return;
                       }
-                      // await showLoadingDialog(context);
                       var signInResult = await AuthenticationFirestore.emailSignIn(email: emailController.text, password: passwordController.text);
                       if(signInResult is UserCredential) {
-                        if(!mounted) return;
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => const RoomListPage())
-                        );
+                        var getUserResult = await UserFirestore.getUser(signInResult.user!.uid);
+                        if (getUserResult) {
+                          if(!mounted) return;
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => const RoomListPage())
+                          );
+                        } else {
+                          if(!mounted) return;
+                          btnController.error();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              WidgetUtils.errorSnackBar('ログインに失敗しました')
+                          );
+                          await Future.delayed(const Duration(milliseconds: 4000));
+                          btnController.reset();
+                          return;
+                        }
                       } else {
                         if(!mounted) return;
                         btnController.error();
