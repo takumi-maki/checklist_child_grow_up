@@ -64,21 +64,27 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                       postAccountId: myAccount.id,
                       createdTime: Timestamp.now()
                   );
-                  var commentAdd = await CommentFireStore.addComment(widget.checkList, newComment);
-                  if (commentAdd) {
-                    Item updateItem = Item(
-                        id: widget.item.id,
-                        month: widget.item.month,
-                        isComplete: widget.item.isComplete,
-                        content: widget.item.content,
-                        hasComment: true,
-                        completedTime: widget.item.completedTime
-                    );
-                    var itemUpdated = await CheckListFirestore.updateItem(updateItem, widget.checkList);
-                    if (itemUpdated) {
+                  var commentAddResult = await CommentFireStore.addComment(widget.checkList, newComment);
+                  if (commentAddResult) {
+                    if(widget.item.hasComment) {
                       widget.commentController.clear();
                       if(!mounted) return;
                       FocusScope.of(context).unfocus();
+                    } else {
+                      Item updateItem = Item(
+                          id: widget.item.id,
+                          month: widget.item.month,
+                          isComplete: widget.item.isComplete,
+                          content: widget.item.content,
+                          hasComment: true,
+                          completedTime: widget.item.completedTime
+                      );
+                      var itemUpdated = await CheckListFirestore.updateItem(updateItem, widget.checkList);
+                      if (itemUpdated) {
+                        widget.commentController.clear();
+                        if(!mounted) return;
+                        FocusScope.of(context).unfocus();
+                      }
                     }
                   }
                 }
