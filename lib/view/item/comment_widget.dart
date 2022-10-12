@@ -44,7 +44,11 @@ class CommentWidget extends StatelessWidget {
                   future: UserFirestore.getPostUserMap(postAccountIds),
                   builder: (context, userSnapshot) {
                     if(userSnapshot.hasData && userSnapshot.connectionState == ConnectionState.done) {
-                      if (commentSnapshot.data!.docs.isEmpty) return Container(padding: const EdgeInsets.symmetric(vertical: 20.0), child: const Text('コメントはまだありません'));
+                      if (commentSnapshot.data!.docs.isEmpty) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(vertical: 20.0),
+                          child: const Text('コメントはまだありません'));
+                      }
                       return ListView.builder(
                           itemCount: commentSnapshot.data!.docs.length,
                           itemBuilder: (context, index) {
@@ -56,11 +60,9 @@ class CommentWidget extends StatelessWidget {
                                 createdTime: data['created_time']
                             );
                             Account postAccount = userSnapshot.data![comment.postAccountId]!;
-                            if (comment.postAccountId == myAccount.id) {
-                              return MyCommentWidget(comment: comment, postAccount: postAccount);
-                            } else {
-                              return SomeOneCommentWidget(comment: comment, postAccount: postAccount);
-                            }
+                            return comment.postAccountId == myAccount.id
+                              ? MyCommentWidget(comment: comment, postAccount: postAccount)
+                              : SomeOneCommentWidget(comment: comment, postAccount: postAccount);
                           });
                     } else {
                       return Container();
