@@ -14,6 +14,12 @@ class Validator {
     return result ? null : '有効なメールアドレスを入力して下さい';
   }
 
+  static String? getPartnerEmailValidatorMessage(String? value, String? loginUserEmail) {
+    if(value == null || value.isEmpty) return null;
+    if(loginUserEmail != null && value == loginUserEmail) return 'ご自身のメールアドレスは入力出来ません';
+    return getEmailRegValidatorMessage(value);
+  }
+
   static String? getPasswordValidatorMessage(String? value) {
     if (value == null || value.isEmpty) {
       return 'パスワードの入力は必須です';

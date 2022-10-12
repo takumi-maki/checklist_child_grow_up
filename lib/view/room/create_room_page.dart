@@ -23,7 +23,7 @@ class CreateRoomPage extends StatefulWidget {
 }
 
 class _CreateRoomPageState extends State<CreateRoomPage> {
-  User user = AuthenticationFirestore.currentFirebaseUser!;
+  User loginUser = AuthenticationFirestore.currentFirebaseUser!;
   TextEditingController childNameController = TextEditingController();
   TextEditingController partnerEmailController = TextEditingController();
   final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
@@ -59,8 +59,7 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                 child: TextFormField(
                   controller: partnerEmailController,
                   validator: (value) {
-                    if(partnerEmailController.text.isEmpty) return null;
-                    return Validator.getEmailRegValidatorMessage(value);
+                    return Validator.getPartnerEmailValidatorMessage(value, loginUser.email);
                   },
                   decoration: const InputDecoration(
                       hintText: 'パートナーのメールアドレス'
@@ -81,8 +80,8 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                     return;
                   }
                   List<dynamic> joinedAccounts =  partnerEmailController.text.isEmpty
-                      ? [user.email]
-                      : [user.email, partnerEmailController.text];
+                      ? [loginUser.email]
+                      : [loginUser.email, partnerEmailController.text];
                   Room newRoom = Room(
                     id: '',
                     childName: childNameController.text,
