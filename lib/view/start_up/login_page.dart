@@ -117,7 +117,13 @@ class _LoginPageState extends State<LoginPage> {
                       }
                       // await showLoadingDialog(context);
                       var signInResult = await AuthenticationFirestore.emailSignIn(email: emailController.text, password: passwordController.text);
-                      if(signInResult is! UserCredential) {
+                      if(signInResult is UserCredential) {
+                        if(!mounted) return;
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => const RoomListPage())
+                        );
+                      } else {
                         if(!mounted) return;
                         btnController.error();
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -126,14 +132,6 @@ class _LoginPageState extends State<LoginPage> {
                         await Future.delayed(const Duration(milliseconds: 4000));
                         btnController.reset();
                         return;
-                      }
-                      var getUserResult = await UserFirestore.getUser(signInResult.user!.uid);
-                      if (getUserResult) {
-                        if(!mounted) return;
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => const RoomListPage())
-                        );
                       }
                      },
                     child: const Text('ログイン')

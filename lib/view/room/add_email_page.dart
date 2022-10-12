@@ -87,6 +87,15 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                       await Future.delayed(const Duration(milliseconds: 1500));
                       if(!mounted) return;
                       Navigator.pop(context);
+                    } else {
+                      btnController.error();
+                      if(!mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          WidgetUtils.errorSnackBar('メールアドレスの追加に失敗しました')
+                      );
+                      await Future.delayed(const Duration(milliseconds: 4000));
+                      btnController.reset();
+                      return;
                     }
                   }
                 },

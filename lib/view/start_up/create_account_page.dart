@@ -123,6 +123,15 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                           builder: (context) => const LoginPage()
                       )
                       );
+                    } else {
+                      btnController.error();
+                      if(!mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          WidgetUtils.errorSnackBar('アカウント作成に失敗しました')
+                      );
+                      await Future.delayed(const Duration(milliseconds: 4000));
+                      btnController.reset();
+                      return;
                     }
                   },
                   child: const Text('作成')

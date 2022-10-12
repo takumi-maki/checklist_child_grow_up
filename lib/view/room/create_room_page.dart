@@ -106,6 +106,15 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                       }
                       await CheckListFirestore.setCheckList(index, roomId, items);
                     }
+                  } else {
+                    if(!mounted) return;
+                    btnController.error();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        WidgetUtils.errorSnackBar('ルームの作成に失敗しました')
+                    );
+                    await Future.delayed(const Duration(milliseconds: 4000));
+                    btnController.reset();
+                    return;
                   }
                   btnController.success();
                   await Future.delayed(const Duration(milliseconds: 1500));
