@@ -27,21 +27,13 @@ class CommentFireStore {
       return false;
     }
   }
-
-  static Future<bool> deleteComments(String roomId, String checkListId) async {
-    try{
-      final CollectionReference collectionReference = RoomFirestore.rooms.doc(roomId)
-          .collection('check_lists').doc(checkListId)
-          .collection('comments');
-      var snapshot = await collectionReference.get();
-      for (var doc in snapshot.docs) {
-        await collectionReference.doc(doc.id).delete();
-      }
-      debugPrint('コメント削除完了');
-      return true;
-    } on FirebaseException catch(e) {
-      debugPrint('コメント削除エラー: $e');
-      return false;
+  static Future deleteComments(Transaction transaction, DocumentReference checkListsDocRef) async {
+    final CollectionReference commentsColRef = checkListsDocRef.collection('comments');
+    var commentSnapshot = await commentsColRef.get();
+    for (var comment in commentSnapshot.docs) {
+      final DocumentReference commentsDocRef = checkListsDocRef
+          .collection('comments').doc(comment.id);
+      transaction.delete(commentsDocRef);
     }
   }
 }

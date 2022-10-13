@@ -68,20 +68,13 @@ class CheckListFirestore {
       return false;
     }
   }
-  static Future<bool> deleteChecklists(String roomId) async {
-    try {
-      final CollectionReference collectionReference = RoomFirestore.rooms.doc(roomId)
-        .collection('check_lists');
-      var snapShot = await collectionReference.get();
-      for(var doc in snapShot.docs) {
-        await collectionReference.doc(doc.id).delete();
-        await CommentFireStore.deleteComments(roomId, doc.id);
-      }
-      debugPrint('チェックリスト完了');
-      return true;
-    } on FirebaseException catch(e){
-      debugPrint('チェックリスト削除エラー: $e');
-      return false;
+  static Future deleteCheckLists(Transaction transaction, DocumentReference roomsDocRef) async {
+    final checkListsSnapshot = await roomsDocRef.collection('check_lists').get();
+    for (var checkList in checkListsSnapshot.docs) {
+      final DocumentReference checkListsDocRef = roomsDocRef.collection(
+          'check_lists').doc(checkList.id);
+      transaction.delete(checkListsDocRef);
+      await CommentFireStore.deleteComments(transaction, checkListsDocRef);
     }
   }
 }

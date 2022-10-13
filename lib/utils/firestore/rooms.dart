@@ -40,11 +40,14 @@ class RoomFirestore {
   }
   static Future<bool> deleteRoom(String roomId) async {
     try {
-      await rooms.doc(roomId).delete();
-      await CheckListFirestore.deleteChecklists(roomId);
+      final DocumentReference roomsDocRef = rooms.doc(roomId);
+      await _firebaseFireStore.runTransaction((transaction) async {
+        transaction.delete(roomsDocRef);
+        await CheckListFirestore.deleteCheckLists(transaction, roomsDocRef);
+      });
       debugPrint('ルーム削除完了');
       return true;
-    } on FirebaseException catch(e) {
+    } on FirebaseException catch (e) {
       debugPrint('ルーム削除エラー: $e');
       return false;
     }
