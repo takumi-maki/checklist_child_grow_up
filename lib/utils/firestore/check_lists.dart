@@ -8,11 +8,11 @@ import 'package:flutter/material.dart';
 class CheckListFirestore {
   static final _firebaseFirestore = FirebaseFirestore.instance;
 
-  static Future setNewCheckLists(Transaction transaction, int index, String roomId, List newItems) async {
+  static Future setNewCheckLists(WriteBatch batch, int index, String roomId, List newItems) async {
     final DocumentReference checkListsDocRef = _firebaseFirestore
         .collection('rooms').doc(roomId)
         .collection('check_lists').doc();
-    transaction.set(checkListsDocRef, {
+    batch.set(checkListsDocRef, {
       'id': checkListsDocRef.id,
       'type': index,
       'room_id': roomId,
@@ -61,13 +61,13 @@ class CheckListFirestore {
       return false;
     }
   }
-  static Future deleteCheckLists(Transaction transaction, DocumentReference roomsDocRef) async {
+  static Future deleteCheckLists(WriteBatch batch, DocumentReference roomsDocRef) async {
     final checkListsSnapshot = await roomsDocRef.collection('check_lists').get();
     for (var checkList in checkListsSnapshot.docs) {
       final DocumentReference checkListsDocRef = roomsDocRef.collection(
           'check_lists').doc(checkList.id);
-      transaction.delete(checkListsDocRef);
-      await CommentFireStore.deleteComments(transaction, checkListsDocRef);
+      batch.delete(checkListsDocRef);
+      await CommentFireStore.deleteComments(batch, checkListsDocRef);
     }
   }
 }

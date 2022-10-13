@@ -12,30 +12,30 @@ class RoomFirestore {
 
   static Future<bool> setNewRoom(Room newRoom) async {
     try {
+      final batch = _firebaseFireStore.batch();
       DocumentReference newRoomsDoc = rooms.doc();
-      await _firebaseFireStore.runTransaction((transaction) async {
-        transaction.set(newRoomsDoc, {
-          'id': newRoomsDoc.id,
-          'child_name': newRoom.childName,
-          'joined_accounts': newRoom.joinedAccounts,
-          'created_time': newRoom.createdTime,
-        });
-        List<dynamic> checkListAllItem = await FunctionUtils.getCheckListItems();
-        for(int index = 0; index < 4; index++) {
-          List typeItems = checkListAllItem[index];
-          List newItems = [];
-          for (var item in typeItems) {
-            newItems.add({
-              'id': uuid.v4(),
-              'month': item['month'],
-              'content': item['content'],
-              'has_comment': false,
-              'is_complete': false,
-            });
-          }
-          await CheckListFirestore.setNewCheckLists(transaction, index, newRoomsDoc.id, newItems);
-        }
+      batch.set(newRoomsDoc, {
+        'id': newRoomsDoc.id,
+        'child_name': newRoom.childName,
+        'joined_accounts': newRoom.joinedAccounts,
+        'created_time': newRoom.createdTime,
       });
+      List<dynamic> checkListAllItem = await FunctionUtils.getCheckListItems();
+      for(int index = 0; index < 4; index++) {
+        List typeItems = checkListAllItem[index];
+        List newItems = [];
+        for (var item in typeItems) {
+          newItems.add({
+            'id': uuid.v4(),
+            'month': item['month'],
+            'content': item['content'],
+            'has_comment': false,
+            'is_complete': false,
+          });
+        }
+        await CheckListFirestore.setNewCheckLists(batch, index, newRoomsDoc.id, newItems);
+      }
+      await batch.commit();
       debugPrint('ルーム作成完了');
       return true;
     } on FirebaseException catch(e) {
@@ -60,11 +60,11 @@ class RoomFirestore {
   }
   static Future<bool> deleteRoom(String roomId) async {
     try {
+      final batch = _firebaseFireStore.batch();
       final DocumentReference roomsDocRef = rooms.doc(roomId);
-      await _firebaseFireStore.runTransaction((transaction) async {
-        transaction.delete(roomsDocRef);
-        await CheckListFirestore.deleteCheckLists(transaction, roomsDocRef);
-      });
+      batch.delete(roomsDocRef);
+      await CheckListFirestore.deleteCheckLists(batch, roomsDocRef);
+      await batch.commit();
       debugPrint('ルーム削除完了');
       return true;
     } on FirebaseException catch (e) {

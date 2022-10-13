@@ -27,13 +27,13 @@ class CommentFireStore {
       return false;
     }
   }
-  static Future deleteComments(Transaction transaction, DocumentReference checkListsDocRef) async {
+  static Future deleteComments(WriteBatch batch, DocumentReference checkListsDocRef) async {
     final CollectionReference commentsColRef = checkListsDocRef.collection('comments');
     var commentSnapshot = await commentsColRef.get();
     for (var comment in commentSnapshot.docs) {
       final DocumentReference commentsDocRef = checkListsDocRef
           .collection('comments').doc(comment.id);
-      transaction.delete(commentsDocRef);
+      batch.delete(commentsDocRef);
     }
   }
 }
