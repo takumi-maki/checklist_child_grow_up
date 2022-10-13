@@ -11,7 +11,6 @@ class UserFirestore {
     try {
       await users.doc(newAccount.id).set({
         'name': newAccount.name,
-        'created_time': newAccount.createdTime,
       });
       debugPrint('新規ユーザー作成完了');
       return true;
@@ -28,7 +27,6 @@ class UserFirestore {
       Account myAccount = Account(
         id: uid,
         name: data['name'],
-        createdTime: data['created_time'],
       );
       AuthenticationFirestore.myAccount = myAccount;
       debugPrint('ユーザー取得完了');
@@ -49,7 +47,6 @@ class UserFirestore {
         Account postAccount = Account(
           id: accountId,
           name: data['name'],
-          createdTime: data['created_time'],
         );
         map[accountId] = postAccount;
       });

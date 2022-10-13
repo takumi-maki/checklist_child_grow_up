@@ -111,7 +111,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     Account newAccount = Account(
                       id: signUpResult.user!.uid,
                       name: nameController.text,
-                      createdTime: Timestamp.now(),
                     );
                     var setUserResult = await UserFirestore.setUser(newAccount);
                     if(!setUserResult) {
