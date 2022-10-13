@@ -1,26 +1,46 @@
+import 'package:checklist_child_grow_up/utils/function_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/model/room.dart';
 import 'package:checklist_child_grow_up/utils/firestore/check_lists.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class RoomFirestore {
   static final _firebaseFireStore = FirebaseFirestore.instance;
   static final CollectionReference rooms = _firebaseFireStore.collection(('rooms'));
+  static const uuid = Uuid();
 
-  static Future<String?> setRoom(Room newRoom) async {
+  static Future<bool> setNewRoom(Room newRoom) async {
     try {
-      DocumentReference newDoc = rooms.doc();
-      await newDoc.set({
-        'id': newDoc.id,
-        'child_name': newRoom.childName,
-        'joined_accounts': newRoom.joinedAccounts,
-        'created_time': newRoom.createdTime,
+      DocumentReference newRoomsDoc = rooms.doc();
+      await _firebaseFireStore.runTransaction((transaction) async {
+        transaction.set(newRoomsDoc, {
+          'id': newRoomsDoc.id,
+          'child_name': newRoom.childName,
+          'joined_accounts': newRoom.joinedAccounts,
+          'created_time': newRoom.createdTime,
+        });
+        List<dynamic> checkListAllItem = await FunctionUtils.getCheckListItems();
+        for(int index = 0; index < 4; index++) {
+          List typeItems = checkListAllItem[index];
+          List newItems = [];
+          for (var item in typeItems) {
+            newItems.add({
+              'id': uuid.v4(),
+              'month': item['month'],
+              'content': item['content'],
+              'has_comment': false,
+              'is_complete': false,
+            });
+          }
+          await CheckListFirestore.setNewCheckLists(transaction, index, newRoomsDoc.id, newItems);
+        }
       });
       debugPrint('ルーム作成完了');
-      return newDoc.id;
+      return true;
     } on FirebaseException catch(e) {
       debugPrint('ルーム作成エラー: $e');
-      return null;
+      return false;
     }
   }
   static Future<bool> updateRoom(Room updateRoom) async {

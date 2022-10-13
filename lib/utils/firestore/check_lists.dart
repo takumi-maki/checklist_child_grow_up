@@ -8,23 +8,16 @@ import 'package:flutter/material.dart';
 class CheckListFirestore {
   static final _firebaseFirestore = FirebaseFirestore.instance;
 
-  static Future<bool> setCheckList(int index, String roomId, List<dynamic> items) async {
-    final DocumentReference roomCheckLists = _firebaseFirestore
+  static Future setNewCheckLists(Transaction transaction, int index, String roomId, List newItems) async {
+    final DocumentReference checkListsDocRef = _firebaseFirestore
         .collection('rooms').doc(roomId)
         .collection('check_lists').doc();
-    String newDocId = roomCheckLists.id;
-    try {
-      await roomCheckLists.set({
-        'id': newDocId,
-        'type': index,
-        'room_id': roomId,
-        'items': items,
-      });
-      return true;
-    } on FirebaseException catch(e){
-      debugPrint('チェックリスト作成エラー : $e');
-      return false;
-    }
+    transaction.set(checkListsDocRef, {
+      'id': checkListsDocRef.id,
+      'type': index,
+      'room_id': roomId,
+      'items': newItems,
+    });
   }
 
   static Future<bool> updateItem(Item updateItem,  CheckList checkList) async {

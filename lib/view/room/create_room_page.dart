@@ -88,24 +88,8 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                     joinedAccounts: joinedAccounts,
                     createdTime: Timestamp.now(),
                   );
-                  var roomId = await RoomFirestore.setRoom(newRoom);
-                  if (roomId != null) {
-                    List<dynamic> checkListAllItem = await FunctionUtils.getCheckListItems();
-                    for(int index = 0; index < 4; index++) {
-                      List typeItems = checkListAllItem[index];
-                      List items = [];
-                      for (var item in typeItems) {
-                        items.add({
-                          'id': uuid.v4(),
-                          'month': item['month'],
-                          'content': item['content'],
-                          'has_comment': false,
-                          'is_complete': false,
-                        });
-                      }
-                      await CheckListFirestore.setCheckList(index, roomId, items);
-                    }
-                  } else {
+                  var setNewRoomResult = await RoomFirestore.setNewRoom(newRoom);
+                  if (!setNewRoomResult) {
                     if(!mounted) return;
                     btnController.error();
                     ScaffoldMessenger.of(context).showSnackBar(
