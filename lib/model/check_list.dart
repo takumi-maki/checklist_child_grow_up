@@ -34,6 +34,7 @@ class Item {
 
 enum CheckListPopupMenuItem {
   memberList,
+  contact,
   deleteRoom
 }
 

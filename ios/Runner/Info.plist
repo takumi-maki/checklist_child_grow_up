@@ -204,5 +204,10 @@
         <string>3qcr597p9d.skadnetwork</string>
       </dict>
     </array>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+     <string>https</string>
+     <string>http</string>
+    </array>
 </dict>
 </plist>

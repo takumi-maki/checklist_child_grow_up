@@ -1,3 +1,4 @@
+import 'package:checklist_child_grow_up/utils/function_utils.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';
@@ -30,6 +31,9 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
                   )
               );
               break;
+            case CheckListPopupMenuItem.contact:
+              FunctionUtils.contactFormLaunchUrl();
+              break;
             case CheckListPopupMenuItem.deleteRoom:
               showDialog(
                   context: context,
@@ -49,6 +53,17 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
                   Icon(Icons.people),
                   SizedBox(width: 15.0),
                   Text('登録中メールアドレス一覧'),
+                ],
+              )
+          ),
+          const PopupMenuDivider(),
+          PopupMenuItem(
+              value: CheckListPopupMenuItem.contact,
+              child: Row(
+                children: const [
+                  Icon(Icons.contact_mail),
+                  SizedBox(width: 15.0),
+                  Text('お問い合せ'),
                 ],
               )
           ),
