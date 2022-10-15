@@ -1,3 +1,4 @@
+import 'package:checklist_child_grow_up/utils/firestore/check_lists.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:flutter/material.dart';
@@ -7,19 +8,23 @@ import '../../model/comment.dart';
 
 class CommentFireStore {
   static final _firebaseFirestore = FirebaseFirestore.instance;
-  static final CollectionReference comments = _firebaseFirestore.collection('messages');
 
-  static Future<bool> addComment(CheckList checkList, Comment newComment) async {
-    final CollectionReference collectionReference = RoomFirestore.rooms.doc(checkList.roomId)
-        .collection('check_lists').doc(checkList.id)
-        .collection('comments');
+  static Future<bool> addComment(CheckList checkList, Comment newComment, bool itemHasComment) async {
     try {
-      await collectionReference.add({
+      final batch = _firebaseFirestore.batch();
+      final DocumentReference newCommentDoc = RoomFirestore.rooms.doc(checkList.roomId)
+        .collection('check_lists').doc(checkList.id)
+        .collection('comments').doc();
+      batch.set(newCommentDoc, {
         'text': newComment.text,
         'item_id': newComment.itemId,
         'post_account_id': newComment.postAccountId,
         'created_time': newComment.createdTime
       });
+      if(!itemHasComment) {
+        await CheckListFirestore.updateHasComment(batch, newComment.itemId, checkList);
+      }
+      await batch.commit();
       debugPrint('メッセージの作成完了');
       return true;
     } on FirebaseException catch(e) {

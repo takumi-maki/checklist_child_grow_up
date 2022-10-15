@@ -17,7 +17,6 @@ class _CheckListWidgetState extends State<CheckListWidget> {
     return ListView.builder(
         itemCount: widget.checkList.items.length,
         itemBuilder: (context, index) {
-          // Map<String, dynamic> data = snapshot.data!.docs[index].data() as Map<String, dynamic>;
           Item item = Item(
               id: widget.checkList.items[index].id,
               month: widget.checkList.items[index].month,

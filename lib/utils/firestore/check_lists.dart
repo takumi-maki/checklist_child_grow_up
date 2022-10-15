@@ -19,19 +19,48 @@ class CheckListFirestore {
       'items': newItems,
     });
   }
+  static Future updateHasComment(WriteBatch batch, String newCommentItemId, CheckList checkList) async {
+    List updatedItems = [];
+    for (var item in checkList.items) {
+      if(item.id == newCommentItemId) {
+        updatedItems.add({
+          'id': item.id,
+          'month': item.month,
+          'is_complete': item.isComplete,
+          'content': item.content,
+          'has_comment': true,
+          'completed_time': item.completedTime
+        });
+      } else {
+        updatedItems.add({
+          'id': item.id,
+          'month':item.month,
+          'is_complete': item.isComplete,
+          'content': item.content,
+          'has_comment': item.hasComment,
+          'completed_time': item.completedTime
+        });
+      }
+    }
+    final DocumentReference checkListDocRef = RoomFirestore.rooms.doc(checkList.roomId)
+        .collection('check_lists').doc(checkList.id);
+    batch.update(checkListDocRef, {
+      'items': updatedItems,
+    });
+  }
 
   static Future<bool> updateItem(Item updateItem,  CheckList checkList) async {
     try {
       DocumentReference<Map<String, dynamic>> documentReference = _firebaseFirestore
           .collection('rooms').doc(checkList.roomId)
           .collection('check_lists').doc(checkList.id);
-      List items = [];
+      List updatedItems = [];
       await documentReference.get().then((doc){
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         List itemList = data['items'];
         for (var item in itemList) {
           if(item['id'] == updateItem.id) {
-            items.add({
+            updatedItems.add({
               'id': updateItem.id,
               'month': updateItem.month,
               'is_complete': updateItem.isComplete,
@@ -40,7 +69,7 @@ class CheckListFirestore {
               'completed_time': updateItem.completedTime
             });
           } else {
-            items.add({
+            updatedItems.add({
               'id': item['id'],
               'month': item['month'],
               'is_complete': item['is_complete'],
@@ -52,7 +81,7 @@ class CheckListFirestore {
         }
       });
       await documentReference.update({
-        'items': items,
+        'items': updatedItems,
       });
       debugPrint('チェックリストアイテム更新完了');
       return true;

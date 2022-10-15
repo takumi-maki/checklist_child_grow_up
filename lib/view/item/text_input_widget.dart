@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import '../../model/check_list.dart';
 import '../../model/comment.dart';
 import '../../utils/firestore/authentications.dart';
-import '../../utils/firestore/check_lists.dart';
 import '../../utils/firestore/comments.dart';
 import '../../utils/loading/loading_icon_button.dart';
+import '../../utils/widget_utils.dart';
 
 class TextInputWidget extends StatefulWidget {
   final TextEditingController commentController;
@@ -64,29 +64,16 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                       postAccountId: myAccount.id,
                       createdTime: Timestamp.now()
                   );
-                  var commentAddResult = await CommentFireStore.addComment(widget.checkList, newComment);
-                  if (commentAddResult) {
-                    if(widget.item.hasComment) {
-                      widget.commentController.clear();
-                      if(!mounted) return;
-                      FocusScope.of(context).unfocus();
-                    } else {
-                      Item updateItem = Item(
-                          id: widget.item.id,
-                          month: widget.item.month,
-                          isComplete: widget.item.isComplete,
-                          content: widget.item.content,
-                          hasComment: true,
-                          completedTime: widget.item.completedTime
-                      );
-                      var itemUpdated = await CheckListFirestore.updateItem(updateItem, widget.checkList);
-                      if (itemUpdated) {
-                        widget.commentController.clear();
-                        if(!mounted) return;
-                        FocusScope.of(context).unfocus();
-                      }
-                    }
+                  var commentAddResult = await CommentFireStore.addComment(widget.checkList, newComment, widget.item.hasComment);
+                  if (!commentAddResult) {
+                    if(!mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        WidgetUtils.errorSnackBar('コメントの送信に失敗しました')
+                    );
                   }
+                  widget.commentController.clear();
+                  if(!mounted) return;
+                  FocusScope.of(context).unfocus();
                 }
               },
               icon: const Icon(Icons.send),
