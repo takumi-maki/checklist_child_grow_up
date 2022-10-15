@@ -13,7 +13,3 @@ class Room {
     required this.createdTime
   });
 }
-
-enum RoomListPopupMenuItem {
-  signOut,
-}

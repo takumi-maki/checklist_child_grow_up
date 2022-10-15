@@ -5,9 +5,8 @@ import 'package:checklist_child_grow_up/view/room/create_room_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/check_list.dart';
 import '../../utils/firestore/authentications.dart';
-import 'room_list_page_action_menus.dart';
+import '../start_up/login_page.dart';
 import '../check_list/check_list_tab_bar_widget.dart';
 
 class RoomListPage extends StatefulWidget {
@@ -29,8 +28,18 @@ class _RoomListPageState extends State<RoomListPage> {
         iconTheme: const IconThemeData(color: Colors.black54),
         title: const Text('ルーム一覧', style: TextStyle(color: Colors.black54)),
         centerTitle: true,
-        actions: const [
-          RoomListPageActionMenus(),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () => {
+              AuthenticationFirestore.signOut(),
+              Navigator.pushReplacement(
+                context, MaterialPageRoute(
+                  builder: (context) => const LoginPage()
+                )
+              )
+            },
+          ),
         ],
 
       ),
