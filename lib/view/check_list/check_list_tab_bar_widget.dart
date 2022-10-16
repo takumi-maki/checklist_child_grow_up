@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:checklist_child_grow_up/view/check_list/check_list_page_action_menus.dart';
-import 'package:checklist_child_grow_up/view/room/room_delete_alert_dialog.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';
-import '../room/room_member_email_list_page.dart';
 import 'check_list_widget.dart';
 
 class RoomTabBarWidget extends StatefulWidget {
@@ -18,7 +16,7 @@ final String roomId;
 }
 
 class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
-  List<Map> tabBarList = [
+  final List<Map> tabBarList = [
     {
       'text': 'からだ',
       'imagePath': 'assets/images/hiyoko_run.png'
@@ -32,7 +30,7 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
       'imagePath': 'assets/images/hiyoko_voice.png'
     },
     {
-      'text': 'こうどう',
+      'text': 'せいかつ',
       'imagePath': 'assets/images/hiyoko_heart.png'
     },
   ];
