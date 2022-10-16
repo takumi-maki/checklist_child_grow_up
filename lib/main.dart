@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'わが子の成長チェックリスト',
+      title: '0~3歳までの成長のチェックリスト',
       theme: ThemeData(
        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.orange[700])
         ),

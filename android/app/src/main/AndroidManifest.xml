@@ -7,7 +7,7 @@
         </intent>
     </queries>
    <application
-        android:label="わが子の成長チェックリスト"
+        android:label="0~3歳までの成長のチェックリスト"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <meta-data
