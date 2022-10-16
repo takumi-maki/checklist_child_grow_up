@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:checklist_child_grow_up/view/check_list/check_list_page_action_menus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../model/check_list.dart';
 import 'check_list_widget.dart';
@@ -42,10 +43,10 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.transparent,
-            iconTheme: const IconThemeData(color: Colors.black54),
+            iconTheme: const IconThemeData(color: Colors.black87),
             elevation: 0,
-            title: Text('${widget.childName} の ルーム', style: const TextStyle(color: Colors.black54)),
-            centerTitle: true,
+            title: Text('${widget.childName} の ルーム', style: const TextStyle(color: Colors.black87, fontSize: 16)),
+            centerTitle: true, systemOverlayStyle: SystemUiOverlayStyle.dark,
             actions: [
               CheckListPageActionMenus(childName: widget.childName, roomId: widget.roomId)
             ],
@@ -54,7 +55,7 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
               child: TabBar(
                 labelColor: Colors.redAccent,
                 indicatorColor: Colors.redAccent,
-                unselectedLabelColor: Colors.black54,
+                unselectedLabelColor: Colors.black87,
                 tabs: tabBarList.map((image) {
                   return SizedBox(
                     height: 70.0,

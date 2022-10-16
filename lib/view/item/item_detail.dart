@@ -57,10 +57,11 @@ class _ItemDetailState extends State<ItemDetail> {
     }
 
     return Scaffold(
-      appBar: WidgetUtils.createAppBar(''),
+      appBar: WidgetUtils.createAppBar('アイテム詳細'),
       body: SafeArea(
         child: Column(
           children: [
+            const SizedBox(height: 30),
             Center(child: Image.asset(imagePath, height: 80)),
             Container(
               padding: const EdgeInsets.symmetric(vertical: 10.0),

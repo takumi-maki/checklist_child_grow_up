@@ -4,6 +4,7 @@ import 'package:checklist_child_grow_up/view/banner/ad_banner.dart';
 import 'package:checklist_child_grow_up/view/room/create_room_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../utils/firestore/authentications.dart';
 import '../start_up/login_page.dart';
@@ -25,9 +26,9 @@ class _RoomListPageState extends State<RoomListPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black54),
-        title: const Text('ルーム一覧', style: TextStyle(color: Colors.black54)),
-        centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.black87),
+        title: const Text('ルーム一覧', style: TextStyle(color: Colors.black87, fontSize: 16)),
+        centerTitle: true, systemOverlayStyle: SystemUiOverlayStyle.dark,
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
