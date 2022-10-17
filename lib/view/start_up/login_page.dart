@@ -6,6 +6,7 @@ import 'package:checklist_child_grow_up/utils/validator.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/room/room_list_page.dart';
 import 'package:checklist_child_grow_up/view/start_up/create_account_page.dart';
+import 'package:checklist_child_grow_up/view/start_up/title_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -36,28 +37,8 @@ class _LoginPageState extends State<LoginPage> {
               key: formKey,
               child: Column(
                 children: [
-                  const SizedBox(height: 50),
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Image.asset('assets/images/hiyoko_memo.png', height: 300, width: 350),
-                      const Positioned(
-                          left: 90,
-                          top: 125,
-                          child: Text('welcome', style: TextStyle(fontSize: 14, letterSpacing: 3.0))
-                      ),
-                      const Positioned(
-                        left:  90,
-                        top: 185,
-                        child: Text('わが子の', style: TextStyle(fontSize: 14, letterSpacing: 3.0))
-                      ),
-                      const Positioned(
-                          left: 110,
-                          top: 210,
-                          child: Text('成長チェックリスト', style: TextStyle(fontSize: 14, letterSpacing: 3.0))
-                      ),
-                    ],
-                  ),
+                  const SizedBox(height: 30),
+                  const TitleWidget(),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20.0),
                     child: SizedBox(
@@ -88,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 10.0),
                   RichText(text: TextSpan(
-                    style: const TextStyle(color: Colors.black54),
+                    style: const TextStyle(color: Colors.black87),
                     children: [
                       const TextSpan(text: 'アカウントを作成していない方は'),
                       TextSpan(text: 'こちら',
