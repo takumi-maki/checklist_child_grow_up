@@ -8,13 +8,13 @@ import 'package:flutter/material.dart';
 class CheckListFirestore {
   static final _firebaseFirestore = FirebaseFirestore.instance;
 
-  static Future setNewCheckLists(WriteBatch batch, int index, String roomId, List newItems) async {
+  static Future setNewCheckLists(WriteBatch batch, CheckListType type, String roomId, List newItems) async {
     final DocumentReference checkListsDocRef = _firebaseFirestore
         .collection('rooms').doc(roomId)
         .collection('check_lists').doc();
     batch.set(checkListsDocRef, {
       'id': checkListsDocRef.id,
-      'type': index,
+      'type': checkListTypeToInt(type),
       'room_id': roomId,
       'items': newItems,
     });

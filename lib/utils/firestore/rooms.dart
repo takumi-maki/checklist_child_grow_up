@@ -5,6 +5,8 @@ import 'package:checklist_child_grow_up/utils/firestore/check_lists.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../model/check_list.dart';
+
 class RoomFirestore {
   static final _firebaseFireStore = FirebaseFirestore.instance;
   static final CollectionReference rooms = _firebaseFireStore.collection(('rooms'));
@@ -21,7 +23,13 @@ class RoomFirestore {
         'created_time': newRoom.createdTime,
       });
       List<dynamic> checkListAllItem = await FunctionUtils.getCheckListItems();
-      for(int index = 0; index < 4; index++) {
+      List<CheckListType> checkListTypeList = [
+        CheckListType.life,
+        CheckListType.hand,
+        CheckListType.voice,
+        CheckListType.life
+      ];
+      checkListTypeList.asMap().forEach((int index, CheckListType type) async {
         List typeItems = checkListAllItem[index];
         List newItems = [];
         for (var item in typeItems) {
@@ -33,8 +41,8 @@ class RoomFirestore {
             'is_complete': false,
           });
         }
-        await CheckListFirestore.setNewCheckLists(batch, index, newRoomsDoc.id, newItems);
-      }
+        await CheckListFirestore.setNewCheckLists(batch, type, newRoomsDoc.id, newItems);
+      });
       await batch.commit();
       debugPrint('ルーム作成完了');
       return true;

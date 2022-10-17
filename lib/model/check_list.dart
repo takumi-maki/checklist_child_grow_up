@@ -14,6 +14,28 @@ class CheckList {
   });
 }
 
+enum CheckListType {
+  body,
+  hand,
+  voice,
+  life
+}
+
+checkListTypeToInt(CheckListType type) {
+  switch (type) {
+    case CheckListType.body:
+      return 0;
+    case CheckListType.hand:
+      return 1;
+    case CheckListType.voice:
+      return 2;
+    case CheckListType.life:
+      return 3;
+    default:
+      return 0;
+  }
+}
+
 class Item {
   String id;
   int month;
