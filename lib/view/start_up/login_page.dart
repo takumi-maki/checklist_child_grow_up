@@ -49,7 +49,8 @@ class _LoginPageState extends State<LoginPage> {
                           return Validator.getEmailRegValidatorMessage(value);
                         },
                         decoration: const InputDecoration(
-                          hintText: 'メールアドレス',
+                          labelText: 'メールアドレス',
+                          labelStyle: TextStyle(fontSize: 14),
                         ),
                       ),
                     ),
@@ -62,7 +63,8 @@ class _LoginPageState extends State<LoginPage> {
                         return Validator.getPasswordValidatorMessage(value);
                       },
                       decoration: const InputDecoration(
-                        hintText: 'パスワード'
+                        labelText: 'パスワード',
+                        labelStyle: TextStyle(fontSize: 14),
                       ),
                       obscureText: true,
                     ),

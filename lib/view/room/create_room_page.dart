@@ -49,7 +49,8 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                     return Validator.getRequiredValidatorMessage(value);
                   },
                   decoration: const InputDecoration(
-                    hintText: 'お子さんのお名前'
+                    labelText: '子供の名前 (必須)',
+                    labelStyle: TextStyle(fontSize: 14),
                   ),
                 ),
               ),
@@ -62,7 +63,8 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                     return Validator.getPartnerEmailValidatorMessage(value, loginUser.email);
                   },
                   decoration: const InputDecoration(
-                      hintText: 'パートナーのメールアドレス'
+                    labelText: 'パートナーのメールアドレス',
+                    labelStyle: TextStyle(fontSize: 14),
                   ),
                 ),
               ),
@@ -104,7 +106,7 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                   if(!mounted) return;
                   Navigator.pop(context);
                 },
-                child: const Text('ルーム作成', style: TextStyle(color: Colors.white))
+                child: const Text('作成', style: TextStyle(color: Colors.white))
               )
             ],
           ),

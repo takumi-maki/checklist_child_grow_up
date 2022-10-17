@@ -27,7 +27,7 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WidgetUtils.createAppBar('メールアドレスの追加'),
+      appBar: WidgetUtils.createAppBar('メールアドレス追加'),
       body: SizedBox(
         width: double.infinity,
         child: Form(
@@ -43,7 +43,8 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                     return Validator.getEmailRegValidatorMessage(value);
                   },
                   decoration: const InputDecoration(
-                    hintText: 'メールアドレス'
+                    labelText: 'メールアドレス (必須)',
+                    labelStyle: TextStyle(fontSize: 14),
                   ),
                 ),
               ),
