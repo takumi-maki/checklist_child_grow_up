@@ -34,6 +34,8 @@ class Item {
 
 enum CheckListPopupMenuItem {
   memberList,
+  privacyPolicy,
+  termsOfService,
   contact,
   deleteRoom
 }

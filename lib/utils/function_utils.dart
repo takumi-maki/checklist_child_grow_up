@@ -15,4 +15,16 @@ class FunctionUtils {
       throw 'Could not launch $contactFormUrl';
     }
   }
+  static Future privacyPolicyLaunchUrl() async {
+    final Uri privacyPolicyUrl = Uri.parse('https://checklist-child-grow-up.web.app/privacy_policy.html');
+    if(!await launchUrl(privacyPolicyUrl)) {
+      throw 'Could not launch $privacyPolicyUrl';
+    }
+  }
+  static Future termsOfServiceLaunchUrl() async {
+    final Uri termsOfServiceUrl = Uri.parse('https://checklist-child-grow-up.web.app/terms_of_service.html');
+    if(!await launchUrl(termsOfServiceUrl)) {
+      throw 'Could not launch $termsOfServiceUrl';
+    }
+  }
 }

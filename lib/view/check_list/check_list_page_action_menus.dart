@@ -31,6 +31,12 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
                   )
               );
               break;
+            case CheckListPopupMenuItem.privacyPolicy:
+              FunctionUtils.privacyPolicyLaunchUrl();
+              break;
+            case CheckListPopupMenuItem.termsOfService:
+              FunctionUtils.termsOfServiceLaunchUrl();
+              break;
             case CheckListPopupMenuItem.contact:
               FunctionUtils.contactFormLaunchUrl();
               break;
@@ -53,6 +59,28 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
                   Icon(Icons.people),
                   SizedBox(width: 15.0),
                   Text('登録中メールアドレス一覧'),
+                ],
+              )
+          ),
+          const PopupMenuDivider(),
+          PopupMenuItem(
+              value: CheckListPopupMenuItem.privacyPolicy,
+              child: Row(
+                children: const [
+                  Icon(Icons.security),
+                  SizedBox(width: 15.0),
+                  Text('プライバシーポリシー'),
+                ],
+              )
+          ),
+          const PopupMenuDivider(),
+          PopupMenuItem(
+              value: CheckListPopupMenuItem.termsOfService,
+              child: Row(
+                children: const [
+                  Icon(Icons.description),
+                  SizedBox(width: 15.0),
+                  Text('利用規約'),
                 ],
               )
           ),
