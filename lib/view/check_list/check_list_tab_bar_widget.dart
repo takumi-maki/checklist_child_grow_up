@@ -23,7 +23,7 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
       'imagePath': 'assets/images/hiyoko_run.png'
     },
     {
-      'text': 'ゆびさき',
+      'text': '手のうごき',
       'imagePath': 'assets/images/hiyoko_crayon.png'
     },
     {
@@ -65,7 +65,7 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
                             backgroundColor: Colors.transparent,
                             backgroundImage: AssetImage(image['imagePath'])
                         ),
-                        Text(image['text']),
+                        Text(image['text'], style: const TextStyle(fontSize: 12)),
                       ],
                     ),
                     ),
