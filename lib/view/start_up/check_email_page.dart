@@ -1,0 +1,109 @@
+import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
+import 'package:checklist_child_grow_up/utils/firestore/users.dart';
+import 'package:checklist_child_grow_up/utils/loading/loading_button.dart';
+import 'package:checklist_child_grow_up/utils/widget_utils.dart';
+import 'package:checklist_child_grow_up/view/room/room_list_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
+
+class CheckEmailPage extends StatefulWidget {
+  final String email;
+  final String password;
+  const CheckEmailPage({Key? key, required this.email, required this.password}) : super(key: key);
+
+  @override
+  State<CheckEmailPage> createState() => _CheckEmailPageState();
+}
+
+class _CheckEmailPageState extends State<CheckEmailPage> {
+  final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: WidgetUtils.createAppBar('メールアドレス確認'),
+      body: Center(
+        child: Column(
+          children: [
+            const SizedBox(height: 10.0),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
+              child: Text(
+                '登録したメールアドレス(${widget.email})あてに確認のメールを送信しました。',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              )
+            ),
+            Image.asset('assets/images/hiyoko_mail.png', height: 150),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 16.0),
+              child: const Divider(color: Colors.black54)
+            ),
+            const SizedBox(height: 10.0),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 3.0),
+              child: const Text('受信したメールに記載されているURLをクリックして認証をお願いします。')
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 3.0),
+              child: const Text('認証完了後、下のボタンからログインしてください。')
+            ),
+            Container(
+                padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 3.0),
+              child: const Text('( 迷惑メールフォルダに可能性がありますので、そちらもご確認ください。)')
+            ),
+            const SizedBox(height: 36.0),
+            LoadingButton(
+              btnController: btnController,
+              onPressed: () async {
+                var signInResult = await AuthenticationFirestore.emailSignIn(
+                    email: widget.email,
+                    password: widget.password
+                );
+                if (signInResult is! UserCredential) {
+                  if(!mounted) return;
+                  btnController.error();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      WidgetUtils.errorSnackBar(signInResult)
+                  );
+                  await Future.delayed(const Duration(milliseconds: 4000));
+                  btnController.reset();
+                  return;
+                }
+                if(!signInResult.user!.emailVerified) {
+                  btnController.error();
+                  if(!mounted) return;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      WidgetUtils.errorSnackBar('メール認証が終了していません')
+                  );
+                  await Future.delayed(const Duration(milliseconds: 4000));
+                  btnController.reset();
+                  return;
+                }
+                var getUserResult = await UserFirestore.getUser(signInResult.user!.uid);
+                if (!getUserResult) {
+                  if(!mounted) return;
+                  btnController.error();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      WidgetUtils.errorSnackBar('ログインに失敗しました')
+                  );
+                  await Future.delayed(const Duration(milliseconds: 4000));
+                  btnController.reset();
+                  return;
+                }
+                if(!mounted) return;
+                while(Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                }
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RoomListPage()));
+              },
+              child: const Text('ログイン')
+            ),
+          ],
+
+        ),
+      ),
+    );
+  }
+}
