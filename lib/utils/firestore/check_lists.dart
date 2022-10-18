@@ -19,7 +19,7 @@ class CheckListFirestore {
       'items': newItems,
     });
   }
-  static Future updateHasComment(WriteBatch batch, String newCommentItemId, CheckList checkList) async {
+  static Future updateHasCommentOfItem(WriteBatch batch, String newCommentItemId, CheckList checkList) async {
     List updatedItems = [];
     for (var item in checkList.items) {
       if(item.id == newCommentItemId) {

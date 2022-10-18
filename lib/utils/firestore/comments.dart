@@ -22,7 +22,7 @@ class CommentFireStore {
         'created_time': newComment.createdTime
       });
       if(!itemHasComment) {
-        await CheckListFirestore.updateHasComment(batch, newComment.itemId, checkList);
+        await CheckListFirestore.updateHasCommentOfItem(batch, newComment.itemId, checkList);
       }
       await batch.commit();
       debugPrint('メッセージの作成完了');
