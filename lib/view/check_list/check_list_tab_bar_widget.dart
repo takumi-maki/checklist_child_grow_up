@@ -65,7 +65,7 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
                             backgroundColor: Colors.transparent,
                             backgroundImage: AssetImage(image['imagePath'])
                         ),
-                        Text(image['text'], style: const TextStyle(fontSize: 12)),
+                        Text(image['text'], style: const TextStyle(fontSize: 12), softWrap: false),
                       ],
                     ),
                     ),
