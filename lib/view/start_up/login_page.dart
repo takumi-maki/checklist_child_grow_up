@@ -39,8 +39,8 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   const SizedBox(height: 30),
                   const TitleWidget(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
                     child: SizedBox(
                       width: 300,
                       child: TextFormField(

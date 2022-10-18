@@ -16,15 +16,23 @@ class TitleWidget extends StatelessWidget {
             top: 126,
             child: Text('モンテッソーリ教育', style: TextStyle(fontSize: 10, letterSpacing: 3.0, fontWeight: FontWeight.bold, color: Colors.black87))
         ),
-        const Positioned(
+        Positioned(
             left:  78,
             top: 168,
-            child: Text('0~3歳', style: TextStyle(fontSize: 28, letterSpacing: 3.0, fontWeight: FontWeight.bold, color: Colors.green))
-        ),
-        const Positioned(
-            left:  178,
-            top: 182,
-            child: Text('までの', style: TextStyle(fontSize: 16, letterSpacing: 3.0, fontWeight: FontWeight.bold, color: Colors.black87))
+            child: RichText(
+                text: const TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '0~3歳',
+                      style: TextStyle(fontSize: 28, letterSpacing: 3.0, fontWeight: FontWeight.bold, color: Colors.green)
+                    ),
+                    TextSpan(
+                        text: ' までの',
+                        style: TextStyle(fontSize: 16, letterSpacing: 3.0, fontWeight: FontWeight.bold, color: Colors.black87)
+                    )
+                  ]
+                )
+            ),
         ),
         const Positioned(
             left: 94,
