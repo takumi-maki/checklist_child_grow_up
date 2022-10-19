@@ -7,6 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
+import '../../utils/function_utils.dart';
+
 class CheckEmailPage extends StatefulWidget {
   final String email;
   final String password;
@@ -61,42 +63,35 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
                     email: widget.email,
                     password: widget.password
                 );
-                if (signInResult is! UserCredential) {
-                  if(!mounted) return;
-                  btnController.error();
+                if(signInResult is! UserCredential) {
+                  if (!mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
-                      WidgetUtils.errorSnackBar(signInResult)
+                    WidgetUtils.errorSnackBar(signInResult)
                   );
-                  await Future.delayed(const Duration(milliseconds: 4000));
-                  btnController.reset();
-                  return;
-                }
-                if(!signInResult.user!.emailVerified) {
-                  btnController.error();
-                  if(!mounted) return;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      WidgetUtils.errorSnackBar('メール認証が終了していません')
-                  );
-                  await Future.delayed(const Duration(milliseconds: 4000));
-                  btnController.reset();
-                  return;
+                  return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                 }
                 var getUserResult = await UserFirestore.getUser(signInResult.user!.uid);
                 if (!getUserResult) {
-                  if(!mounted) return;
-                  btnController.error();
+                  if (!mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
-                      WidgetUtils.errorSnackBar('ログインに失敗しました')
+                    WidgetUtils.errorSnackBar('アカウント情報の取得に失敗しました')
                   );
-                  await Future.delayed(const Duration(milliseconds: 4000));
-                  btnController.reset();
-                  return;
+                  return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                 }
-                if(!mounted) return;
-                while(Navigator.canPop(context)) {
-                  Navigator.pop(context);
+                if(!signInResult.user!.emailVerified) {
+                  if (!mounted) return;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    WidgetUtils.errorSnackBar('メール認証が終了していません')
+                  );
+                  return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                 }
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RoomListPage()));
+                if (!mounted) return;
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const RoomListPage()
+                  )
+                );
               },
               child: const Text('ログイン')
             ),

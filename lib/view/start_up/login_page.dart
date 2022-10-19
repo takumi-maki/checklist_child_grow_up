@@ -1,7 +1,6 @@
-import 'dart:async';
-
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
 import 'package:checklist_child_grow_up/utils/firestore/users.dart';
+import 'package:checklist_child_grow_up/utils/function_utils.dart';
 import 'package:checklist_child_grow_up/utils/validator.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/room/room_list_page.dart';
@@ -90,45 +89,33 @@ class _LoginPageState extends State<LoginPage> {
                     btnController: btnController,
                     onPressed: () async {
                       if(!formKey.currentState!.validate()) {
-                        btnController.error();
                         ScaffoldMessenger.of(context).showSnackBar(
-                          WidgetUtils.errorSnackBar('ログインに失敗しました')
+                            WidgetUtils.errorSnackBar('正しく入力されていない項目があります')
                         );
-                        await Future.delayed(const Duration(milliseconds: 4000));
-                        btnController.reset();
-                        return;
+                        return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                       }
                       var signInResult = await AuthenticationFirestore.emailSignIn(email: emailController.text, password: passwordController.text);
                       if(signInResult is! UserCredential) {
                         if(!mounted) return;
-                        btnController.error();
                         ScaffoldMessenger.of(context).showSnackBar(
                             WidgetUtils.errorSnackBar(signInResult)
                         );
-                        await Future.delayed(const Duration(milliseconds: 4000));
-                        btnController.reset();
-                        return;
+                        return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                       }
                       var getUserResult = await UserFirestore.getUser(signInResult.user!.uid);
                       if (!getUserResult) {
                         if(!mounted) return;
-                        btnController.error();
                         ScaffoldMessenger.of(context).showSnackBar(
-                            WidgetUtils.errorSnackBar('ログインに失敗しました')
+                            WidgetUtils.errorSnackBar('アカウント情報の取得に失敗しました')
                         );
-                        await Future.delayed(const Duration(milliseconds: 4000));
-                        btnController.reset();
-                        return;
+                        return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                       }
                       if(!signInResult.user!.emailVerified) {
-                        btnController.error();
                         if(!mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(
                             WidgetUtils.errorSnackBar('メール認証が終了していません')
                         );
-                        await Future.delayed(const Duration(milliseconds: 4000));
-                        btnController.reset();
-                        return;
+                        return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                       }
                       if(!mounted) return;
                       Navigator.pushReplacement(

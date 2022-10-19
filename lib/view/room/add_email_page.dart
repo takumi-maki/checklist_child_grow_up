@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'package:checklist_child_grow_up/utils/function_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:checklist_child_grow_up/utils/validator.dart';
@@ -53,27 +52,21 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                 btnController: btnController,
                 onPressed: () async {
                   if(!formKey.currentState!.validate()) {
-                    btnController.error();
                     ScaffoldMessenger.of(context).showSnackBar(
-                      WidgetUtils.errorSnackBar('メールアドレスの追加に失敗しました')
+                      WidgetUtils.errorSnackBar('正しく入力されていない項目があります')
                     );
-                    await Future.delayed(const Duration(milliseconds: 4000));
-                    btnController.reset();
-                    return;
+                    return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                   }
                   if(emailController.text.isNotEmpty) {
                     DocumentSnapshot documentSnapshot = await RoomFirestore.rooms.doc(widget.roomId).get();
                     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
                     List<dynamic> newJoinedAccounts = data['joined_accounts'];
                     if(newJoinedAccounts.contains(emailController.text)) {
-                      btnController.error();
                       if(!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
-                          WidgetUtils.errorSnackBar('既に登録済みのメールアドレスです')
+                        WidgetUtils.errorSnackBar('既に登録済みのメールアドレスです')
                       );
-                      await Future.delayed(const Duration(milliseconds: 4000));
-                      btnController.reset();
-                      return;
+                      return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                     }
                     newJoinedAccounts.add(emailController.text);
                     Room updateRoom = Room(
@@ -83,21 +76,16 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                         createdTime: data['created_time']
                     );
                     var result = await RoomFirestore.updateRoom(updateRoom);
-                    if(result) {
-                      btnController.success();
-                      await Future.delayed(const Duration(milliseconds: 1500));
-                      if(!mounted) return;
-                      Navigator.pop(context);
-                    } else {
-                      btnController.error();
+                    if(!result) {
                       if(!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
                           WidgetUtils.errorSnackBar('メールアドレスの追加に失敗しました')
                       );
-                      await Future.delayed(const Duration(milliseconds: 4000));
-                      btnController.reset();
-                      return;
+                      return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                     }
+                    FunctionUtils.showSuccessButtonFor1Seconds(btnController);
+                    if(!mounted) return;
+                    Navigator.pop(context);
                   }
                 },
                 child: const Text('追加')),

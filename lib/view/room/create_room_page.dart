@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
-import 'package:checklist_child_grow_up/utils/firestore/check_lists.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:checklist_child_grow_up/utils/function_utils.dart';
 import 'package:checklist_child_grow_up/utils/validator.dart';
@@ -73,13 +72,10 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                 btnController: btnController,
                 onPressed: () async {
                   if(!formKey.currentState!.validate()) {
-                    btnController.error();
                     ScaffoldMessenger.of(context).showSnackBar(
-                      WidgetUtils.errorSnackBar('ルームの作成に失敗しました')
+                      WidgetUtils.errorSnackBar('正しく入力されていない項目があります')
                     );
-                    await Future.delayed(const Duration(milliseconds: 4000));
-                    btnController.reset();
-                    return;
+                    return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                   }
                   List<dynamic> joinedAccounts =  partnerEmailController.text.isEmpty
                       ? [loginUser.email]
@@ -93,16 +89,12 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                   var setNewRoomResult = await RoomFirestore.setNewRoom(newRoom);
                   if (!setNewRoomResult) {
                     if(!mounted) return;
-                    btnController.error();
                     ScaffoldMessenger.of(context).showSnackBar(
-                        WidgetUtils.errorSnackBar('ルームの作成に失敗しました')
+                      WidgetUtils.errorSnackBar('ルームの作成に失敗しました')
                     );
-                    await Future.delayed(const Duration(milliseconds: 4000));
-                    btnController.reset();
-                    return;
+                    return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                   }
-                  btnController.success();
-                  await Future.delayed(const Duration(milliseconds: 1500));
+                  await FunctionUtils.showSuccessButtonFor1Seconds(btnController);
                   if(!mounted) return;
                   Navigator.pop(context);
                 },

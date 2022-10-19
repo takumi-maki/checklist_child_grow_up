@@ -1,7 +1,7 @@
-import 'dart:async';
 
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
 import 'package:checklist_child_grow_up/utils/firestore/users.dart';
+import 'package:checklist_child_grow_up/utils/function_utils.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -87,28 +87,21 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   btnController: btnController,
                   onPressed: () async {
                     if(!formKey.currentState!.validate()) {
-                      btnController.error();
-                      if(!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
-                        WidgetUtils.errorSnackBar('アカウントの作成に失敗しました')
+                        WidgetUtils.errorSnackBar('正しく入力されていない項目があります')
                       );
-                      await Future.delayed(const Duration(milliseconds: 4000));
-                      btnController.reset();
-                      return;
+                      return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                     }
                     var signUpResult = await AuthenticationFirestore.signUp(
                       email: emailController.text,
                       password: passwordController.text
                     );
                     if (signUpResult is! UserCredential) {
-                      btnController.error();
                       if(!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
                         WidgetUtils.errorSnackBar(signUpResult)
                       );
-                      await Future.delayed(const Duration(milliseconds: 4000));
-                      btnController.reset();
-                      return;
+                      return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                     }
                     Account newAccount = Account(
                       id: signUpResult.user!.uid,
@@ -116,18 +109,14 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     );
                     var setUserResult = await UserFirestore.setUser(newAccount);
                     if(!setUserResult) {
-                      btnController.error();
                       if(!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
-                          WidgetUtils.errorSnackBar('アカウント作成に失敗しました')
+                        WidgetUtils.errorSnackBar('アカウント作成に失敗しました')
                       );
-                      await Future.delayed(const Duration(milliseconds: 4000));
-                      btnController.reset();
-                      return;
+                      return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                     }
                     signUpResult.user!.sendEmailVerification();
-                    btnController.success();
-                    await Future.delayed(const Duration(milliseconds: 1500));
+                    await FunctionUtils.showSuccessButtonFor1Seconds(btnController);
                     if(!mounted) return;
                     Navigator.push(
                       context, MaterialPageRoute(

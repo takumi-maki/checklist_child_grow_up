@@ -1,3 +1,4 @@
+import 'package:checklist_child_grow_up/utils/function_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
@@ -49,12 +50,11 @@ class _RoomDeleteAlertDialogState extends State<RoomDeleteAlertDialog> {
                       btnController.error();
                       if(!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
-                      WidgetUtils.errorSnackBar('ルームの削除に失敗しました')
+                        WidgetUtils.errorSnackBar('ルーム削除に失敗しました')
                       );
-                      Navigator.of(context).pop();
-                      await Future.delayed(const Duration(milliseconds: 4000));
-                      btnController.reset();
-                      return;
+                      FunctionUtils.showErrorButtonFor4Seconds(btnController);
+                      if(!mounted) return;
+                      return Navigator.pop(context);
                     }
                     if(!mounted) return;
                     while(Navigator.canPop(context)) {
