@@ -25,9 +25,10 @@ class _SomeOneCommentWidgetState extends State<SomeOneCommentWidget> {
                 maxWidth: MediaQuery.of(context).size.width * 0.80
             ),
             padding: const EdgeInsets.all(10.0),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
+              border: Border.all(width: 0.1),
               color: Colors.white,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
                 bottomRight: Radius.circular(16),
@@ -35,6 +36,7 @@ class _SomeOneCommentWidgetState extends State<SomeOneCommentWidget> {
             ),
             child: Text(widget.comment.text, style: const TextStyle(color: Colors.black87)),
           ),
+          const SizedBox(height: 4.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

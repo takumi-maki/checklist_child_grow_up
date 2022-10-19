@@ -36,6 +36,7 @@ class _MyCommentWidgetState extends State<MyCommentWidget> {
             ),
             child: Text(widget.comment.text, style: const TextStyle(color: Colors.white)),
           ),
+          const SizedBox(height: 4.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [

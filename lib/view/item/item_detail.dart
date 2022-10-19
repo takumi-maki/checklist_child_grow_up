@@ -94,7 +94,10 @@ class _ItemDetailState extends State<ItemDetail> {
                     child: widget.item.isComplete ? const Text('達成をキャンセル') : const Text('達成')
                   ),
                   const SizedBox(height: 30),
-                  const Divider(),
+                  Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+                      child: const Divider(color: Colors.black54)
+                  ),
                   const SizedBox(height: 20),
                   CommentWidget(
                     roomId: widget.checkList.roomId,
