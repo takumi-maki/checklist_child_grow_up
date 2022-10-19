@@ -26,77 +26,79 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
 
     return Scaffold(
       appBar: WidgetUtils.createAppBar('メールアドレス確認'),
-      body: Center(
-        child: Column(
-          children: [
-            const SizedBox(height: 10.0),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
-              child: Text(
-                '登録したメールアドレス(${widget.email})あてに確認のメールを送信しました。',
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              )
-            ),
-            Image.asset('assets/images/hiyoko_mail.png', height: 150),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 16.0),
-              child: const Divider(color: Colors.black54)
-            ),
-            const SizedBox(height: 10.0),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 3.0),
-              child: const Text('受信したメールに記載されているURLをクリックして認証をお願いします。')
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 3.0),
-              child: const Text('認証完了後、下のボタンからログインしてください。')
-            ),
-            Container(
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              const SizedBox(height: 10.0),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
+                child: Text(
+                  '登録したメールアドレス(${widget.email})あてに確認のメールを送信しました。',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                )
+              ),
+              Image.asset('assets/images/hiyoko_mail.png', height: 150),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 16.0),
+                child: const Divider(color: Colors.black54)
+              ),
+              const SizedBox(height: 10.0),
+              Container(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 3.0),
-              child: const Text('( 迷惑メールフォルダに可能性がありますので、そちらもご確認ください。)')
-            ),
-            const SizedBox(height: 36.0),
-            LoadingButton(
-              btnController: btnController,
-              onPressed: () async {
-                var signInResult = await AuthenticationFirestore.emailSignIn(
-                    email: widget.email,
-                    password: widget.password
-                );
-                if(signInResult is! UserCredential) {
-                  if (!mounted) return;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    WidgetUtils.errorSnackBar(signInResult)
+                child: const Text('受信したメールに記載されているURLをクリックして認証をお願いします。')
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 3.0),
+                child: const Text('認証完了後、下のボタンからログインしてください。')
+              ),
+              Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 3.0),
+                child: const Text('( 迷惑メールフォルダに可能性がありますので、そちらもご確認ください。)')
+              ),
+              const SizedBox(height: 36.0),
+              LoadingButton(
+                btnController: btnController,
+                onPressed: () async {
+                  var signInResult = await AuthenticationFirestore.emailSignIn(
+                      email: widget.email,
+                      password: widget.password
                   );
-                  return FunctionUtils.showErrorButtonFor4Seconds(btnController);
-                }
-                var getUserResult = await UserFirestore.getUser(signInResult.user!.uid);
-                if (!getUserResult) {
+                  if(signInResult is! UserCredential) {
+                    if (!mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      WidgetUtils.errorSnackBar(signInResult)
+                    );
+                    return FunctionUtils.showErrorButtonFor4Seconds(btnController);
+                  }
+                  var getUserResult = await UserFirestore.getUser(signInResult.user!.uid);
+                  if (!getUserResult) {
+                    if (!mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      WidgetUtils.errorSnackBar('アカウント情報の取得に失敗しました')
+                    );
+                    return FunctionUtils.showErrorButtonFor4Seconds(btnController);
+                  }
+                  if(!signInResult.user!.emailVerified) {
+                    if (!mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      WidgetUtils.errorSnackBar('メール認証が終了していません')
+                    );
+                    return FunctionUtils.showErrorButtonFor4Seconds(btnController);
+                  }
                   if (!mounted) return;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    WidgetUtils.errorSnackBar('アカウント情報の取得に失敗しました')
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RoomListPage()
+                    )
                   );
-                  return FunctionUtils.showErrorButtonFor4Seconds(btnController);
-                }
-                if(!signInResult.user!.emailVerified) {
-                  if (!mounted) return;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    WidgetUtils.errorSnackBar('メール認証が終了していません')
-                  );
-                  return FunctionUtils.showErrorButtonFor4Seconds(btnController);
-                }
-                if (!mounted) return;
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const RoomListPage()
-                  )
-                );
-              },
-              child: const Text('ログイン')
-            ),
-          ],
+                },
+                child: const Text('ログイン')
+              ),
+            ],
 
+          ),
         ),
       ),
     );
