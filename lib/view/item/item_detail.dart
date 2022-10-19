@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
 import 'package:checklist_child_grow_up/utils/firestore/check_lists.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
-import 'package:checklist_child_grow_up/view/banner/ad_banner.dart';
 import 'package:checklist_child_grow_up/view/item/text_input_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -46,6 +45,7 @@ class _ItemDetailState extends State<ItemDetail> {
   @override
   Widget build(BuildContext context) {
     String imagePath = getImagePathFromType(widget.checkList.type);
+    const int textInputWidgetHeight = 70;
 
     Future congratulationDialog() async {
       showDialog(context: context, builder: (context) {
@@ -59,50 +59,55 @@ class _ItemDetailState extends State<ItemDetail> {
     return Scaffold(
       appBar: WidgetUtils.createAppBar('アイテム詳細'),
       body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 30),
-            Center(child: Image.asset(imagePath, height: 80)),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Text('「　${widget.item.content}　」',  style: const TextStyle(fontSize: 18, color: Colors.black87))),
-            const SizedBox(height: 20),
-            LoadingButton(
-              btnController: btnController,
-              onPressed: () async {
-                Item updateItem = Item(
-                    id: widget.item.id,
-                    month: widget.item.month,
-                    isComplete: widget.item.isComplete ? false : true,
-                    content: widget.item.content,
-                    hasComment: widget.item.hasComment,
-                    completedTime: widget.item.isComplete ? null : Timestamp.now()
-                );
-                var result = await CheckListFirestore.updateItem(updateItem, widget.checkList);
-                if (result) {
-                  widget.item.isComplete ? null : await congratulationDialog();
-                  if(!mounted) return;
-                  Navigator.pop(context);
-                }
-              },
-              color: widget.item.isComplete ? Colors.grey : Theme.of(context).colorScheme.secondary,
-              child: widget.item.isComplete ? const Text('達成をキャンセル') : const Text('達成')
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height - textInputWidgetHeight,
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                Center(child: Image.asset(imagePath, height: 80)),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Text('「　${widget.item.content}　」',  style: const TextStyle(fontSize: 18, color: Colors.black87))),
+                const SizedBox(height: 20),
+                LoadingButton(
+                  btnController: btnController,
+                  onPressed: () async {
+                    Item updateItem = Item(
+                        id: widget.item.id,
+                        month: widget.item.month,
+                        isComplete: widget.item.isComplete ? false : true,
+                        content: widget.item.content,
+                        hasComment: widget.item.hasComment,
+                        completedTime: widget.item.isComplete ? null : Timestamp.now()
+                    );
+                    var result = await CheckListFirestore.updateItem(updateItem, widget.checkList);
+                    if (result) {
+                      widget.item.isComplete ? null : await congratulationDialog();
+                      if(!mounted) return;
+                      Navigator.pop(context);
+                    }
+                  },
+                  color: widget.item.isComplete ? Colors.grey : Theme.of(context).colorScheme.secondary,
+                  child: widget.item.isComplete ? const Text('達成をキャンセル') : const Text('達成')
+                ),
+                const SizedBox(height: 30),
+                const Divider(),
+                const SizedBox(height: 20),
+                CommentWidget(
+                  roomId: widget.checkList.roomId,
+                  checkListId: widget.checkList.id,
+                  itemId: widget.item.id,
+                  myAccount: myAccount
+                ),
+                TextInputWidget(
+                  commentController: commentController,
+                  item: widget.item,
+                  checkList: widget.checkList
+                )
+              ],
             ),
-            const SizedBox(height: 30),
-            const AdBanner(),
-            const Divider(),
-            CommentWidget(
-              roomId: widget.checkList.roomId,
-              checkListId: widget.checkList.id,
-              itemId: widget.item.id,
-              myAccount: myAccount
-            ),
-            TextInputWidget(
-              commentController: commentController,
-              item: widget.item,
-              checkList: widget.checkList
-            )
-          ],
+          ),
         ),
       ),
     );
