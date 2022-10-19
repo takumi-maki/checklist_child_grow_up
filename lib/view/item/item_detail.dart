@@ -56,56 +56,59 @@ class _ItemDetailState extends State<ItemDetail> {
       Navigator.pop(context);
     }
 
-    return Scaffold(
-      appBar: WidgetUtils.createAppBar('アイテム詳細'),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height - textInputWidgetHeight,
-            child: Column(
-              children: [
-                const SizedBox(height: 10),
-                Center(child: Image.asset(imagePath, height: 80)),
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Text('「　${widget.item.content}　」',  style: const TextStyle(fontSize: 18, color: Colors.black87))),
-                const SizedBox(height: 20),
-                LoadingButton(
-                  btnController: btnController,
-                  onPressed: () async {
-                    Item updateItem = Item(
-                        id: widget.item.id,
-                        month: widget.item.month,
-                        isComplete: widget.item.isComplete ? false : true,
-                        content: widget.item.content,
-                        hasComment: widget.item.hasComment,
-                        completedTime: widget.item.isComplete ? null : Timestamp.now()
-                    );
-                    var result = await CheckListFirestore.updateItem(updateItem, widget.checkList);
-                    if (result) {
-                      widget.item.isComplete ? null : await congratulationDialog();
-                      if(!mounted) return;
-                      Navigator.pop(context);
-                    }
-                  },
-                  color: widget.item.isComplete ? Colors.grey : Theme.of(context).colorScheme.secondary,
-                  child: widget.item.isComplete ? const Text('達成をキャンセル') : const Text('達成')
-                ),
-                const SizedBox(height: 30),
-                const Divider(),
-                const SizedBox(height: 20),
-                CommentWidget(
-                  roomId: widget.checkList.roomId,
-                  checkListId: widget.checkList.id,
-                  itemId: widget.item.id,
-                  myAccount: myAccount
-                ),
-                TextInputWidget(
-                  commentController: commentController,
-                  item: widget.item,
-                  checkList: widget.checkList
-                )
-              ],
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: WidgetUtils.createAppBar('アイテム詳細'),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height - textInputWidgetHeight,
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  Center(child: Image.asset(imagePath, height: 80)),
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Text('「　${widget.item.content}　」',  style: const TextStyle(fontSize: 18, color: Colors.black87))),
+                  const SizedBox(height: 20),
+                  LoadingButton(
+                    btnController: btnController,
+                    onPressed: () async {
+                      Item updateItem = Item(
+                          id: widget.item.id,
+                          month: widget.item.month,
+                          isComplete: widget.item.isComplete ? false : true,
+                          content: widget.item.content,
+                          hasComment: widget.item.hasComment,
+                          completedTime: widget.item.isComplete ? null : Timestamp.now()
+                      );
+                      var result = await CheckListFirestore.updateItem(updateItem, widget.checkList);
+                      if (result) {
+                        widget.item.isComplete ? null : await congratulationDialog();
+                        if(!mounted) return;
+                        Navigator.pop(context);
+                      }
+                    },
+                    color: widget.item.isComplete ? Colors.grey : Theme.of(context).colorScheme.secondary,
+                    child: widget.item.isComplete ? const Text('達成をキャンセル') : const Text('達成')
+                  ),
+                  const SizedBox(height: 30),
+                  const Divider(),
+                  const SizedBox(height: 20),
+                  CommentWidget(
+                    roomId: widget.checkList.roomId,
+                    checkListId: widget.checkList.id,
+                    itemId: widget.item.id,
+                    myAccount: myAccount
+                  ),
+                  TextInputWidget(
+                    commentController: commentController,
+                    item: widget.item,
+                    checkList: widget.checkList
+                  )
+                ],
+              ),
             ),
           ),
         ),
