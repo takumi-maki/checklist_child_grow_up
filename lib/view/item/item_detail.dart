@@ -27,24 +27,18 @@ class _ItemDetailState extends State<ItemDetail> {
   TextEditingController commentController = TextEditingController();
   final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
   Account myAccount = AuthenticationFirestore.myAccount!;
-  String getImagePathFromType(int type) {
-    switch(type) {
-      case 0:
-        return 'assets/images/hiyoko_run.png';
-      case 1:
-        return 'assets/images/hiyoko_crayon.png';
-      case 2:
-        return 'assets/images/hiyoko_voice.png';
-      case 3:
-        return 'assets/images/hiyoko_heart.png';
-      default:
-        return 'assets/images/hiyoko_dance.png';
-    }
+
+  String getItemImagePath() {
+    final CheckListType checkListType = intToCheckListType(widget.checkList.type);
+    final Map<dynamic, dynamic> result = CheckList.tabBarList.firstWhere((tabBar) {
+      return tabBar['type'] == checkListType;
+    }, orElse: () => {'imagePath': 'assets/images/hiyoko_dance.png'});
+    return result['imagePath'];
   }
 
   @override
   Widget build(BuildContext context) {
-    String imagePath = getImagePathFromType(widget.checkList.type);
+    final String imagePath = getItemImagePath();
     const int textInputWidgetHeight = 70;
 
     Future congratulationDialog() async {

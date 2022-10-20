@@ -17,29 +17,11 @@ final String roomId;
 }
 
 class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
-  final List<Map> tabBarList = [
-    {
-      'text': 'からだ',
-      'imagePath': 'assets/images/hiyoko_run.png'
-    },
-    {
-      'text': '手のうごき',
-      'imagePath': 'assets/images/hiyoko_crayon.png'
-    },
-    {
-      'text': 'ことば',
-      'imagePath': 'assets/images/hiyoko_voice.png'
-    },
-    {
-      'text': 'せいかつ',
-      'imagePath': 'assets/images/hiyoko_heart.png'
-    },
-  ];
   @override
   Widget build(BuildContext context) {
     
     return DefaultTabController(
-        length: tabBarList.length,
+        length: CheckList.tabBarList.length,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.transparent,
@@ -56,16 +38,16 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
                 labelColor: Colors.redAccent,
                 indicatorColor: Colors.redAccent,
                 unselectedLabelColor: Colors.black87,
-                tabs: tabBarList.map((image) {
+                tabs: CheckList.tabBarList.map((tabBar) {
                   return SizedBox(
                     height: 70.0,
                       child: Tab(child: Column(
                       children: [
                         CircleAvatar(
                             backgroundColor: Colors.transparent,
-                            backgroundImage: AssetImage(image['imagePath'])
+                            backgroundImage: AssetImage(tabBar['imagePath'])
                         ),
-                        Text(image['text'], style: const TextStyle(fontSize: 12), softWrap: false),
+                        Text(tabBar['text'], style: const TextStyle(fontSize: 12), softWrap: false),
                       ],
                     ),
                     ),
@@ -83,7 +65,7 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
                 // ルーム削除中エラーを出力しないための応急処置
                 if (snapshot.data!.docs.length < 4) {
                   return TabBarView(
-                      children: tabBarList.map((element) {
+                      children: CheckList.tabBarList.map((tabBar) {
                         return Container();
                       }).toList()
                   );
@@ -108,7 +90,7 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
                 );
               } else {
                 return TabBarView(
-                  children: tabBarList.map((element) {
+                  children: CheckList.tabBarList.map((e) {
                     return Container();
                   }).toList()
                 );

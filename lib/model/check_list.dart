@@ -12,6 +12,29 @@ class CheckList {
     required this.type,
     required this.items,
   });
+
+  static final List<Map> tabBarList = [
+    {
+      'type': CheckListType.body,
+      'text': 'からだ',
+      'imagePath': 'assets/images/hiyoko_run.png'
+    },
+    {
+      'type': CheckListType.hand,
+      'text': '手のうごき',
+      'imagePath': 'assets/images/hiyoko_crayon.png'
+    },
+    {
+      'type': CheckListType.voice,
+      'text': 'ことば',
+      'imagePath': 'assets/images/hiyoko_voice.png'
+    },
+    {
+      'type': CheckListType.life,
+      'text': 'せいかつ',
+      'imagePath': 'assets/images/hiyoko_heart.png'
+    },
+  ];
 }
 
 enum CheckListType {
@@ -35,6 +58,22 @@ checkListTypeToInt(CheckListType type) {
       return 0;
   }
 }
+
+intToCheckListType(int value) {
+  switch (value) {
+    case 0:
+      return CheckListType.body;
+    case 1:
+      return CheckListType.hand;
+    case 2:
+      return CheckListType.voice;
+    case 3:
+      return CheckListType.life;
+    default:
+      return CheckListType.body;
+  }
+}
+
 
 class Item {
   String id;

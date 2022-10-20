@@ -23,13 +23,7 @@ class RoomFirestore {
         'created_time': newRoom.createdTime,
       });
       List<dynamic> checkListAllItem = await FunctionUtils.getCheckListItems();
-      List<CheckListType> checkListTypeList = [
-        CheckListType.life,
-        CheckListType.hand,
-        CheckListType.voice,
-        CheckListType.life
-      ];
-      checkListTypeList.asMap().forEach((int index, CheckListType type) async {
+      CheckList.tabBarList.asMap().forEach((index, tabBar) async {
         List typeItems = checkListAllItem[index];
         List newItems = [];
         for (var item in typeItems) {
@@ -41,7 +35,7 @@ class RoomFirestore {
             'is_complete': false,
           });
         }
-        await CheckListFirestore.setNewCheckLists(batch, type, newRoomsDoc.id, newItems);
+        await CheckListFirestore.setNewCheckLists(batch, tabBar['type'], newRoomsDoc.id, newItems);
       });
       await batch.commit();
       debugPrint('ルーム作成完了');
