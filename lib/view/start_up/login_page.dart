@@ -5,6 +5,7 @@ import 'package:checklist_child_grow_up/utils/validator.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/room/room_list_page.dart';
 import 'package:checklist_child_grow_up/view/start_up/create_account_page.dart';
+import 'package:checklist_child_grow_up/view/start_up/password_reset_email_page.dart';
 import 'package:checklist_child_grow_up/view/start_up/title_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -83,6 +84,22 @@ class _LoginPageState extends State<LoginPage> {
                         }
                       ),
                     ]
+                  )),
+                  const SizedBox(height: 8.0),
+                  RichText(text: TextSpan(
+                      style: const TextStyle(color: Colors.black87),
+                      children: [
+                        const TextSpan(text: 'パスワードの再設定は'),
+                        TextSpan(text: 'こちら',
+                            style: const TextStyle(color: Colors.blue),
+                            recognizer: TapGestureRecognizer()..onTap = () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const PasswordRestEmailPage())
+                              );
+                            }
+                        ),
+                      ]
                   )),
                   const SizedBox(height: 50),
                   LoadingButton(

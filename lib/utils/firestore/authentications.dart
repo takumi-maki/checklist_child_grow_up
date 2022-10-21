@@ -50,4 +50,19 @@ class AuthenticationFirestore {
   static Future<void> deleteAuth() async {
     await currentFirebaseUser!.delete();
   }
+
+  static Future<String> sendPasswordRestEmail(String email) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      debugPrint('パスワード再設定メール完了');
+      return 'success';
+    } on FirebaseAuthException catch(e) {
+      debugPrint('パスワード再設定メールエラー');
+      if (e.code == 'user-not-found') {
+        return '指定したメールアドレスは登録されていません';
+      } else {
+        return 'パスワードリセットのメール送信に失敗しました';
+      }
+    }
+  }
 }
