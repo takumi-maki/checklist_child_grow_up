@@ -63,8 +63,12 @@ class _ItemDetailState extends State<ItemDetail> {
                   const SizedBox(height: 10),
                   Center(child: Image.asset(imagePath, height: 80)),
                   Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: Text('「　${widget.item.content}　」',  style: const TextStyle(fontSize: 18, color: Colors.black87))),
+                    padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10.0),
+                    child: Text('「　${widget.item.content}　」',
+                      style: const TextStyle(fontSize: 16.0, color: Colors.black87),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                   const SizedBox(height: 20),
                   LoadingButton(
                     btnController: btnController,
