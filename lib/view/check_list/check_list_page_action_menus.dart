@@ -1,4 +1,5 @@
 import 'package:checklist_child_grow_up/utils/function_utils.dart';
+import 'package:checklist_child_grow_up/view/check_list/how_to_use_check_list_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';
@@ -31,6 +32,16 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
                   )
               );
               break;
+              case CheckListPopupMenuItem.howTo:
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const HowToUseCheckList();
+                    }
+                  )
+                );
+                break;
             case CheckListPopupMenuItem.privacyPolicy:
               FunctionUtils.privacyPolicyLaunchUrl();
               break;
@@ -58,7 +69,18 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
                 children: const [
                   Icon(Icons.people),
                   SizedBox(width: 15.0),
-                  Text('登録中メールアドレス一覧'),
+                  Text('登録中メールアドレス一覧', style: TextStyle(fontSize: 14)),
+                ],
+              )
+          ),
+          const PopupMenuDivider(),
+          PopupMenuItem(
+              value: CheckListPopupMenuItem.howTo,
+              child: Row(
+                children: const [
+                  Icon(Icons.checklist),
+                  SizedBox(width: 15.0),
+                  Text('成長のチェックリストについて', style: TextStyle(fontSize: 14)),
                 ],
               )
           ),
@@ -69,7 +91,7 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
                 children: const [
                   Icon(Icons.security),
                   SizedBox(width: 15.0),
-                  Text('プライバシーポリシー'),
+                  Text('プライバシーポリシー', style: TextStyle(fontSize: 14)),
                 ],
               )
           ),
@@ -80,7 +102,7 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
                 children: const [
                   Icon(Icons.description),
                   SizedBox(width: 15.0),
-                  Text('利用規約'),
+                  Text('利用規約', style: TextStyle(fontSize: 14)),
                 ],
               )
           ),
@@ -91,7 +113,7 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
                 children: const [
                   Icon(Icons.contact_mail),
                   SizedBox(width: 15.0),
-                  Text('お問い合せ'),
+                  Text('お問い合せ', style: TextStyle(fontSize: 14)),
                 ],
               )
           ),
@@ -102,7 +124,7 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
                 children: const [
                   Icon(Icons.delete, color: Colors.red),
                   SizedBox(width: 15.0),
-                  Text('ルーム削除', style: TextStyle(color: Colors.red)),
+                  Text('ルーム削除', style: TextStyle(color: Colors.red, fontSize: 14)),
                 ],
               )
           ),

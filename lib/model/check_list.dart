@@ -95,6 +95,7 @@ class Item {
 
 enum CheckListPopupMenuItem {
   memberList,
+  howTo,
   privacyPolicy,
   termsOfService,
   contact,
