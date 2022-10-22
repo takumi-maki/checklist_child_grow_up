@@ -37,15 +37,15 @@ class _HowToUseCheckListState extends State<HowToUseCheckList> {
               Container(
                   padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
                   child: Row(
-                    children: const [
-                      Icon(Icons.bookmark, color: Colors.orange),
-                      SizedBox(width: 8.0),
+                    children: [
+                      Icon(Icons.bookmark, color: Theme.of(context).colorScheme.secondary),
+                      const SizedBox(width: 8.0),
                       Flexible(
                         child: Text('成長のチェックリストの使い方',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               decoration: TextDecoration.underline,
-                              decorationColor: Colors.orange,
+                              decorationColor: Theme.of(context).colorScheme.secondary,
                               decorationThickness: 2.4
                             )),
                       ),
@@ -88,15 +88,15 @@ class _HowToUseCheckListState extends State<HowToUseCheckList> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
                 child: Row(
-                  children: const [
-                    Icon(Icons.bookmark, color: Colors.orange),
-                    SizedBox(width: 8.0),
+                  children: [
+                    Icon(Icons.bookmark, color: Theme.of(context).colorScheme.secondary),
+                    const SizedBox(width: 8.0),
                     Flexible(
                       child: Text('子どもの成長は早ければ良いというものではない',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           decoration: TextDecoration.underline,
-                          decorationColor: Colors.orange,
+                          decorationColor: Theme.of(context).colorScheme.secondary,
                           decorationThickness: 2.4
                         )),
                     ),
