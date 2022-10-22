@@ -27,6 +27,7 @@ class _LoadingButtonState extends State<LoadingButton> {
         onPressed: () async {
           await widget.onPressed();
         },
+        resetAfterDuration: true,
         borderRadius: 20,
         height: 36,
         width: 150,
