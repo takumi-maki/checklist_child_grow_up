@@ -1,13 +1,12 @@
+import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:checklist_child_grow_up/view/banner/ad_banner.dart';
 import 'package:checklist_child_grow_up/view/room/create_room_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../utils/firestore/authentications.dart';
-import '../start_up/login_page.dart';
 import '../check_list/check_list_tab_bar_widget.dart';
 
 class RoomListPage extends StatefulWidget {
@@ -23,27 +22,7 @@ class _RoomListPageState extends State<RoomListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black87),
-        title: const Text('ルーム一覧', style: TextStyle(color: Colors.black87, fontSize: 16)),
-        centerTitle: true, systemOverlayStyle: SystemUiOverlayStyle.dark,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () => {
-              AuthenticationFirestore.signOut(),
-              Navigator.pushReplacement(
-                context, MaterialPageRoute(
-                  builder: (context) => const LoginPage()
-                )
-              )
-            },
-          ),
-        ],
-
-      ),
+      appBar: WidgetUtils.createAppBar('ルーム一覧'),
       body: StreamBuilder<QuerySnapshot>(
         stream: RoomFirestore.rooms
               .where('joined_accounts', arrayContains: user.email)
@@ -74,8 +53,10 @@ class _RoomListPageState extends State<RoomListPage> {
                             padding: const EdgeInsets.all(8.0),
                             child: ListTile(
                               leading: Image.asset('assets/images/hiyoko_up.png', height: 36),
-                              title: Text('${data['child_name']} の ルーム'),
+                              title: Text('${data['child_name']} のルーム'),
                               trailing: const Icon(Icons.arrow_forward_ios),
+                              textColor: Colors.black87,
+                              iconColor: Colors.black87,
                               onTap: () {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) => RoomTabBarWidget(
