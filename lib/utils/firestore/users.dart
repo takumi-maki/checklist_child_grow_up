@@ -37,8 +37,8 @@ class UserFirestore {
     }
   }
 
-  // タイムラインに表示するusersの情報を取得 型はmap 引数はaccountのid等
-  static Future<Map<String, Account>?> getPostUserMap(List<String> accountIds) async {
+  // コメント欄に表示するusersの情報を取得 型はmap 引数はaccountのid等
+  static Future<Map<String, Account>?> getCommentUserMap(List<String> accountIds) async {
     Map<String, Account> map = {};
     try {
       await Future.forEach(accountIds, (String accountId) async {
@@ -50,10 +50,10 @@ class UserFirestore {
         );
         map[accountId] = postAccount;
       });
-      debugPrint('投稿ユーザーの情報取得完了');
+      debugPrint('コメントしたユーザーの情報取得完了');
       return map;
     } on FirebaseException catch(e) {
-      debugPrint('投稿ユーザーの情報取得エラー: $e');
+      debugPrint('コメントしたユーザーの情報取得エラー: $e');
       return null;
     }
   }

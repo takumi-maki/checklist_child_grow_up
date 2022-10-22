@@ -41,7 +41,7 @@ class CommentWidget extends StatelessWidget {
                 }
               }
               return FutureBuilder<Map<String, Account>?>(
-                  future: UserFirestore.getPostUserMap(postAccountIds),
+                  future: UserFirestore.getCommentUserMap(postAccountIds),
                   builder: (context, userSnapshot) {
                     if(userSnapshot.hasData && userSnapshot.connectionState == ConnectionState.done) {
                       if (commentSnapshot.data!.docs.isEmpty) {
