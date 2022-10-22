@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../utils/widget_utils.dart';
 
-class HowToUseCheckList extends StatefulWidget {
-  const HowToUseCheckList({Key? key}) : super(key: key);
+class AboutCheckListPage extends StatefulWidget {
+  const AboutCheckListPage({Key? key}) : super(key: key);
 
   @override
-  State<HowToUseCheckList> createState() => _HowToUseCheckListState();
+  State<AboutCheckListPage> createState() => _AboutCheckListPageState();
 }
 
-class _HowToUseCheckListState extends State<HowToUseCheckList> {
+class _AboutCheckListPageState extends State<AboutCheckListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
