@@ -32,7 +32,7 @@ class _RoomDeleteAlertDialogState extends State<RoomDeleteAlertDialog> {
                   Navigator.of(context).pop();
                 },
                 style: OutlinedButton.styleFrom(
-                  primary: Colors.grey,
+                  primary: Colors.black87,
                   minimumSize: const Size(150, 36),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0)
@@ -56,10 +56,12 @@ class _RoomDeleteAlertDialogState extends State<RoomDeleteAlertDialog> {
                       if(!mounted) return;
                       return Navigator.pop(context);
                     }
+                    await FunctionUtils.showSuccessButtonFor1Seconds(btnController);
                     if(!mounted) return;
                     while(Navigator.canPop(context)) {
                       Navigator.pop(context);
                     }
+                    if(!mounted) return;
                     Navigator.pushReplacement(
                       context, MaterialPageRoute(
                         builder: (context) => const RoomListPage()

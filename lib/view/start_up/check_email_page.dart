@@ -86,6 +86,7 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
                     );
                     return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                   }
+                  await FunctionUtils.showSuccessButtonFor1Seconds(btnController);
                   if (!mounted) return;
                   Navigator.pushReplacement(
                     context,

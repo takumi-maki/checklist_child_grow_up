@@ -83,7 +83,7 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                       );
                       return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                     }
-                    FunctionUtils.showSuccessButtonFor1Seconds(btnController);
+                    await FunctionUtils.showSuccessButtonFor1Seconds(btnController);
                     if(!mounted) return;
                     Navigator.pop(context);
                   }

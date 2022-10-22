@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:checklist_child_grow_up/utils/function_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
 import 'package:checklist_child_grow_up/utils/firestore/check_lists.dart';
@@ -82,11 +83,17 @@ class _ItemDetailState extends State<ItemDetail> {
                           completedTime: widget.item.isComplete ? null : Timestamp.now()
                       );
                       var result = await CheckListFirestore.updateItem(updateItem, widget.checkList);
-                      if (result) {
-                        widget.item.isComplete ? null : await congratulationDialog();
+                      if (!result) {
                         if(!mounted) return;
-                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            WidgetUtils.errorSnackBar('アイテム更新に失敗しました')
+                        );
+                        return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                       }
+                      await FunctionUtils.showSuccessButtonFor1Seconds(btnController);
+                      widget.item.isComplete ? null : await congratulationDialog();
+                      if(!mounted) return;
+                      Navigator.pop(context);
                     },
                     color: widget.item.isComplete ? Colors.grey : Theme.of(context).colorScheme.secondary,
                     child: widget.item.isComplete ? const Text('達成をキャンセル') : const Text('達成')

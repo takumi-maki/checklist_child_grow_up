@@ -134,6 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                         );
                         return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                       }
+                      await FunctionUtils.showSuccessButtonFor1Seconds(btnController);
                       if(!mounted) return;
                       Navigator.pushReplacement(
                           context,
