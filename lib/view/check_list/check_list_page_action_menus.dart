@@ -1,10 +1,10 @@
 import 'package:checklist_child_grow_up/utils/function_utils.dart';
-import 'package:checklist_child_grow_up/view/check_list/how_to_use_check_list_page.dart';
+import 'package:checklist_child_grow_up/view/about/about_app_page.dart';
+import 'package:checklist_child_grow_up/view/about/about_check_list_page.dart';
+import 'package:checklist_child_grow_up/view/about/about_room_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';
-import '../room/room_delete_alert_dialog.dart';
-import '../room/room_member_email_list_page.dart';
 
 class CheckListPageActionMenus extends StatefulWidget {
   final String childName;
@@ -23,40 +23,31 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
       child: PopupMenuButton<CheckListPopupMenuItem>(
         onSelected: (CheckListPopupMenuItem value) {
           switch(value) {
-            case CheckListPopupMenuItem.memberList:
+            case CheckListPopupMenuItem.aboutRoom:
               Navigator.push(context,
                   MaterialPageRoute(
                       builder: (context) {
-                        return RoomMemberEmailListPage(roomId: widget.roomId);
+                        return AboutRoomPage(childName: widget.childName, roomId: widget.roomId);
                       }
                   )
               );
               break;
-              case CheckListPopupMenuItem.howTo:
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const HowToUseCheckList();
-                    }
-                  )
-                );
-                break;
-            case CheckListPopupMenuItem.privacyPolicy:
-              FunctionUtils.privacyPolicyLaunchUrl();
+            case CheckListPopupMenuItem.aboutCheckList:
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const AboutCheckListPage();
+                  }
+                )
+              );
               break;
-            case CheckListPopupMenuItem.termsOfService:
-              FunctionUtils.termsOfServiceLaunchUrl();
-              break;
-            case CheckListPopupMenuItem.contact:
-              FunctionUtils.contactFormLaunchUrl();
-              break;
-            case CheckListPopupMenuItem.deleteRoom:
+            case CheckListPopupMenuItem.aboutApp:
               showDialog(
                   context: context,
                   barrierDismissible: false,
                   builder: (context) {
-                    return RoomDeleteAlertDialog(childName: widget.childName, roomId: widget.roomId);
+                    return AboutAppPage();
                   }
               );
               break;
@@ -64,18 +55,18 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
         },
         itemBuilder: (context) => <PopupMenuEntry<CheckListPopupMenuItem>>[
           PopupMenuItem(
-              value: CheckListPopupMenuItem.memberList,
+              value: CheckListPopupMenuItem.aboutRoom,
               child: Row(
                 children: const [
-                  Icon(Icons.people),
+                  Icon(Icons.room_preferences),
                   SizedBox(width: 15.0),
-                  Text('登録中メールアドレス一覧', style: TextStyle(fontSize: 14)),
+                  Text('ルームについて', style: TextStyle(fontSize: 14)),
                 ],
               )
           ),
           const PopupMenuDivider(),
           PopupMenuItem(
-              value: CheckListPopupMenuItem.howTo,
+              value: CheckListPopupMenuItem.aboutCheckList,
               child: Row(
                 children: const [
                   Icon(Icons.checklist),
@@ -86,45 +77,12 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
           ),
           const PopupMenuDivider(),
           PopupMenuItem(
-              value: CheckListPopupMenuItem.privacyPolicy,
+              value: CheckListPopupMenuItem.aboutApp,
               child: Row(
                 children: const [
-                  Icon(Icons.security),
+                  Icon(Icons.info),
                   SizedBox(width: 15.0),
-                  Text('プライバシーポリシー', style: TextStyle(fontSize: 14)),
-                ],
-              )
-          ),
-          const PopupMenuDivider(),
-          PopupMenuItem(
-              value: CheckListPopupMenuItem.termsOfService,
-              child: Row(
-                children: const [
-                  Icon(Icons.description),
-                  SizedBox(width: 15.0),
-                  Text('利用規約', style: TextStyle(fontSize: 14)),
-                ],
-              )
-          ),
-          const PopupMenuDivider(),
-          PopupMenuItem(
-              value: CheckListPopupMenuItem.contact,
-              child: Row(
-                children: const [
-                  Icon(Icons.contact_mail),
-                  SizedBox(width: 15.0),
-                  Text('お問い合せ', style: TextStyle(fontSize: 14)),
-                ],
-              )
-          ),
-          const PopupMenuDivider(),
-          PopupMenuItem(
-              value: CheckListPopupMenuItem.deleteRoom,
-              child: Row(
-                children: const [
-                  Icon(Icons.delete, color: Colors.red),
-                  SizedBox(width: 15.0),
-                  Text('ルーム削除', style: TextStyle(color: Colors.red, fontSize: 14)),
+                  Text('アプリについて', style: TextStyle(fontSize: 14)),
                 ],
               )
           ),
