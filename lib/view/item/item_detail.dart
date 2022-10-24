@@ -27,9 +27,11 @@ class ItemDetail extends StatefulWidget {
 class _ItemDetailState extends State<ItemDetail> {
   final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
   Account myAccount = AuthenticationFirestore.myAccount!;
+  final int textInputWidgetHeight = 70;
+  late String itemImagePath;
 
   String getItemImagePath() {
-    final CheckListType checkListType = intToCheckListType(widget.checkList.type);
+    final CheckListType checkListType = intToCheckListType(1);
     final Map<dynamic, dynamic> result = CheckList.tabBarList.firstWhere((tabBar) {
       return tabBar['type'] == checkListType;
     }, orElse: () => {'imagePath': 'assets/images/hiyoko_dance.png'});
@@ -37,10 +39,13 @@ class _ItemDetailState extends State<ItemDetail> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final String imagePath = getItemImagePath();
-    const int textInputWidgetHeight = 70;
+  void initState() {
+    super.initState();
+    itemImagePath = getItemImagePath();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     Future congratulationDialog() async {
       showDialog(context: context, builder: (context) {
         return const CongratulationScreen();
@@ -61,7 +66,7 @@ class _ItemDetailState extends State<ItemDetail> {
               child: Column(
                 children: [
                   const SizedBox(height: 10),
-                  Center(child: Image.asset(imagePath, height: 80)),
+                  Center(child: Image.asset(itemImagePath, height: 80)),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10.0),
                     child: Text('「　${widget.item.content}　」',
