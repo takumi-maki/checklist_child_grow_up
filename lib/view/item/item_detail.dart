@@ -38,6 +38,15 @@ class _ItemDetailState extends State<ItemDetail> {
     return result['imagePath'];
   }
 
+  Future congratulationDialog() async {
+    showDialog(context: context, builder: (context) {
+      return const CongratulationScreen();
+    });
+    await Future.delayed(const Duration(milliseconds: 1500));
+    if(!mounted) return;
+    Navigator.pop(context);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -46,15 +55,6 @@ class _ItemDetailState extends State<ItemDetail> {
 
   @override
   Widget build(BuildContext context) {
-    Future congratulationDialog() async {
-      showDialog(context: context, builder: (context) {
-        return const CongratulationScreen();
-      });
-      await Future.delayed(const Duration(milliseconds: 1500));
-      if(!mounted) return;
-      Navigator.pop(context);
-    }
-
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
