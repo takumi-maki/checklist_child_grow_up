@@ -107,7 +107,6 @@ class _ItemDetailState extends State<ItemDetail> {
                     roomId: widget.checkList.roomId,
                     checkListId: widget.checkList.id,
                     itemId: widget.item.id,
-                    myAccount: myAccount
                   ),
                   TextInputWidget(
                     item: widget.item,

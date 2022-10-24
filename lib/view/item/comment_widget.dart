@@ -1,4 +1,5 @@
 
+import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -8,28 +9,29 @@ import '../../utils/firestore/rooms.dart';
 import '../../utils/firestore/users.dart';
 import 'my_comment_widget.dart';
 import 'someone_comment_widget.dart';
-
-class CommentWidget extends StatelessWidget {
+class CommentWidget extends StatefulWidget {
   final String roomId;
   final String checkListId;
   final String itemId;
-  final Account myAccount;
-
-  const CommentWidget({
-    Key? key,
+  const CommentWidget({Key? key,
     required this.roomId,
     required this.checkListId,
     required this.itemId,
-    required this.myAccount,
   }) : super(key: key);
 
+  @override
+  State<CommentWidget> createState() => _CommentWidgetState();
+}
+
+class _CommentWidgetState extends State<CommentWidget> {
+  final myAccount = AuthenticationFirestore.myAccount!;
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: StreamBuilder<QuerySnapshot>(
-          stream: RoomFirestore.rooms.doc(roomId)
-              .collection('check_lists').doc(checkListId)
-              .collection('comments').orderBy('created_time', descending: false).where('item_id', isEqualTo: itemId)
+          stream: RoomFirestore.rooms.doc(widget.roomId)
+              .collection('check_lists').doc(widget.checkListId)
+              .collection('comments').orderBy('created_time', descending: false).where('item_id', isEqualTo: widget.itemId)
               .snapshots(),
           builder: (context, commentSnapshot) {
             if(commentSnapshot.hasData) {
@@ -46,8 +48,8 @@ class CommentWidget extends StatelessWidget {
                     if(userSnapshot.hasData && userSnapshot.connectionState == ConnectionState.done) {
                       if (commentSnapshot.data!.docs.isEmpty) {
                         return Container(
-                          padding: const EdgeInsets.symmetric(vertical: 20.0),
-                          child: const Text('コメントはまだありません'));
+                            padding: const EdgeInsets.symmetric(vertical: 20.0),
+                            child: const Text('コメントはまだありません'));
                       }
                       return ListView.builder(
                           itemCount: commentSnapshot.data!.docs.length,
@@ -61,8 +63,8 @@ class CommentWidget extends StatelessWidget {
                             );
                             Account postAccount = userSnapshot.data![comment.postAccountId]!;
                             return comment.postAccountId == myAccount.id
-                              ? MyCommentWidget(comment: comment, postAccount: postAccount)
-                              : SomeOneCommentWidget(comment: comment, postAccount: postAccount);
+                                ? MyCommentWidget(comment: comment, postAccount: postAccount)
+                                : SomeOneCommentWidget(comment: comment, postAccount: postAccount);
                           });
                     } else {
                       return Container();
@@ -77,3 +79,4 @@ class CommentWidget extends StatelessWidget {
     );
   }
 }
+
