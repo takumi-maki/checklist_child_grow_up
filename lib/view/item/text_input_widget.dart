@@ -10,21 +10,16 @@ import '../../utils/loading/loading_icon_button.dart';
 import '../../utils/widget_utils.dart';
 
 class TextInputWidget extends StatefulWidget {
-  final TextEditingController commentController;
   final Item item;
   final CheckList checkList;
-  const TextInputWidget({
-    Key? key,
-    required this.commentController,
-    required this.item,
-    required this.checkList
-  }) : super(key: key);
+  const TextInputWidget({Key? key, required this.item, required this.checkList}) : super(key: key);
 
   @override
   State<TextInputWidget> createState() => _TextInputWidgetState();
 }
 
 class _TextInputWidgetState extends State<TextInputWidget> {
+  TextEditingController commentController = TextEditingController();
   Account myAccount = AuthenticationFirestore.myAccount!;
 
   @override
@@ -46,7 +41,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                   child: TextField(
                     minLines: 1,
                     maxLines: 2,
-                    controller: widget.commentController,
+                    controller: commentController,
                     decoration: const InputDecoration(
                         hintText: 'コメントを入力',
                         border: InputBorder.none
@@ -57,9 +52,9 @@ class _TextInputWidgetState extends State<TextInputWidget> {
           ),
           LoadingIconButton(
               onPressed: () async {
-                if (widget.commentController.text.isNotEmpty) {
+                if (commentController.text.isNotEmpty) {
                   Comment newComment = Comment(
-                      text: widget.commentController.text,
+                      text: commentController.text,
                       itemId: widget.item.id,
                       postAccountId: myAccount.id,
                       createdTime: Timestamp.now()
@@ -71,7 +66,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                         WidgetUtils.errorSnackBar('コメントの送信に失敗しました')
                     );
                   }
-                  widget.commentController.clear();
+                  commentController.clear();
                   if(!mounted) return;
                   FocusScope.of(context).unfocus();
                 }

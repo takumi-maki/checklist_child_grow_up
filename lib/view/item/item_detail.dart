@@ -25,7 +25,6 @@ class ItemDetail extends StatefulWidget {
 }
 
 class _ItemDetailState extends State<ItemDetail> {
-  TextEditingController commentController = TextEditingController();
   final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
   Account myAccount = AuthenticationFirestore.myAccount!;
 
@@ -111,7 +110,6 @@ class _ItemDetailState extends State<ItemDetail> {
                     myAccount: myAccount
                   ),
                   TextInputWidget(
-                    commentController: commentController,
                     item: widget.item,
                     checkList: widget.checkList
                   )
