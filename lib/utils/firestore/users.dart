@@ -20,7 +20,7 @@ class UserFirestore {
     }
   }
 
-  static Future<dynamic> getUser(String uid) async {
+  static Future<bool> getUser(String uid) async {
     try {
       DocumentSnapshot documentSnapshot = await users.doc(uid).get();
       Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/account.dart';
+import 'users.dart';
 
 class AuthenticationFirestore {
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -21,6 +22,20 @@ class AuthenticationFirestore {
         return 'アカウントの作成に失敗しました';
       }
     }
+  }
+
+  static Future<User?> checkLoginUserAfter3Seconds() async {
+    // 擬似的に通信中を表現するため、3秒遅らす
+    await Future.delayed(const Duration(seconds: 3));
+    AuthenticationFirestore.currentFirebaseUser = FirebaseAuth.instance.currentUser;
+    if(AuthenticationFirestore.currentFirebaseUser == null) {
+      return null;
+    }
+    var getUserResult = await UserFirestore.getUser(AuthenticationFirestore.currentFirebaseUser!.uid);
+    if(!getUserResult) {
+      return null;
+    }
+    return AuthenticationFirestore.currentFirebaseUser;
   }
 
   static Future<dynamic> emailSignIn({required String email, required String password}) async {
