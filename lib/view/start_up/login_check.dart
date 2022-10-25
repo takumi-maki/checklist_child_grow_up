@@ -14,18 +14,18 @@ class LoginCheck extends StatefulWidget {
 }
 
 class _LoginCheckState extends State<LoginCheck> {
-  late Future<User?> futureCheckLoginUserAfter3Seconds;
+  late Future<User?> futureCheckCurrentFirebaseUser;
 
   @override
   void initState() {
     super.initState();
-    futureCheckLoginUserAfter3Seconds = AuthenticationFirestore.checkLoginUserAfter3Seconds();
+    futureCheckCurrentFirebaseUser = AuthenticationFirestore.checkCurrentFirebaseUser();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<User?>(
-        future: futureCheckLoginUserAfter3Seconds,
+        future: futureCheckCurrentFirebaseUser,
         builder: (context, snapShot) {
           if(snapShot.connectionState == ConnectionState.waiting) {
             return Scaffold(

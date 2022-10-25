@@ -24,7 +24,7 @@ class AuthenticationFirestore {
     }
   }
 
-  static Future<User?> checkLoginUserAfter3Seconds() async {
+  static Future<User?> checkCurrentFirebaseUser() async {
     // 擬似的に通信中を表現するため、3秒遅らす
     await Future.delayed(const Duration(seconds: 3));
     AuthenticationFirestore.currentFirebaseUser = FirebaseAuth.instance.currentUser;
