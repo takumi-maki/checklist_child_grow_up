@@ -31,8 +31,8 @@ class AuthenticationFirestore {
     if(AuthenticationFirestore.currentFirebaseUser == null) {
       return null;
     }
-    var getUserResult = await UserFirestore.getUser(AuthenticationFirestore.currentFirebaseUser!.uid);
-    if(!getUserResult) {
+    var storeMyAccountResult = await UserFirestore.storeMyAccount(AuthenticationFirestore.currentFirebaseUser!.uid);
+    if(!storeMyAccountResult) {
       return null;
     }
     return AuthenticationFirestore.currentFirebaseUser;

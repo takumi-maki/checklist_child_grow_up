@@ -71,8 +71,8 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
                     );
                     return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                   }
-                  var getUserResult = await UserFirestore.getUser(signInResult.user!.uid);
-                  if (!getUserResult) {
+                  var storeMyAccountResult = await UserFirestore.storeMyAccount(signInResult.user!.uid);
+                  if (!storeMyAccountResult) {
                     if (!mounted) return;
                     ScaffoldMessenger.of(context).showSnackBar(
                       WidgetUtils.errorSnackBar('アカウント情報の取得に失敗しました')

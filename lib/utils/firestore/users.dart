@@ -20,7 +20,7 @@ class UserFirestore {
     }
   }
 
-  static Future<bool> getUser(String uid) async {
+  static Future<bool> storeMyAccount(String uid) async {
     try {
       DocumentSnapshot documentSnapshot = await users.doc(uid).get();
       Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
@@ -29,10 +29,10 @@ class UserFirestore {
         name: data['name'],
       );
       AuthenticationFirestore.myAccount = myAccount;
-      debugPrint('ユーザー取得完了');
+      debugPrint('myAccountに格納完了');
       return true;
     } on FirebaseException catch (e) {
-      debugPrint('ユーザー取得エラー: $e');
+      debugPrint('myAccountに格納エラー: $e');
       return false;
     }
   }
