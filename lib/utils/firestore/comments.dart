@@ -19,6 +19,7 @@ class CommentFireStore {
         'text': newComment.text,
         'item_id': newComment.itemId,
         'post_account_id': newComment.postAccountId,
+        'post_account_name': newComment.postAccountName,
         'created_time': newComment.createdTime
       });
       if(!itemHasComment) {

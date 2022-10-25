@@ -5,8 +5,7 @@ import 'package:intl/intl.dart';
 
 class SomeOneCommentWidget extends StatefulWidget {
   final Comment comment;
-  final Account postAccount;
-  const SomeOneCommentWidget({Key? key, required this.comment, required this.postAccount}) : super(key: key);
+  const SomeOneCommentWidget({Key? key, required this.comment}) : super(key: key);
 
   @override
   State<SomeOneCommentWidget> createState() => _SomeOneCommentWidgetState();
@@ -42,7 +41,7 @@ class _SomeOneCommentWidgetState extends State<SomeOneCommentWidget> {
             children: [
               Text(DateFormat('yyyy/MM/dd').format(widget.comment.createdTime.toDate())),
               const SizedBox(width: 10.0),
-              Text(widget.postAccount.name),
+              Text(widget.comment.postAccountName),
             ],
           ),
         ],

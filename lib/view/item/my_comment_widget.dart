@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../model/account.dart';
 import '../../model/comment.dart';
 
 class MyCommentWidget extends StatefulWidget {
   final Comment comment;
-  final Account postAccount;
-  const MyCommentWidget({Key? key, required this.comment, required this.postAccount}) : super(key: key);
+  const MyCommentWidget({Key? key, required this.comment}) : super(key: key);
 
   @override
   State<MyCommentWidget> createState() => _MyCommentWidgetState();
@@ -42,7 +40,7 @@ class _MyCommentWidgetState extends State<MyCommentWidget> {
             children: [
               Text(DateFormat('yyyy/MM/dd').format(widget.comment.createdTime.toDate())),
               const SizedBox(width: 10.0),
-              Text(widget.postAccount.name),
+              Text(widget.comment.postAccountName),
             ],
           ),
         ],

@@ -42,34 +42,21 @@ class _CommentWidgetState extends State<CommentWidget> {
                   postAccountIds.add(data['post_account_id']);
                 }
               }
-              return FutureBuilder<Map<String, Account>?>(
-                  future: UserFirestore.getCommentUserMap(postAccountIds),
-                  builder: (context, userSnapshot) {
-                    if(userSnapshot.hasData && userSnapshot.connectionState == ConnectionState.done) {
-                      if (commentSnapshot.data!.docs.isEmpty) {
-                        return Container(
-                            padding: const EdgeInsets.symmetric(vertical: 20.0),
-                            child: const Text('コメントはまだありません'));
-                      }
-                      return ListView.builder(
-                          itemCount: commentSnapshot.data!.docs.length,
-                          itemBuilder: (context, index) {
-                            Map<String, dynamic> data = commentSnapshot.data!.docs[index].data() as Map<String, dynamic>;
-                            Comment comment = Comment(
-                                text: data['text'],
-                                itemId: data['item_id'],
-                                postAccountId: data['post_account_id'],
-                                createdTime: data['created_time']
-                            );
-                            Account postAccount = userSnapshot.data![comment.postAccountId]!;
-                            return comment.postAccountId == myAccount.id
-                                ? MyCommentWidget(comment: comment, postAccount: postAccount)
-                                : SomeOneCommentWidget(comment: comment, postAccount: postAccount);
-                          });
-                    } else {
-                      return Container();
-                    }
-                  }
+              return ListView.builder(
+                itemCount: commentSnapshot.data!.docs.length,
+                itemBuilder: (context, index) {
+                  Map<String, dynamic> data = commentSnapshot.data!.docs[index].data() as Map<String, dynamic>;
+                  Comment comment = Comment(
+                    text: data['text'],
+                    itemId: data['item_id'],
+                    postAccountId: data['post_account_id'],
+                    postAccountName: data['post_account_name'],
+                    createdTime: data['created_time']
+                  );
+                  return comment.postAccountId == myAccount.id
+                    ? MyCommentWidget(comment: comment)
+                    : SomeOneCommentWidget(comment: comment);
+                }
               );
             } else {
               return Container();

@@ -20,6 +20,22 @@ class UserFirestore {
     }
   }
 
+  static Future<Account?> getAccount(String uid) async {
+    try {
+      DocumentSnapshot documentSnapshot = await users.doc(uid).get();
+      Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+      Account account = Account(
+        id: uid,
+        name: data['name'],
+      );
+      debugPrint('account取得完了');
+      return account;
+    } on FirebaseException catch (e) {
+      debugPrint('account取得エラー: $e');
+      return null;
+    }
+  }
+
   static Future<bool> storeMyAccount(String uid) async {
     try {
       DocumentSnapshot documentSnapshot = await users.doc(uid).get();
