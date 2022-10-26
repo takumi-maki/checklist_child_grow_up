@@ -1,13 +1,11 @@
 
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
-import 'package:checklist_child_grow_up/utils/firestore/users.dart';
 import 'package:checklist_child_grow_up/utils/function_utils.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-import '../../model/account.dart';
 import '../../utils/loading/loading_button.dart';
 import '../../utils/validator.dart';
 import 'check_email_page.dart';
@@ -93,6 +91,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                     }
                     var signUpResult = await AuthenticationFirestore.signUp(
+                      name: nameController.text,
                       email: emailController.text,
                       password: passwordController.text
                     );
@@ -100,18 +99,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       if(!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
                         WidgetUtils.errorSnackBar(signUpResult)
-                      );
-                      return FunctionUtils.showErrorButtonFor4Seconds(btnController);
-                    }
-                    Account newAccount = Account(
-                      id: signUpResult.user!.uid,
-                      name: nameController.text,
-                    );
-                    var setUserResult = await UserFirestore.setUser(newAccount);
-                    if(!setUserResult) {
-                      if(!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        WidgetUtils.errorSnackBar('アカウント作成に失敗しました')
                       );
                       return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                     }

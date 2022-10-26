@@ -1,6 +1,5 @@
-import 'package:checklist_child_grow_up/utils/firestore/users.dart';
-import 'package:checklist_child_grow_up/model/account.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';
@@ -21,7 +20,7 @@ class TextInputWidget extends StatefulWidget {
 
 class _TextInputWidgetState extends State<TextInputWidget> {
   TextEditingController commentController = TextEditingController();
-  Account myAccount = AuthenticationFirestore.myAccount!;
+  final User currentFirebaseUser = AuthenticationFirestore.currentFirebaseUser!;
 
   @override
   Widget build(BuildContext context) {
@@ -54,21 +53,11 @@ class _TextInputWidgetState extends State<TextInputWidget> {
           LoadingIconButton(
               onPressed: () async {
                 if (commentController.text.isNotEmpty) {
-                  Account? account = await UserFirestore.getAccount(myAccount.id);
-                  if (account == null) {
-                    if(!mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        WidgetUtils.errorSnackBar('コメントの送信に失敗しました')
-                    );
-                    commentController.clear();
-                    FocusScope.of(context).unfocus();
-                    return;
-                  }
                   Comment newComment = Comment(
                       text: commentController.text,
                       itemId: widget.item.id,
-                      postAccountId: account.id,
-                      postAccountName: account.name,
+                      postAccountId: currentFirebaseUser.uid,
+                      postAccountName: currentFirebaseUser.displayName ?? '',
                       createdTime: Timestamp.now()
                   );
                   var commentAddResult = await CommentFireStore.addComment(widget.checkList, newComment, widget.item.hasComment);

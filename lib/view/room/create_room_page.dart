@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';

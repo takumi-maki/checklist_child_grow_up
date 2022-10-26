@@ -49,7 +49,7 @@ class _RoomMemberEmailListPageState extends State<RoomMemberEmailListPage> {
         }
       ),
       floatingActionButton: Container(
-        padding: EdgeInsets.only(bottom: 54.0),
+        padding: const EdgeInsets.only(bottom: 54.0),
         child: FloatingActionButton(
           onPressed: () async {
             if(!mounted) return;

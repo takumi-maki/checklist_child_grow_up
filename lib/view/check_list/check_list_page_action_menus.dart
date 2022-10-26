@@ -1,4 +1,3 @@
-import 'package:checklist_child_grow_up/utils/function_utils.dart';
 import 'package:checklist_child_grow_up/view/about/about_app_page.dart';
 import 'package:checklist_child_grow_up/view/about/about_check_list_page.dart';
 import 'package:checklist_child_grow_up/view/about/about_room_page.dart';
@@ -47,7 +46,7 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
                   context: context,
                   barrierDismissible: false,
                   builder: (context) {
-                    return AboutAppPage();
+                    return const AboutAppPage();
                   }
               );
               break;

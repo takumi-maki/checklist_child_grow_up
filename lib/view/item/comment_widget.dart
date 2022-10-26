@@ -1,12 +1,11 @@
 
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/account.dart';
 import '../../model/comment.dart';
 import '../../utils/firestore/rooms.dart';
-import '../../utils/firestore/users.dart';
 import 'my_comment_widget.dart';
 import 'someone_comment_widget.dart';
 class CommentWidget extends StatefulWidget {
@@ -24,7 +23,7 @@ class CommentWidget extends StatefulWidget {
 }
 
 class _CommentWidgetState extends State<CommentWidget> {
-  final myAccount = AuthenticationFirestore.myAccount!;
+  final User currentFirebaseUser = AuthenticationFirestore.currentFirebaseUser!;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -35,12 +34,11 @@ class _CommentWidgetState extends State<CommentWidget> {
               .snapshots(),
           builder: (context, commentSnapshot) {
             if(commentSnapshot.hasData) {
-              List<String> postAccountIds = [];
-              for (var doc in commentSnapshot.data!.docs) {
-                Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-                if (!postAccountIds.contains(data['post_account_id'])) {
-                  postAccountIds.add(data['post_account_id']);
-                }
+              if (commentSnapshot.data!.docs.isEmpty) {
+                return Container(
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: const Text('コメントはまだありません')
+                );
               }
               return ListView.builder(
                 itemCount: commentSnapshot.data!.docs.length,
@@ -53,7 +51,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                     postAccountName: data['post_account_name'],
                     createdTime: data['created_time']
                   );
-                  return comment.postAccountId == myAccount.id
+                  return comment.postAccountId == currentFirebaseUser.uid
                     ? MyCommentWidget(comment: comment)
                     : SomeOneCommentWidget(comment: comment);
                 }

@@ -1,4 +1,3 @@
-import 'package:checklist_child_grow_up/model/account.dart';
 import 'package:checklist_child_grow_up/model/comment.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

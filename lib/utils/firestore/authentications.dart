@@ -1,17 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/account.dart';
-import 'users.dart';
-
 class AuthenticationFirestore {
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   static User? currentFirebaseUser;
-  static Account? myAccount;
 
-  static Future<dynamic> signUp({required String email, required String password}) async {
+  static Future<dynamic> signUp({required name, required String email, required String password}) async {
     try {
       UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+      await _firebaseAuth.currentUser!.updateDisplayName(name);
       return userCredential;
     } on FirebaseAuthException catch(e) {
       if (e.code == 'email-already-in-use') {
@@ -29,10 +26,6 @@ class AuthenticationFirestore {
     await Future.delayed(const Duration(seconds: 3));
     AuthenticationFirestore.currentFirebaseUser = FirebaseAuth.instance.currentUser;
     if(AuthenticationFirestore.currentFirebaseUser == null) {
-      return null;
-    }
-    var storeMyAccountResult = await UserFirestore.storeMyAccount(AuthenticationFirestore.currentFirebaseUser!.uid);
-    if(!storeMyAccountResult) {
       return null;
     }
     return AuthenticationFirestore.currentFirebaseUser;

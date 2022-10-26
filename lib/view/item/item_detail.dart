@@ -2,14 +2,12 @@ import 'dart:async';
 
 import 'package:checklist_child_grow_up/utils/function_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
 import 'package:checklist_child_grow_up/utils/firestore/check_lists.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/item/text_input_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-import '../../model/account.dart';
 import '../../model/check_list.dart';
 import '../../utils/loading/loading_button.dart';
 import 'comment_widget.dart';
@@ -26,7 +24,6 @@ class ItemDetail extends StatefulWidget {
 
 class _ItemDetailState extends State<ItemDetail> {
   final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
-  Account myAccount = AuthenticationFirestore.myAccount!;
   final int textInputWidgetHeight = 70;
   late String itemImagePath;
 

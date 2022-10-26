@@ -1,5 +1,4 @@
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
-import 'package:checklist_child_grow_up/utils/firestore/users.dart';
 import 'package:checklist_child_grow_up/utils/function_utils.dart';
 import 'package:checklist_child_grow_up/utils/validator.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
@@ -116,14 +115,6 @@ class _LoginPageState extends State<LoginPage> {
                         if(!mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(
                             WidgetUtils.errorSnackBar(signInResult)
-                        );
-                        return FunctionUtils.showErrorButtonFor4Seconds(btnController);
-                      }
-                      var storeMyAccountResult = await UserFirestore.storeMyAccount(signInResult.user!.uid);
-                      if (!storeMyAccountResult) {
-                        if(!mounted) return;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            WidgetUtils.errorSnackBar('アカウント情報の取得に失敗しました')
                         );
                         return FunctionUtils.showErrorButtonFor4Seconds(btnController);
                       }
