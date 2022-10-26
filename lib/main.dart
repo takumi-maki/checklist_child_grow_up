@@ -28,7 +28,8 @@ class MyApp extends StatelessWidget {
       title: '0~3歳までの成長のチェックリスト',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.orange[700])
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.orange[700]),
+        dividerColor: Colors.black54,
       ),
       home: const LoginCheck(),
     );

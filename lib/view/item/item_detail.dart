@@ -102,7 +102,7 @@ class _ItemDetailState extends State<ItemDetail> {
                   const SizedBox(height: 16.0),
                   Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-                      child: const Divider(color: Colors.black54)
+                      child: const Divider()
                   ),
 
                   CommentWidget(

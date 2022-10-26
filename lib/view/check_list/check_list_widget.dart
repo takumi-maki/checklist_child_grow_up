@@ -40,7 +40,7 @@ class _CheckListWidgetState extends State<CheckListWidget> {
                     children: [
                       Container(
                           padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                          child: item.hasComment ? const Icon(Icons.chat) : null
+                          child: item.hasComment ? const Icon(Icons.chat, color: Colors.black54) : null
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 2.0),

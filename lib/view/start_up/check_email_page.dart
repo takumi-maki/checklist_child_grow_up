@@ -40,7 +40,7 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
               Image.asset('assets/images/hiyoko_mail.png', height: 150),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 16.0),
-                child: const Divider(color: Colors.black54)
+                child: const Divider()
               ),
               const SizedBox(height: 10.0),
               Container(

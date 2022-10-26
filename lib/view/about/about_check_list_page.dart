@@ -32,7 +32,7 @@ class _AboutCheckListPageState extends State<AboutCheckListPage> {
               ),
               Container(
                   padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 16.0),
-                  child: const Divider(color: Colors.black54)
+                  child: const Divider()
               ),
               Container(
                   padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
@@ -83,7 +83,7 @@ class _AboutCheckListPageState extends State<AboutCheckListPage> {
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 16.0),
-                child: const Divider(color: Colors.black54)
+                child: const Divider()
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
