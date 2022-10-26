@@ -99,8 +99,8 @@ class _ItemDetailState extends State<ItemDetail> {
                       if(!mounted) return;
                       Navigator.pop(context);
                     },
-                    color: widget.item.isComplete ? Colors.grey : Theme.of(context).colorScheme.secondary,
-                    child: widget.item.isComplete ? const Text('達成をキャンセル') : const Text('達成')
+                    color: widget.item.isComplete ? Colors.white70 : Theme.of(context).colorScheme.secondary,
+                    child: widget.item.isComplete ? const Text('達成をキャンセル', style: TextStyle(color: Colors.black54),) : const Text('達成')
                   ),
                   const SizedBox(height: 16.0),
                   Container(
