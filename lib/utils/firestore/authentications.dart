@@ -22,13 +22,16 @@ class AuthenticationFirestore {
   }
 
   static Future<User?> checkCurrentFirebaseUser() async {
-    // 擬似的に通信中を表現するため、3秒遅らす
-    await Future.delayed(const Duration(seconds: 3));
-    AuthenticationFirestore.currentFirebaseUser = FirebaseAuth.instance.currentUser;
-    if(AuthenticationFirestore.currentFirebaseUser == null) {
+    try {
+      // 擬似的に通信中を表現するため、3秒遅らす
+      await Future.delayed(const Duration(seconds: 3));
+      AuthenticationFirestore.currentFirebaseUser = FirebaseAuth.instance.currentUser;
+      debugPrint('ログインチェック完了');
+      return AuthenticationFirestore.currentFirebaseUser;
+    } on FirebaseAuthException catch(e) {
+      debugPrint('ログインチェックエラー :$e');
       return null;
     }
-    return AuthenticationFirestore.currentFirebaseUser;
   }
 
   static Future<dynamic> emailSignIn({required String email, required String password}) async {
