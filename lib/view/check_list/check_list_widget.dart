@@ -27,7 +27,7 @@ class _CheckListWidgetState extends State<CheckListWidget> {
           );
           return Column(
             children: [
-              index != 0 && index % 5 == 0 ? const AdBanner() : Container(),
+              index != 0 && index % 5 == 0 ? const AdBanner() : const SizedBox(),
               Card(
                 child: ListTile(
                   leading: Text('${item.month}ヶ月'),
@@ -38,11 +38,11 @@ class _CheckListWidgetState extends State<CheckListWidget> {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Container(
+                      Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 2.0),
                           child: item.hasComment ? const Icon(Icons.chat, color: Colors.black54) : null
                       ),
-                      Container(
+                      Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 2.0),
                         child: Icon(Icons.star,
                             color: item.isComplete ? Colors.yellow : Colors.black12

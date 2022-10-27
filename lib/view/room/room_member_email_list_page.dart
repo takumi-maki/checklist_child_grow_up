@@ -30,7 +30,7 @@ class _RoomMemberEmailListPageState extends State<RoomMemberEmailListPage> {
                       itemCount: emailList.length,
                       itemBuilder: (context, index) {
                         return Card(
-                          child: Container(
+                          child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ListTile(
                               leading: Image.asset('assets/images/chicken.png', height: 36),
@@ -44,11 +44,11 @@ class _RoomMemberEmailListPageState extends State<RoomMemberEmailListPage> {
               ],
             );
           } else {
-            return Container();
+            return const SizedBox();
           }
         }
       ),
-      floatingActionButton: Container(
+      floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 54.0),
         child: FloatingActionButton(
           onPressed: () async {

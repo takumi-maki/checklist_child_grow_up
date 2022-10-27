@@ -75,11 +75,11 @@ class _RoomListPageState extends State<RoomListPage> {
                 ],
               );
           } else {
-            return Container();
+            return const SizedBox();
           }
         }
       ),
-      floatingActionButton: Container(
+      floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 54.0),
         child: FloatingActionButton(
           onPressed: () {

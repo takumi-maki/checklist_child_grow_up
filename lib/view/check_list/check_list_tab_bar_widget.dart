@@ -66,7 +66,7 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
                 if (snapshot.data!.docs.length < 4) {
                   return TabBarView(
                       children: CheckList.tabBarList.map((tabBar) {
-                        return Container();
+                        return const SizedBox();
                       }).toList()
                   );
                 }
@@ -91,7 +91,7 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
               } else {
                 return TabBarView(
                   children: CheckList.tabBarList.map((e) {
-                    return Container();
+                    return const SizedBox();
                   }).toList()
                 );
               }

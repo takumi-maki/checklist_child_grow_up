@@ -14,7 +14,7 @@ class MyCommentWidget extends StatefulWidget {
 class _MyCommentWidgetState extends State<MyCommentWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,

@@ -35,9 +35,9 @@ class _CommentWidgetState extends State<CommentWidget> {
           builder: (context, commentSnapshot) {
             if(commentSnapshot.hasData) {
               if (commentSnapshot.data!.docs.isEmpty) {
-                return Container(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: const Text('コメントはまだありません')
+                return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20.0),
+                    child: Text('コメントはまだありません')
                 );
               }
               return ListView.builder(
@@ -57,7 +57,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                 }
               );
             } else {
-              return Container();
+              return const SizedBox();
             }
           }
       ),

@@ -64,7 +64,7 @@ class _ItemDetailState extends State<ItemDetail> {
                 children: [
                   const SizedBox(height: 10),
                   Center(child: Image.asset(itemImagePath, height: 80)),
-                  Container(
+                  Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10.0),
                     child: Text('「　${widget.item.content}　」',
                       style: const TextStyle(fontSize: 16.0, color: Colors.black87),
@@ -100,9 +100,9 @@ class _ItemDetailState extends State<ItemDetail> {
                     child: widget.item.isComplete ? const Text('達成をキャンセル', style: TextStyle(color: Colors.black54),) : const Text('達成')
                   ),
                   const SizedBox(height: 16.0),
-                  Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-                      child: const Divider()
+                  const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+                      child: Divider()
                   ),
 
                   CommentWidget(

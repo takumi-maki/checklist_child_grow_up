@@ -30,7 +30,7 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
           child: Column(
             children: [
               const SizedBox(height: 10.0),
-              Container(
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
                 child: Text(
                   '登録したメールアドレス(${widget.email})あてに確認のメールを送信しました。',
@@ -38,22 +38,22 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
                 )
               ),
               Image.asset('assets/images/hiyoko_mail.png', height: 150),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 16.0),
-                child: const Divider()
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 16.0),
+                child: Divider()
               ),
               const SizedBox(height: 10.0),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 3.0),
-                child: const Text('受信したメールに記載されているURLをクリックして認証をお願いします。')
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 3.0),
+                child: Text('受信したメールに記載されているURLをクリックして認証をお願いします。')
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 3.0),
-                child: const Text('認証完了後、下のボタンからログインしてください。')
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 3.0),
+                child: Text('認証完了後、下のボタンからログインしてください。')
               ),
-              Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 3.0),
-                child: const Text('( 迷惑メールフォルダに可能性がありますので、そちらもご確認ください。)')
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 3.0),
+                child: Text('( 迷惑メールフォルダに可能性がありますので、そちらもご確認ください。)')
               ),
               const SizedBox(height: 36.0),
               LoadingButton(

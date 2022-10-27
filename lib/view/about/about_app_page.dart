@@ -56,7 +56,7 @@ class _AboutAppPageState extends State<AboutAppPage> {
         itemCount: aboutAppContentList.length,
         itemBuilder: (context, index) {
           return Card(
-            child: Container(
+            child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListTile(
                 leading: aboutAppContentList[index].leading,
