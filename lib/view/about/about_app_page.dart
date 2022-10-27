@@ -51,7 +51,7 @@ class _AboutAppPageState extends State<AboutAppPage> {
       ),
     ];
     return Scaffold(
-      appBar: WidgetUtils.createAppBar('アプリについて'),
+      appBar: WidgetUtils.createAppBar(context, 'アプリについて'),
       body: ListView.builder(
         itemCount: aboutAppContentList.length,
         itemBuilder: (context, index) {

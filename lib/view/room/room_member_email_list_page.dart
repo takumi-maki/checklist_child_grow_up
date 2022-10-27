@@ -17,7 +17,7 @@ class _RoomMemberEmailListPageState extends State<RoomMemberEmailListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WidgetUtils.createAppBar('登録中のメールアドレス一覧'),
+      appBar: WidgetUtils.createAppBar(context, '登録中のメールアドレス一覧'),
       body: StreamBuilder<DocumentSnapshot>(
         stream: RoomFirestore.rooms.doc(widget.roomId).snapshots(),
         builder: (context, roomSnapshot) {

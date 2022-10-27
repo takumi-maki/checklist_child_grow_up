@@ -21,7 +21,7 @@ class _PasswordRestEmailPageState extends State<PasswordRestEmailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WidgetUtils.createAppBar('パスワード再設定'),
+      appBar: WidgetUtils.createAppBar(context, 'パスワード再設定'),
       body: SingleChildScrollView(
         child: SizedBox(
           width: double.infinity,

@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 10.0),
                   RichText(text: TextSpan(
-                    style: const TextStyle(color: Colors.black87),
+                    style: Theme.of(context).textTheme.bodyText1,
                     children: [
                       const TextSpan(text: 'アカウントを作成していない方は'),
                       TextSpan(text: 'こちら',
@@ -86,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                   )),
                   const SizedBox(height: 8.0),
                   RichText(text: TextSpan(
-                      style: const TextStyle(color: Colors.black87),
+                      style: Theme.of(context).textTheme.bodyText1,
                       children: [
                         const TextSpan(text: 'パスワードの再設定は'),
                         TextSpan(text: 'こちら',

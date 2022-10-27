@@ -24,7 +24,7 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: WidgetUtils.createAppBar('メールアドレス確認'),
+      appBar: WidgetUtils.createAppBar(context, 'メールアドレス確認'),
       body: SingleChildScrollView(
         child: Center(
           child: Column(

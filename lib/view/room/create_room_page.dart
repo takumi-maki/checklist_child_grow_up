@@ -30,7 +30,7 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WidgetUtils.createAppBar('ルーム作成'),
+      appBar: WidgetUtils.createAppBar(context, 'ルーム作成'),
       body: SizedBox(
         width: double.infinity,
         child: Form(

@@ -13,7 +13,7 @@ class _AboutCheckListPageState extends State<AboutCheckListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WidgetUtils.createAppBar('成長のチェックリストについて'),
+      appBar: WidgetUtils.createAppBar(context, '成長のチェックリストについて'),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -55,9 +55,9 @@ class _AboutCheckListPageState extends State<AboutCheckListPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
                 child: RichText(
-                    text: const TextSpan(
-                      style: TextStyle(color: Colors.black87),
-                      children: [
+                    text: TextSpan(
+                      style: Theme.of(context).textTheme.bodyText1,
+                      children: const [
                         TextSpan(text:'　まず、成長のチェックリストで、'
                           'わが子の月齢がどのような段階にあるのかを確認しましょう。チェックリストは',
                         ),
@@ -114,9 +114,9 @@ class _AboutCheckListPageState extends State<AboutCheckListPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 6.0),
                 child: RichText(
-                  text: const TextSpan(
-                    style: TextStyle(color: Colors.black87),
-                    children: [
+                  text: TextSpan(
+                    style: Theme.of(context).textTheme.bodyText1,
+                    children: const [
                       TextSpan(text: '「次の段階へのステップは、その前の段階をいかに充実して経験してきたかにかかっている」',
                         style: TextStyle(
                           fontWeight: FontWeight.bold
@@ -141,9 +141,9 @@ class _AboutCheckListPageState extends State<AboutCheckListPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
                 child: RichText(
-                  text: const TextSpan(
-                    style: TextStyle(color: Colors.black87),
-                    children: [
+                  text: TextSpan(
+                    style: Theme.of(context).textTheme.bodyText1,
+                    children: const [
                       TextSpan(text: '　ですから、'),
                       TextSpan(
                         text: '成長のチェックリストは、わが子の今を見つめ、'
@@ -170,7 +170,6 @@ class _AboutCheckListPageState extends State<AboutCheckListPage> {
                   '　今、ハイハイを一生懸命していたら、次のつかまり立ちに移行しやすいように、'
                   '適切な高さで安定性の良い棚などを、そっと置いておいてあげる。これが環境を整えるということなのです。'
                   'このようにチェックリストは次の成長のステップを知るために活用してください。',
-                  style: TextStyle(),
                 ),
               ),
               const Padding(
@@ -183,7 +182,6 @@ class _AboutCheckListPageState extends State<AboutCheckListPage> {
                   '( 出典: 藤崎達宏、'
                   '『０～３歳までの実践版 モンテッソーリ教育で才能をぐんぐん伸ばす！』、'
                   '三笠書房、 2018、p.246、(ISBN: 9784837927525) )',
-                  style: TextStyle(color: Colors.black87),
                 ),
               ),
             ]

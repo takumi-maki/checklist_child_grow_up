@@ -26,7 +26,7 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WidgetUtils.createAppBar('メールアドレス追加'),
+      appBar: WidgetUtils.createAppBar(context, 'メールアドレス追加'),
       body: SizedBox(
         width: double.infinity,
         child: Form(

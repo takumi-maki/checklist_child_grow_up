@@ -55,7 +55,7 @@ class _ItemDetailState extends State<ItemDetail> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: WidgetUtils.createAppBar('アイテム詳細'),
+        appBar: WidgetUtils.createAppBar(context, 'アイテム詳細'),
         body: SafeArea(
           child: SingleChildScrollView(
             child: SizedBox(
@@ -67,7 +67,7 @@ class _ItemDetailState extends State<ItemDetail> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10.0),
                     child: Text('「　${widget.item.content}　」',
-                      style: const TextStyle(fontSize: 16.0, color: Colors.black87),
+                      style: Theme.of(context).textTheme.subtitle1,
                       textAlign: TextAlign.center,
                     ),
                   ),

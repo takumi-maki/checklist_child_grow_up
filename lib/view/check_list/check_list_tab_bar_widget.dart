@@ -27,7 +27,7 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
             backgroundColor: Colors.transparent,
             iconTheme: const IconThemeData(color: Colors.black87),
             elevation: 0,
-            title: Text('${widget.childName} の ルーム', style: const TextStyle(color: Colors.black87, fontSize: 16)),
+            title: Text('${widget.childName} の ルーム', style: Theme.of(context).textTheme.subtitle1),
             centerTitle: true, systemOverlayStyle: SystemUiOverlayStyle.dark,
             actions: [
               CheckListPageActionMenus(childName: widget.childName, roomId: widget.roomId)

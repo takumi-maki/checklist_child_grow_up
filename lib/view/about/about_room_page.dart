@@ -48,7 +48,7 @@ class _AboutRoomPageState extends State<AboutRoomPage> {
       ),
     ];
     return Scaffold(
-      appBar: WidgetUtils.createAppBar('ルームについて'),
+      appBar: WidgetUtils.createAppBar(context, 'ルームについて'),
       body: ListView.builder(
           itemCount: aboutAppContentList.length,
           itemBuilder: (context, index) {

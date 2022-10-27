@@ -22,7 +22,7 @@ class _RoomListPageState extends State<RoomListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WidgetUtils.createAppBar('ルーム一覧'),
+      appBar: WidgetUtils.createAppBar(context, 'ルーム一覧'),
       body: StreamBuilder<QuerySnapshot>(
         stream: RoomFirestore.rooms
               .where('joined_accounts', arrayContains: user.email)

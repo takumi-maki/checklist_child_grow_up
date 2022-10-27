@@ -56,10 +56,10 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
           PopupMenuItem(
               value: CheckListPopupMenuItem.aboutRoom,
               child: Row(
-                children: const [
-                  Icon(Icons.room_preferences),
-                  SizedBox(width: 15.0),
-                  Text('ルームについて', style: TextStyle(fontSize: 14)),
+                children: [
+                  const Icon(Icons.room_preferences),
+                  const SizedBox(width: 15.0),
+                  Text('ルームについて', style: Theme.of(context).textTheme.bodyText1),
                 ],
               )
           ),
@@ -67,10 +67,10 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
           PopupMenuItem(
               value: CheckListPopupMenuItem.aboutCheckList,
               child: Row(
-                children: const [
-                  Icon(Icons.checklist),
-                  SizedBox(width: 15.0),
-                  Text('成長のチェックリストについて', style: TextStyle(fontSize: 14)),
+                children: [
+                  const Icon(Icons.checklist),
+                  const SizedBox(width: 15.0),
+                  Text('成長のチェックリストについて', style: Theme.of(context).textTheme.bodyText1),
                 ],
               )
           ),
@@ -78,10 +78,10 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
           PopupMenuItem(
               value: CheckListPopupMenuItem.aboutApp,
               child: Row(
-                children: const [
-                  Icon(Icons.info),
-                  SizedBox(width: 15.0),
-                  Text('アプリについて', style: TextStyle(fontSize: 14)),
+                children: [
+                  const Icon(Icons.info),
+                  const SizedBox(width: 15.0),
+                  Text('アプリについて', style: Theme.of(context).textTheme.bodyText1),
                 ],
               )
           ),
