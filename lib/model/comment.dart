@@ -1,17 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Comment {
-  String text;
+  String? text;
+  String? imagePath;
   String itemId;
   String postAccountId;
-  String postAccountName;
+  String? postAccountName;
   Timestamp createdTime;
 
   Comment({
-    required this.text,
+    this.text,
+    this.imagePath,
     required this.itemId,
     required this.postAccountId,
-    required this.postAccountName,
+    this.postAccountName,
     required this.createdTime,
   });
 }

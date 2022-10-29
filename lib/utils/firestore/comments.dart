@@ -17,6 +17,7 @@ class CommentFireStore {
         .collection('comments').doc();
       batch.set(newCommentDoc, {
         'text': newComment.text,
+        'image_path': newComment.imagePath,
         'item_id': newComment.itemId,
         'post_account_id': newComment.postAccountId,
         'post_account_name': newComment.postAccountName,

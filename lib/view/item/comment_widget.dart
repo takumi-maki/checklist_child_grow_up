@@ -46,6 +46,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                   Map<String, dynamic> data = commentSnapshot.data!.docs[index].data() as Map<String, dynamic>;
                   Comment comment = Comment(
                     text: data['text'],
+                    imagePath: data['image_path'],
                     itemId: data['item_id'],
                     postAccountId: data['post_account_id'],
                     postAccountName: data['post_account_name'],
