@@ -10,6 +10,7 @@ class ImageFirebaseStorage {
   static Future<File?> selectImage() async {
     XFile? pickedImage = await picker.pickImage(source: ImageSource.gallery);
     if (pickedImage == null) return null;
+    debugPrint('画像選択完了');
     return File(pickedImage.path);
   }
   static Future<TaskSnapshot?> uploadImage(File image) async {

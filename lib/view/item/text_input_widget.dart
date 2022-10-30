@@ -27,7 +27,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
   TextEditingController commentController = TextEditingController();
   final User currentFirebaseUser = AuthenticationFirestore.currentFirebaseUser!;
   File? image;
-  String imagePath = '';
+  String? imagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -96,13 +96,6 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                 LoadingIconButton(
                   onPressed: () async {
                     image = await ImageFirebaseStorage.selectImage();
-                    if (image == null) {
-                      if(!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          WidgetUtils.errorSnackBar('画像の選択に失敗しました')
-                      );
-                      return;
-                    }
                     setState((){});
                   },
                   icon: const Icon(Icons.image),
@@ -124,7 +117,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                       imagePath = await uploadImageTaskSnapshot.ref.getDownloadURL();
                     }
                     Comment newComment = Comment(
-                        text: commentController.text,
+                        text: commentController.text.isEmpty ? null : commentController.text,
                         imagePath: imagePath,
                         itemId: widget.item.id,
                         postAccountId: currentFirebaseUser.uid,
@@ -142,6 +135,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                     setState(() {
                       image = null;
                     });
+                    imagePath = null;
                     commentController.clear();
                     if(!mounted) return;
                     FocusScope.of(context).unfocus();
