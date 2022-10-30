@@ -1,3 +1,7 @@
+import 'dart:typed_data';
+
+import 'package:checklist_child_grow_up/utils/function_utils.dart';
+import 'package:checklist_child_grow_up/utils/loading/loading_gesture_detector.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -21,14 +25,21 @@ class _MyCommentWidgetState extends State<MyCommentWidget> {
         children: [
           widget.comment.imagePath == null
             ? const SizedBox()
-            : Container(
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * 0.50
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12.0),
-                  child: Image.network(widget.comment.imagePath!)
-                ),
+            : LoadingGestureDetector(
+              onTap: () async {
+                Uint8List image =  await FunctionUtils.convertImagePathToUint8List(widget.comment.imagePath!);
+                if (!mounted) return;
+                return FunctionUtils.showPreviewImage(context, image);
+              },
+              child: Container(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.50
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12.0),
+                    child: Image.network(widget.comment.imagePath!)
+                  ),
+              ),
             ),
           const SizedBox(height: 8.0),
           widget.comment.text == null

@@ -1,6 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:checklist_child_grow_up/model/comment.dart';
+import 'package:checklist_child_grow_up/utils/loading/loading_gesture_detector.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../../utils/function_utils.dart';
 
 class SomeOneCommentWidget extends StatefulWidget {
   final Comment comment;
@@ -20,33 +25,40 @@ class _SomeOneCommentWidgetState extends State<SomeOneCommentWidget> {
         children: [
           widget.comment.imagePath == null
             ? const SizedBox()
-            : Container(
+            : LoadingGestureDetector(
+              onTap: () async {
+                Uint8List image =  await FunctionUtils.convertImagePathToUint8List(widget.comment.imagePath!);
+                if (!mounted) return;
+                return FunctionUtils.showPreviewImage(context, image);
+              },
+              child: Container(
                 constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width * 0.50
                 ),
                 child: ClipRRect(
-                borderRadius: BorderRadius.circular(12.0),
-                child: Image.network(widget.comment.imagePath!)
+                  borderRadius: BorderRadius.circular(12.0),
+                  child: Image.network(widget.comment.imagePath!)
+                ),
+              ),
             ),
-          ),
           const SizedBox(height: 8.0),
           widget.comment.text == null
             ? const SizedBox()
             : Container(
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * 0.80
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.80
+              ),
+              padding: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                border: Border.all(width: 0.1),
+                color: Colors.white,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(12.0),
+                  topRight: Radius.circular(12.0),
+                  bottomRight: Radius.circular(12.0),
                 ),
-                padding: const EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  border: Border.all(width: 0.1),
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(12.0),
-                    topRight: Radius.circular(12.0),
-                    bottomRight: Radius.circular(12.0),
-                  ),
-                ),
-                child: Text(widget.comment.text!, style: const TextStyle(color: Colors.black87)),
+              ),
+              child: Text(widget.comment.text!, style: const TextStyle(color: Colors.black87)),
             ),
           const SizedBox(height: 4.0),
           Row(
