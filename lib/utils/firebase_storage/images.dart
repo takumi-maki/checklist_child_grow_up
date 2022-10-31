@@ -25,4 +25,13 @@ class ImageFirebaseStorage {
       return null;
     }
   }
+  static Future<void> deleteImage(String imagePath) async {
+    try {
+      final storageReference = FirebaseStorage.instance.refFromURL(imagePath);
+      await storageReference.delete();
+      debugPrint('画像削除完了');
+    } on FirebaseException catch (e) {
+      debugPrint('画像削除エラー: $e');
+    }
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:checklist_child_grow_up/utils/firebase_storage/images.dart';
 import 'package:checklist_child_grow_up/utils/firestore/check_lists.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
@@ -41,6 +42,8 @@ class CommentFireStore {
       final DocumentReference commentsDocRef = checkListsDocRef
           .collection('comments').doc(comment.id);
       batch.delete(commentsDocRef);
+      Map<String, dynamic> data = comment.data() as Map<String, dynamic>;
+      await ImageFirebaseStorage.deleteImage(data['image_path']);
     }
   }
 }
