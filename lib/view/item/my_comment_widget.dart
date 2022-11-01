@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:checklist_child_grow_up/utils/function_utils.dart';
 import 'package:checklist_child_grow_up/utils/loading/loading_gesture_detector.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -9,7 +10,12 @@ import '../../model/comment.dart';
 
 class MyCommentWidget extends StatefulWidget {
   final Comment comment;
-  const MyCommentWidget({Key? key, required this.comment}) : super(key: key);
+  final  Timestamp? prevCommentCreatedTime;
+  const MyCommentWidget({
+    Key? key,
+    required this.comment,
+    required this.prevCommentCreatedTime
+  }) : super(key: key);
 
   @override
   State<MyCommentWidget> createState() => _MyCommentWidgetState();
@@ -23,25 +29,48 @@ class _MyCommentWidgetState extends State<MyCommentWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FunctionUtils.shouldHideCommentDate(
+                widget.comment.createdTime.toDate(),
+                widget.prevCommentCreatedTime?.toDate()
+              )
+                ? const SizedBox()
+                : Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 18.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(48),
+                    ),
+                    child: Text(DateFormat('yyyy/MM/dd').format(widget.comment.createdTime.toDate()))
+                ),
+              )
+            ],
+          ),
           widget.comment.imagePath == null
             ? const SizedBox()
-            : LoadingGestureDetector(
-              onTap: () async {
-                Uint8List image =  await FunctionUtils.convertImagePathToUint8List(widget.comment.imagePath!);
-                if (!mounted) return;
-                return FunctionUtils.showPreviewImage(context, image);
-              },
-              child: Container(
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.50
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12.0),
-                    child: Image.network(widget.comment.imagePath!)
-                  ),
+            : Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: LoadingGestureDetector(
+                onTap: () async {
+                  Uint8List image =  await FunctionUtils.convertImagePathToUint8List(widget.comment.imagePath!);
+                  if (!mounted) return;
+                  return FunctionUtils.showPreviewImage(context, image);
+                },
+                child: Container(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.50
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12.0),
+                      child: Image.network(widget.comment.imagePath!)
+                    ),
+                ),
               ),
             ),
-          const SizedBox(height: 8.0),
           widget.comment.text == null
             ? const SizedBox()
             : Container(
@@ -59,12 +88,9 @@ class _MyCommentWidgetState extends State<MyCommentWidget> {
               ),
               child: Text(widget.comment.text!, style: const TextStyle(color: Colors.white)),
             ),
-          const SizedBox(height: 4.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(DateFormat('yyyy/MM/dd').format(widget.comment.createdTime.toDate())),
-              const SizedBox(width: 10.0),
               Text(widget.comment.postAccountName ?? ''),
             ],
           ),

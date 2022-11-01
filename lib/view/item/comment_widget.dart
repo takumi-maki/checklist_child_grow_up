@@ -43,6 +43,8 @@ class _CommentWidgetState extends State<CommentWidget> {
               return ListView.builder(
                 itemCount: commentSnapshot.data!.docs.length,
                 itemBuilder: (context, index) {
+                  final Map<String, dynamic>? prevComment = (index > 0 ? commentSnapshot.data!.docs[index - 1].data() : null) as Map<String, dynamic>?;
+                  final Timestamp? prevCommentCreatedTime = prevComment == null ? null : prevComment['created_time'];
                   Map<String, dynamic> data = commentSnapshot.data!.docs[index].data() as Map<String, dynamic>;
                   Comment comment = Comment(
                     text: data['text'],
@@ -53,8 +55,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                     createdTime: data['created_time']
                   );
                   return comment.postAccountId == currentFirebaseUser.uid
-                    ? MyCommentWidget(comment: comment)
-                    : SomeOneCommentWidget(comment: comment);
+                    ? MyCommentWidget(comment: comment, prevCommentCreatedTime: prevCommentCreatedTime)
+                    : SomeOneCommentWidget(comment: comment, prevCommentCreatedTime: prevCommentCreatedTime);
                 }
               );
             } else {

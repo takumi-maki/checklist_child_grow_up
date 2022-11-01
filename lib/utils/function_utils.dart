@@ -50,4 +50,9 @@ class FunctionUtils {
       return ImagePreviewScreen(image: image);
     });
   }
+  static bool shouldHideCommentDate(DateTime thisCommentCreatedAt, DateTime? prevCommentCreatedAt) {
+    if(prevCommentCreatedAt == null) return false;
+    return thisCommentCreatedAt.difference(prevCommentCreatedAt).inDays == 0
+        && thisCommentCreatedAt.day == prevCommentCreatedAt.day;
+  }
 }
