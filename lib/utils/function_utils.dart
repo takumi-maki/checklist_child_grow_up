@@ -1,12 +1,8 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../view/item/image_preview_screen.dart';
 
 class FunctionUtils {
   static Future<List<dynamic>> getCheckListItems() async {
@@ -41,18 +37,5 @@ class FunctionUtils {
     if(!await launchUrl(termsOfServiceUrl)) {
       throw 'Could not launch $termsOfServiceUrl';
     }
-  }
-  static Future<Uint8List> convertImagePathToUint8List(String imagePath) async {
-    return (await NetworkAssetBundle(Uri.parse(imagePath)).load(imagePath)).buffer.asUint8List();
-  }
-  static void showPreviewImage(BuildContext context, Uint8List image) {
-    showDialog(context: context, builder: (context) {
-      return ImagePreviewScreen(image: image);
-    });
-  }
-  static bool shouldHideCommentDate(DateTime thisCommentCreatedAt, DateTime? prevCommentCreatedAt) {
-    if(prevCommentCreatedAt == null) return false;
-    return thisCommentCreatedAt.difference(prevCommentCreatedAt).inDays == 0
-        && thisCommentCreatedAt.day == prevCommentCreatedAt.day;
   }
 }

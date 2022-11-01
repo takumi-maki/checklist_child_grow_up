@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 
 import '../../model/comment.dart';
 import '../../utils/firestore/rooms.dart';
-import 'my_comment_widget.dart';
-import 'someone_comment_widget.dart';
+import 'comment_detail_widget.dart';
+
 class CommentWidget extends StatefulWidget {
   final String roomId;
   final String checkListId;
@@ -54,9 +54,11 @@ class _CommentWidgetState extends State<CommentWidget> {
                     postAccountName: data['post_account_name'],
                     createdTime: data['created_time']
                   );
-                  return comment.postAccountId == currentFirebaseUser.uid
-                    ? MyCommentWidget(comment: comment, prevCommentCreatedTime: prevCommentCreatedTime)
-                    : SomeOneCommentWidget(comment: comment, prevCommentCreatedTime: prevCommentCreatedTime);
+                  return CommentDetailWidget(
+                    comment: comment,
+                    prevCommentCreatedTime: prevCommentCreatedTime,
+                    isMine: comment.postAccountId == currentFirebaseUser.uid
+                  );
                 }
               );
             } else {
