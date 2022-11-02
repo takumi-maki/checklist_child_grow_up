@@ -1,9 +1,8 @@
-
-import 'package:checklist_child_grow_up/model/tile.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/tile.dart';
 import '../../utils/firestore/authentications.dart';
-import '../../utils/function_utils.dart';
+import '../../utils/launch_url.dart';
 import '../../utils/widget_utils.dart';
 import '../start_up/login_page.dart';
 
@@ -15,6 +14,7 @@ class AboutAppPage extends StatefulWidget {
 }
 
 class _AboutAppPageState extends State<AboutAppPage> {
+  final launchUrl = LaunchUrl();
   @override
   Widget build(BuildContext context) {
     List<Tile> aboutAppContentList = [
@@ -22,21 +22,21 @@ class _AboutAppPageState extends State<AboutAppPage> {
         leading: const Icon(Icons.security),
         title: const Text('プライバシーポリシー'),
         onTap: () {
-          FunctionUtils.privacyPolicyLaunchUrl();
+          launchUrl.privacyPolicy();
         }
       ),
       Tile(
         leading: const Icon(Icons.description),
         title: const Text('利用規約'),
         onTap: () {
-          FunctionUtils.termsOfServiceLaunchUrl();
+          launchUrl.termsOfService();
         }
       ),
       Tile(
         leading: const Icon(Icons.contact_mail),
         title: const Text('お問い合わせ'),
         onTap: () {
-          FunctionUtils.contactFormLaunchUrl();
+          launchUrl.contactForm();
         }
       ),
       Tile(
