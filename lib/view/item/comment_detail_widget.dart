@@ -77,11 +77,36 @@ class _CommentDetailWidgetState extends State<CommentDetailWidget> {
                 },
                 child: Container(
                     constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width * 0.50
+                      maxWidth: MediaQuery.of(context).size.width * 0.50,
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12.0),
-                      child: Image.network(widget.comment.imagePath!)
+                      child: Image.network(
+                        widget.comment.imagePath!,
+                        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Container(
+                            width: MediaQuery.of(context).size.width * 0.50,
+                            height: MediaQuery.of(context).size.width * 0.40,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            child: Center(
+                              child: SizedBox(
+                                height: 20.0,
+                                width: 20.0,
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                    : null,
+                                  valueColor: AlwaysStoppedAnimation(Theme.of(context).colorScheme.secondary),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      )
                     ),
                 ),
               ),
