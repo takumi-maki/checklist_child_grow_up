@@ -40,12 +40,14 @@ class _TextInputWidgetState extends State<TextInputWidget> {
             : Stack(
               alignment: Alignment.topRight,
               children: [
-                Container(
-                  height: 150.0,
+                Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12.0),
-                    child: Image.file(image!)
+                    child: Image.file(
+                      image!,
+                      cacheHeight: 150,
+                    )
                   )
                 ),
                 Padding(
