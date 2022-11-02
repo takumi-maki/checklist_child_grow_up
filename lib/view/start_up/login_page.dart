@@ -1,5 +1,5 @@
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
-import 'package:checklist_child_grow_up/utils/function_utils.dart';
+import '../../utils/loading/change_button.dart';
 import 'package:checklist_child_grow_up/utils/validator.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/room/room_list_page.dart';
@@ -108,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                         ScaffoldMessenger.of(context).showSnackBar(
                             WidgetUtils.errorSnackBar('正しく入力されていない項目があります')
                         );
-                        return FunctionUtils.showErrorButtonFor4Seconds(btnController);
+                        return ChangeButton.showErrorFor4Seconds(btnController);
                       }
                       var signInResult = await AuthenticationFirestore.emailSignIn(email: emailController.text, password: passwordController.text);
                       if(signInResult is! UserCredential) {
@@ -116,16 +116,16 @@ class _LoginPageState extends State<LoginPage> {
                         ScaffoldMessenger.of(context).showSnackBar(
                             WidgetUtils.errorSnackBar(signInResult)
                         );
-                        return FunctionUtils.showErrorButtonFor4Seconds(btnController);
+                        return ChangeButton.showErrorFor4Seconds(btnController);
                       }
                       if(!signInResult.user!.emailVerified) {
                         if(!mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(
                             WidgetUtils.errorSnackBar('メール認証が終了していません')
                         );
-                        return FunctionUtils.showErrorButtonFor4Seconds(btnController);
+                        return ChangeButton.showErrorFor4Seconds(btnController);
                       }
-                      await FunctionUtils.showSuccessButtonFor1Seconds(btnController);
+                      await ChangeButton.showSuccessFor1Seconds(btnController);
                       if(!mounted) return;
                       Navigator.pushReplacement(
                           context,

@@ -1,4 +1,4 @@
-import 'package:checklist_child_grow_up/utils/function_utils.dart';
+import '../../utils/loading/change_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:checklist_child_grow_up/utils/validator.dart';
@@ -55,7 +55,7 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       WidgetUtils.errorSnackBar('正しく入力されていない項目があります')
                     );
-                    return FunctionUtils.showErrorButtonFor4Seconds(btnController);
+                    return ChangeButton.showErrorFor4Seconds(btnController);
                   }
                   if(emailController.text.isNotEmpty) {
                     DocumentSnapshot documentSnapshot = await RoomFirestore.rooms.doc(widget.roomId).get();
@@ -66,7 +66,7 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         WidgetUtils.errorSnackBar('既に登録済みのメールアドレスです')
                       );
-                      return FunctionUtils.showErrorButtonFor4Seconds(btnController);
+                      return ChangeButton.showErrorFor4Seconds(btnController);
                     }
                     newJoinedAccounts.add(emailController.text);
                     Room updateRoom = Room(
@@ -81,9 +81,9 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                       ScaffoldMessenger.of(context).showSnackBar(
                           WidgetUtils.errorSnackBar('メールアドレスの追加に失敗しました')
                       );
-                      return FunctionUtils.showErrorButtonFor4Seconds(btnController);
+                      return ChangeButton.showErrorFor4Seconds(btnController);
                     }
-                    await FunctionUtils.showSuccessButtonFor1Seconds(btnController);
+                    await ChangeButton.showSuccessFor1Seconds(btnController);
                     if(!mounted) return;
                     Navigator.pop(context);
                   }

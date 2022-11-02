@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../utils/firestore/authentications.dart';
-import '../../utils/function_utils.dart';
+import '../../utils/loading/change_button.dart';
 import '../../utils/loading/loading_button.dart';
 import '../../utils/validator.dart';
 import '../../utils/widget_utils.dart';
@@ -54,7 +54,7 @@ class _PasswordRestEmailPageState extends State<PasswordRestEmailPage> {
                         ScaffoldMessenger.of(context).showSnackBar(
                             WidgetUtils.errorSnackBar('正しく入力されていない項目があります')
                         );
-                        return FunctionUtils.showErrorButtonFor4Seconds(btnController);
+                        return ChangeButton.showErrorFor4Seconds(btnController);
                       }
                       var passwordRestResult = await AuthenticationFirestore.sendPasswordRestEmail(emailController.text);
                       if (passwordRestResult != 'success') {
@@ -62,9 +62,9 @@ class _PasswordRestEmailPageState extends State<PasswordRestEmailPage> {
                         ScaffoldMessenger.of(context).showSnackBar(
                             WidgetUtils.errorSnackBar(passwordRestResult)
                         );
-                        return FunctionUtils.showErrorButtonFor4Seconds(btnController);
+                        return ChangeButton.showErrorFor4Seconds(btnController);
                       }
-                      await FunctionUtils.showSuccessButtonFor1Seconds(btnController);
+                      await ChangeButton.showSuccessFor1Seconds(btnController);
                       if(!mounted) return;
                       Navigator.pop(context);
                     },

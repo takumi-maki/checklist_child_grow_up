@@ -1,4 +1,3 @@
-import 'package:checklist_child_grow_up/utils/function_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/model/room.dart';
 import 'package:checklist_child_grow_up/utils/firestore/check_lists.dart';
@@ -6,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../model/check_list.dart';
+import '../function_utils.dart';
 
 class RoomFirestore {
   static final _firebaseFireStore = FirebaseFirestore.instance;

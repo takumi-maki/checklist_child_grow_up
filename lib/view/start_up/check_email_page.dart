@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-import '../../utils/function_utils.dart';
+import '../../utils/loading/change_button.dart';
 
 class CheckEmailPage extends StatefulWidget {
   final String email;
@@ -68,16 +68,16 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       WidgetUtils.errorSnackBar(signInResult)
                     );
-                    return FunctionUtils.showErrorButtonFor4Seconds(btnController);
+                    return ChangeButton.showErrorFor4Seconds(btnController);
                   }
                   if(!signInResult.user!.emailVerified) {
                     if (!mounted) return;
                     ScaffoldMessenger.of(context).showSnackBar(
                       WidgetUtils.errorSnackBar('メール認証が終了していません')
                     );
-                    return FunctionUtils.showErrorButtonFor4Seconds(btnController);
+                    return ChangeButton.showErrorFor4Seconds(btnController);
                   }
-                  await FunctionUtils.showSuccessButtonFor1Seconds(btnController);
+                  await ChangeButton.showSuccessFor1Seconds(btnController);
                   if (!mounted) return;
                   Navigator.pushReplacement(
                     context,

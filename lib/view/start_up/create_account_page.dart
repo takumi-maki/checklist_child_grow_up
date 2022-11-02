@@ -1,6 +1,6 @@
 
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
-import 'package:checklist_child_grow_up/utils/function_utils.dart';
+import '../../utils/loading/change_button.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +88,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         WidgetUtils.errorSnackBar('正しく入力されていない項目があります')
                       );
-                      return FunctionUtils.showErrorButtonFor4Seconds(btnController);
+                      return ChangeButton.showErrorFor4Seconds(btnController);
                     }
                     var signUpResult = await AuthenticationFirestore.signUp(
                       name: nameController.text,
@@ -100,10 +100,10 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         WidgetUtils.errorSnackBar(signUpResult)
                       );
-                      return FunctionUtils.showErrorButtonFor4Seconds(btnController);
+                      return ChangeButton.showErrorFor4Seconds(btnController);
                     }
                     signUpResult.user!.sendEmailVerification();
-                    await FunctionUtils.showSuccessButtonFor1Seconds(btnController);
+                    await ChangeButton.showSuccessFor1Seconds(btnController);
                     if(!mounted) return;
                     Navigator.push(
                       context, MaterialPageRoute(

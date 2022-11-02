@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:checklist_child_grow_up/utils/function_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/check_lists.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
@@ -9,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../model/check_list.dart';
+import '../../utils/loading/change_button.dart';
 import '../../utils/loading/loading_button.dart';
 import 'comment_widget.dart';
 import 'congratulation_screen.dart';
@@ -89,9 +89,9 @@ class _ItemDetailState extends State<ItemDetail> {
                         ScaffoldMessenger.of(context).showSnackBar(
                             WidgetUtils.errorSnackBar('アイテム更新に失敗しました')
                         );
-                        return FunctionUtils.showErrorButtonFor4Seconds(btnController);
+                        return ChangeButton.showErrorFor4Seconds(btnController);
                       }
-                      await FunctionUtils.showSuccessButtonFor1Seconds(btnController);
+                      await ChangeButton.showSuccessFor1Seconds(btnController);
                       widget.item.isComplete ? null : await congratulationDialog();
                       if(!mounted) return;
                       Navigator.pop(context);

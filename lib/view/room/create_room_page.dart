@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
-import 'package:checklist_child_grow_up/utils/function_utils.dart';
+import '../../utils/loading/change_button.dart';
 import 'package:checklist_child_grow_up/utils/validator.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -73,7 +73,7 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       WidgetUtils.errorSnackBar('正しく入力されていない項目があります')
                     );
-                    return FunctionUtils.showErrorButtonFor4Seconds(btnController);
+                    return ChangeButton.showErrorFor4Seconds(btnController);
                   }
                   List<dynamic> joinedAccounts =  partnerEmailController.text.isEmpty
                       ? [loginUser.email]
@@ -90,9 +90,9 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       WidgetUtils.errorSnackBar('ルームの作成に失敗しました')
                     );
-                    return FunctionUtils.showErrorButtonFor4Seconds(btnController);
+                    return ChangeButton.showErrorFor4Seconds(btnController);
                   }
-                  await FunctionUtils.showSuccessButtonFor1Seconds(btnController);
+                  await ChangeButton.showSuccessFor1Seconds(btnController);
                   if(!mounted) return;
                   Navigator.pop(context);
                 },
