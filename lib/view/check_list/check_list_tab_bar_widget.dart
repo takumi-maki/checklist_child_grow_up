@@ -35,9 +35,11 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(80.0),
               child: TabBar(
-                labelColor: Colors.redAccent,
-                indicatorColor: Colors.redAccent,
+                labelColor: Theme.of(context).colorScheme.secondary,
+                labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+                indicatorColor: Theme.of(context).colorScheme.secondary,
                 unselectedLabelColor: Colors.black87,
+                unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal),
                 tabs: CheckList.tabBarList.map((tabBar) {
                   return SizedBox(
                     height: 70.0,

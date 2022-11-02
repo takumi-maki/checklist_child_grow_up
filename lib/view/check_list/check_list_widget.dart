@@ -44,8 +44,8 @@ class _CheckListWidgetState extends State<CheckListWidget> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                        child: Icon(Icons.star,
-                            color: item.isComplete ? Colors.yellow : Colors.black12
+                        child: Icon(Icons.check_circle,
+                          color: item.isComplete ? Theme.of(context).colorScheme.secondary : Colors.grey.shade300
                         ),
                       ),
                     ],

@@ -31,7 +31,7 @@ class _LoadingButtonState extends State<LoadingButton> {
         height: 36,
         width: 150,
         color: widget.color ?? Theme.of(context).colorScheme.secondary,
-        successColor: Colors.lightGreen,
+        successColor: widget.color ?? Theme.of(context).colorScheme.secondary,
         child: widget.child
     );
   }
