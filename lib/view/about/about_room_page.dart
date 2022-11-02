@@ -15,8 +15,12 @@ class AboutRoomPage extends StatefulWidget {
 }
 
 class _AboutRoomPageState extends State<AboutRoomPage> {
+  void showRoomDeleteAlertDialog() {
+    showDialog(context: context, barrierDismissible: false, builder: (context) {
+      return RoomDeleteAlertDialog(childName: widget.childName, roomId: widget.roomId);
+    });
+  }
   @override
-
   Widget build(BuildContext context) {
     List<Tile> aboutAppContentList = [
       Tile(
@@ -37,13 +41,7 @@ class _AboutRoomPageState extends State<AboutRoomPage> {
         leading: const Icon(Icons.delete),
         title: const Text('ルーム削除'),
         onTap: () {
-          showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) {
-            return RoomDeleteAlertDialog(childName: widget.childName, roomId: widget.roomId);
-            }
-          );
+          showRoomDeleteAlertDialog();
         }
       ),
     ];
