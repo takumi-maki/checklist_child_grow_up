@@ -17,6 +17,7 @@ class ItemDetailPage extends StatefulWidget {
 }
 
 class _ItemDetailPageState extends State<ItemDetailPage> {
+  ScrollController scrollController = ScrollController();
   late String itemImagePath;
 
   @override
@@ -71,6 +72,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                           roomId: widget.checkList.roomId,
                           checkListId: widget.checkList.id,
                           itemId: widget.item.id,
+                          scrollController: scrollController,
                         ),
                       ],
                     ),
@@ -78,8 +80,9 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                 ),
               ),
               TextInputWidget(
-                  item: widget.item,
-                  checkList: widget.checkList
+                item: widget.item,
+                checkList: widget.checkList,
+                scrollController: scrollController,
               )
             ],
           ),

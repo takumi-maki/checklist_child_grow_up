@@ -12,10 +12,12 @@ class CommentWidget extends StatefulWidget {
   final String roomId;
   final String checkListId;
   final String itemId;
+  final ScrollController scrollController;
   const CommentWidget({Key? key,
     required this.roomId,
     required this.checkListId,
     required this.itemId,
+    required this.scrollController
   }) : super(key: key);
 
   @override
@@ -41,6 +43,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                 );
               }
               return ListView.builder(
+                controller: widget.scrollController,
                 itemCount: commentSnapshot.data!.docs.length,
                 itemBuilder: (context, index) {
                   final Map<String, dynamic>? prevComment = (index > 0 ? commentSnapshot.data!.docs[index - 1].data() : null) as Map<String, dynamic>?;

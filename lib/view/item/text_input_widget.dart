@@ -17,7 +17,13 @@ import '../../utils/widget_utils.dart';
 class TextInputWidget extends StatefulWidget {
   final Item item;
   final CheckList checkList;
-  const TextInputWidget({Key? key, required this.item, required this.checkList}) : super(key: key);
+  final ScrollController scrollController;
+  const TextInputWidget({
+    Key? key,
+    required this.item,
+    required this.checkList,
+    required this.scrollController,
+  }) : super(key: key);
 
   @override
   State<TextInputWidget> createState() => _TextInputWidgetState();
@@ -141,7 +147,13 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                     commentController.clear();
                     if(!mounted) return;
                     FocusScope.of(context).unfocus();
+                    widget.scrollController.animateTo(
+                      widget.scrollController.position.maxScrollExtent,
+                      duration: const Duration(milliseconds: 1),
+                      curve: Curves.linear
+                    );
                   },
+
                   icon: const Icon(Icons.send),
                   iconSize: 28,
                   color: Colors.black54
