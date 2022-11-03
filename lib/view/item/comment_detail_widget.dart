@@ -100,7 +100,7 @@ class _CommentDetailWidgetState extends State<CommentDetailWidget> {
                                   value: loadingProgress.expectedTotalBytes != null
                                     ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
                                     : null,
-                                  valueColor: AlwaysStoppedAnimation(Theme.of(context).colorScheme.secondary),
+                                  valueColor: const AlwaysStoppedAnimation(Colors.amber),
                                 ),
                               ),
                             ),
