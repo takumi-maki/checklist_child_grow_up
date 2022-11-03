@@ -32,7 +32,7 @@ class RoomFirestore {
             'month': item['month'],
             'content': item['content'],
             'has_comment': false,
-            'is_complete': false,
+            'is_achieved': false,
           });
         }
         await CheckListFirestore.setNewCheckLists(batch, tabBar['type'], newRoomsDoc.id, newItems);

@@ -78,18 +78,18 @@ intToCheckListType(int value) {
 class Item {
   String id;
   int month;
-  bool isComplete;
+  bool isAchieved;
   String content;
   bool hasComment;
-  Timestamp? completedTime;
+  Timestamp? achievedTime;
 
   Item({
     required this.id,
     required this.month,
-    required this.isComplete,
+    required this.isAchieved,
     required this.content,
     required this.hasComment,
-    this.completedTime,
+    this.achievedTime,
   });
 }
 

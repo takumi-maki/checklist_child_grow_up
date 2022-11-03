@@ -20,10 +20,10 @@ class _CheckListWidgetState extends State<CheckListWidget> {
           Item item = Item(
               id: widget.checkList.items[index].id,
               month: widget.checkList.items[index].month,
-              isComplete: widget.checkList.items[index].isComplete,
+              isAchieved: widget.checkList.items[index].isAchieved,
               content: widget.checkList.items[index].content,
               hasComment: widget.checkList.items[index].hasComment,
-              completedTime: widget.checkList.items[index].completedTime
+              achievedTime: widget.checkList.items[index].achievedTime
           );
           return Column(
             children: [
@@ -32,8 +32,8 @@ class _CheckListWidgetState extends State<CheckListWidget> {
                 child: ListTile(
                   leading: Text('${item.month}ヶ月'),
                   title: Text(item.content),
-                  subtitle: item.completedTime != null
-                    ? Text('達成した日: ${DateFormat('yyyy/MM/dd').format(item.completedTime!.toDate())}')
+                  subtitle: item.achievedTime != null
+                    ? Text('達成した日: ${DateFormat('yyyy/MM/dd').format(item.achievedTime!.toDate())}')
                     : null,
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -45,7 +45,7 @@ class _CheckListWidgetState extends State<CheckListWidget> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 2.0),
                         child: Icon(Icons.check_circle,
-                          color: item.isComplete ? Theme.of(context).colorScheme.secondary : Colors.grey.shade300
+                          color: item.isAchieved ? Theme.of(context).colorScheme.secondary : Colors.grey.shade300
                         ),
                       ),
                     ],

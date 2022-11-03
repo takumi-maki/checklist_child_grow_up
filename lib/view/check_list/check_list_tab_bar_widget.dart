@@ -79,10 +79,10 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
                       Item item = Item(
                         id: element['id'],
                         month: element['month'],
-                        isComplete: element['is_complete'],
+                        isAchieved: element['is_achieved'],
                         content: element['content'],
                         hasComment: element['has_comment'],
-                        completedTime: element['completed_time']
+                        achievedTime: element['achieved_time']
                       );
                       items.add(item);
                     });

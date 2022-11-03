@@ -26,19 +26,19 @@ class CheckListFirestore {
         updatedItems.add({
           'id': item.id,
           'month': item.month,
-          'is_complete': item.isComplete,
+          'is_achieved': item.isAchieved,
           'content': item.content,
           'has_comment': true,
-          'completed_time': item.completedTime
+          'achieved_time': item.achievedTime
         });
       } else {
         updatedItems.add({
           'id': item.id,
           'month':item.month,
-          'is_complete': item.isComplete,
+          'is_achieved': item.isAchieved,
           'content': item.content,
           'has_comment': item.hasComment,
-          'completed_time': item.completedTime
+          'achieved_time': item.achievedTime
         });
       }
     }
@@ -63,19 +63,19 @@ class CheckListFirestore {
             updatedItems.add({
               'id': updateItem.id,
               'month': updateItem.month,
-              'is_complete': updateItem.isComplete,
+              'is_achieved': updateItem.isAchieved,
               'content': updateItem.content,
               'has_comment': updateItem.hasComment,
-              'completed_time': updateItem.completedTime
+              'achieved_time': updateItem.achievedTime
             });
           } else {
             updatedItems.add({
               'id': item['id'],
               'month': item['month'],
-              'is_complete': item['is_complete'],
+              'is_achieved': item['is_achieved'],
               'content': item['content'],
               'has_comment': item['has_comment'],
-              'completed_time': item['completed_time']
+              'achieved_time': item['achieved_time']
             });
           }
         }

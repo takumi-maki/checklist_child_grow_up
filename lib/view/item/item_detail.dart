@@ -78,10 +78,10 @@ class _ItemDetailState extends State<ItemDetail> {
                       Item updateItem = Item(
                           id: widget.item.id,
                           month: widget.item.month,
-                          isComplete: widget.item.isComplete ? false : true,
+                          isAchieved: widget.item.isAchieved ? false : true,
                           content: widget.item.content,
                           hasComment: widget.item.hasComment,
-                          completedTime: widget.item.isComplete ? null : Timestamp.now()
+                          achievedTime: widget.item.isAchieved ? null : Timestamp.now()
                       );
                       var result = await CheckListFirestore.updateItem(updateItem, widget.checkList);
                       if (!result) {
@@ -92,19 +92,18 @@ class _ItemDetailState extends State<ItemDetail> {
                         return ChangeButton.showErrorFor4Seconds(btnController);
                       }
                       await ChangeButton.showSuccessFor1Seconds(btnController);
-                      widget.item.isComplete ? null : await congratulationDialog();
+                      widget.item.isAchieved ? null : await congratulationDialog();
                       if(!mounted) return;
                       Navigator.pop(context);
                     },
-                    color: widget.item.isComplete ? Colors.white70 : Theme.of(context).colorScheme.secondary,
-                    child: widget.item.isComplete ? const Text('達成をキャンセル', style: TextStyle(color: Colors.black54),) : const Text('達成')
+                    color: widget.item.isAchieved ? Colors.white70 : Theme.of(context).colorScheme.secondary,
+                    child: widget.item.isAchieved ? const Text('達成をキャンセル', style: TextStyle(color: Colors.black54),) : const Text('達成')
                   ),
                   const SizedBox(height: 16.0),
                   const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
                       child: Divider()
                   ),
-
                   CommentWidget(
                     roomId: widget.checkList.roomId,
                     checkListId: widget.checkList.id,
