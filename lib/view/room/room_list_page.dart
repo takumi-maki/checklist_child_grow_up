@@ -41,38 +41,40 @@ class _RoomListPageState extends State<RoomListPage> {
                     ),
                 );
               }
-              return Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: roomSnapshot.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        Map<String, dynamic> data = roomSnapshot.data!.docs[index].data() as Map<String, dynamic>;
-                        return Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
-                              leading: Image.asset('assets/images/hiyoko_up.png', height: 36),
-                              title: Text('${data['child_name']} のルーム'),
-                              trailing: const Icon(Icons.arrow_forward_ios),
-                              textColor: Colors.black87,
-                              iconColor: Colors.black87,
-                              onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) => RoomTabBarWidget(
-                                        childName: data['child_name'],
-                                        roomId: roomSnapshot.data!.docs[index].id)
-                                    )
-                                );
-                              },
+              return SafeArea(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: roomSnapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          Map<String, dynamic> data = roomSnapshot.data!.docs[index].data() as Map<String, dynamic>;
+                          return Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListTile(
+                                leading: Image.asset('assets/images/hiyoko_up.png', height: 36),
+                                title: Text('${data['child_name']} のルーム'),
+                                trailing: const Icon(Icons.arrow_forward_ios),
+                                textColor: Colors.black87,
+                                iconColor: Colors.black87,
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) => RoomTabBarWidget(
+                                          childName: data['child_name'],
+                                          roomId: roomSnapshot.data!.docs[index].id)
+                                      )
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-                        );
-                      }
+                          );
+                        }
+                      ),
                     ),
-                  ),
-                  const AdBanner(),
-                ],
+                    const AdBanner(),
+                  ],
+                ),
               );
           } else {
             return const SizedBox();

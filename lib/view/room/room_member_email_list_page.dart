@@ -23,25 +23,27 @@ class _RoomMemberEmailListPageState extends State<RoomMemberEmailListPage> {
         builder: (context, roomSnapshot) {
           if(roomSnapshot.hasData) {
             List<dynamic> emailList = roomSnapshot.data!['joined_accounts'];
-            return Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                      itemCount: emailList.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
-                              leading: Image.asset('assets/images/chicken.png', height: 36),
-                              title: Text(emailList[index]),
+            return SafeArea(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                        itemCount: emailList.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListTile(
+                                leading: Image.asset('assets/images/chicken.png', height: 36),
+                                title: Text(emailList[index]),
+                              ),
                             ),
-                          ),
-                        );
-                      }),
-                ),
-                const AdBanner(),
-              ],
+                          );
+                        }),
+                  ),
+                  const AdBanner(),
+                ],
+              ),
             );
           } else {
             return const SizedBox();
