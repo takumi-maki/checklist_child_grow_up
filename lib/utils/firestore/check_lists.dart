@@ -49,7 +49,7 @@ class CheckListFirestore {
     });
   }
 
-  static Future<bool> updateItem(Item updateItem,  CheckList checkList) async {
+  static Future<bool> updateItem(Item updatedItem,  CheckList checkList) async {
     try {
       DocumentReference<Map<String, dynamic>> documentReference = _firebaseFirestore
           .collection('rooms').doc(checkList.roomId)
@@ -59,14 +59,14 @@ class CheckListFirestore {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         List itemList = data['items'];
         for (var item in itemList) {
-          if(item['id'] == updateItem.id) {
+          if(item['id'] == updatedItem.id) {
             updatedItems.add({
-              'id': updateItem.id,
-              'month': updateItem.month,
-              'is_achieved': updateItem.isAchieved,
-              'content': updateItem.content,
-              'has_comment': updateItem.hasComment,
-              'achieved_time': updateItem.achievedTime
+              'id': updatedItem.id,
+              'month': updatedItem.month,
+              'is_achieved': updatedItem.isAchieved,
+              'content': updatedItem.content,
+              'has_comment': updatedItem.hasComment,
+              'achieved_time': updatedItem.achievedTime
             });
           } else {
             updatedItems.add({
