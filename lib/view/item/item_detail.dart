@@ -24,8 +24,13 @@ class ItemDetail extends StatefulWidget {
 
 class _ItemDetailState extends State<ItemDetail> {
   final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
-  final int textInputWidgetHeight = 70;
   late String itemImagePath;
+
+  @override
+  void initState() {
+    super.initState();
+    itemImagePath = getItemImagePath();
+  }
 
   String getItemImagePath() {
     final CheckListType checkListType = intToCheckListType(1);
@@ -45,77 +50,77 @@ class _ItemDetailState extends State<ItemDetail> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    itemImagePath = getItemImagePath();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: WidgetUtils.createAppBar(context, 'アイテム詳細'),
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height - textInputWidgetHeight,
-              child: Column(
-                children: [
-                  const SizedBox(height: 10),
-                  Center(child: Image.asset(itemImagePath, height: 80)),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10.0),
-                    child: Text('「　${widget.item.content}　」',
-                      style: Theme.of(context).textTheme.subtitle1,
-                      textAlign: TextAlign.center,
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.76,
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 10),
+                        Center(child: Image.asset(itemImagePath, height: 80)),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10.0),
+                          child: Text('「　${widget.item.content}　」',
+                            style: Theme.of(context).textTheme.subtitle1,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        LoadingButton(
+                          btnController: btnController,
+                          onPressed: () async {
+                            Item updateItem = Item(
+                                id: widget.item.id,
+                                month: widget.item.month,
+                                isAchieved: widget.item.isAchieved ? false : true,
+                                content: widget.item.content,
+                                hasComment: widget.item.hasComment,
+                                achievedTime: widget.item.isAchieved ? null : Timestamp.now()
+                            );
+                            var result = await CheckListFirestore.updateItem(updateItem, widget.checkList);
+                            if (!result) {
+                              if(!mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  WidgetUtils.errorSnackBar('アイテム更新に失敗しました')
+                              );
+                              return ChangeButton.showErrorFor4Seconds(btnController);
+                            }
+                            await ChangeButton.showSuccessFor1Seconds(btnController);
+                            widget.item.isAchieved ? null : await congratulationDialog();
+                            if(!mounted) return;
+                            Navigator.pop(context);
+                          },
+                          color: widget.item.isAchieved ? Colors.white70 : Theme.of(context).colorScheme.secondary,
+                          child: widget.item.isAchieved ? const Text('達成をキャンセル', style: TextStyle(color: Colors.black54),) : const Text('達成')
+                        ),
+                        const SizedBox(height: 16.0),
+                        const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+                            child: Divider()
+                        ),
+                        CommentWidget(
+                          roomId: widget.checkList.roomId,
+                          checkListId: widget.checkList.id,
+                          itemId: widget.item.id,
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  LoadingButton(
-                    btnController: btnController,
-                    onPressed: () async {
-                      Item updateItem = Item(
-                          id: widget.item.id,
-                          month: widget.item.month,
-                          isAchieved: widget.item.isAchieved ? false : true,
-                          content: widget.item.content,
-                          hasComment: widget.item.hasComment,
-                          achievedTime: widget.item.isAchieved ? null : Timestamp.now()
-                      );
-                      var result = await CheckListFirestore.updateItem(updateItem, widget.checkList);
-                      if (!result) {
-                        if(!mounted) return;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            WidgetUtils.errorSnackBar('アイテム更新に失敗しました')
-                        );
-                        return ChangeButton.showErrorFor4Seconds(btnController);
-                      }
-                      await ChangeButton.showSuccessFor1Seconds(btnController);
-                      widget.item.isAchieved ? null : await congratulationDialog();
-                      if(!mounted) return;
-                      Navigator.pop(context);
-                    },
-                    color: widget.item.isAchieved ? Colors.white70 : Theme.of(context).colorScheme.secondary,
-                    child: widget.item.isAchieved ? const Text('達成をキャンセル', style: TextStyle(color: Colors.black54),) : const Text('達成')
-                  ),
-                  const SizedBox(height: 16.0),
-                  const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-                      child: Divider()
-                  ),
-                  CommentWidget(
-                    roomId: widget.checkList.roomId,
-                    checkListId: widget.checkList.id,
-                    itemId: widget.item.id,
-                  ),
-                  TextInputWidget(
-                    item: widget.item,
-                    checkList: widget.checkList
-                  )
-                ],
+                ),
               ),
-            ),
+              TextInputWidget(
+                  item: widget.item,
+                  checkList: widget.checkList
+              )
+            ],
           ),
         ),
       ),
