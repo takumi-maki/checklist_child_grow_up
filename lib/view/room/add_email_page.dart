@@ -42,7 +42,7 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                     return Validator.getEmailRegValidatorMessage(value);
                   },
                   decoration: const InputDecoration(
-                    labelText: 'メールアドレス (必須)',
+                    labelText: 'メールアドレス',
                     labelStyle: TextStyle(fontSize: 14),
                   ),
                 ),

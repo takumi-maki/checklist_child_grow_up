@@ -45,7 +45,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       return Validator.getRequiredValidatorMessage(value);
                     },
                     decoration: const InputDecoration(
-                      labelText: 'ユーザ名 (必須)',
+                      labelText: 'ユーザ名',
                       labelStyle: TextStyle(fontSize: 14),
                     ),
                   ),
@@ -60,7 +60,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         return Validator.getEmailRegValidatorMessage(value);
                       },
                       decoration: const InputDecoration(
-                        labelText: 'メールアドレス (必須)',
+                        labelText: 'メールアドレス',
                         labelStyle: TextStyle(fontSize: 14),
                       ),
                     ),
@@ -75,7 +75,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     },
                     obscureText: true,
                     decoration: const InputDecoration(
-                      labelText: 'パスワード (必須)',
+                      labelText: 'パスワード',
                       labelStyle: TextStyle(fontSize: 14),
                     ),
                   ),
