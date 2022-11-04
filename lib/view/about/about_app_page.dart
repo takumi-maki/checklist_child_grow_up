@@ -44,9 +44,13 @@ class _AboutAppPageState extends State<AboutAppPage> {
         title: const Text('ログアウト'),
         onTap: () {
           AuthenticationFirestore.signOut();
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-            return const LoginPage();
-          }));
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return const LoginPage();
+            }),
+            (_) => false
+          );
         }
       ),
     ];

@@ -79,11 +79,12 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
                   }
                   await ChangeButton.showSuccessFor1Seconds(btnController);
                   if (!mounted) return;
-                  Navigator.pushReplacement(
+                  Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const RoomListPage()
-                    )
+                      builder: (context) => const RoomListPage()
+                    ),
+                    (_) => false
                   );
                 },
                 child: const Text('ログイン')

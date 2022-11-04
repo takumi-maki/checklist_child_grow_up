@@ -153,7 +153,6 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                       curve: Curves.linear
                     );
                   },
-
                   icon: const Icon(Icons.send),
                   iconSize: 28,
                   color: Colors.black54
