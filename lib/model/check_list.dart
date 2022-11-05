@@ -44,7 +44,7 @@ enum CheckListType {
   life
 }
 
-checkListTypeToInt(CheckListType type) {
+int checkListTypeToInt(CheckListType type) {
   switch (type) {
     case CheckListType.body:
       return 0;
@@ -59,7 +59,7 @@ checkListTypeToInt(CheckListType type) {
   }
 }
 
-intToCheckListType(int value) {
+CheckListType intToCheckListType(int value) {
   switch (value) {
     case 0:
       return CheckListType.body;
