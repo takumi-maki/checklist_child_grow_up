@@ -30,26 +30,21 @@ class _CheckListWidgetState extends State<CheckListWidget> {
               index != 0 && index % 5 == 0 ? const AdBanner() : const SizedBox(),
               Card(
                 child: ListTile(
-                  leading: Text('${item.month}ヶ月'),
+                  leading: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.check_circle,
+                          color: item.isAchieved ? Theme.of(context).colorScheme.secondary : Colors.grey.shade300
+                      ),
+                      const SizedBox(width: 16.0),
+                      Text('${item.month}ヶ月'),
+                    ],
+                  ),
                   title: Text(item.content),
                   subtitle: item.achievedTime != null
                     ? Text('達成した日: ${DateFormat('yyyy/MM/dd').format(item.achievedTime!.toDate())}')
                     : null,
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                          child: item.hasComment ? const Icon(Icons.chat, color: Colors.black54) : null
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                        child: Icon(Icons.check_circle,
-                          color: item.isAchieved ? Theme.of(context).colorScheme.secondary : Colors.grey.shade300
-                        ),
-                      ),
-                    ],
-                  ),
+                  trailing: item.hasComment ? const Icon(Icons.chat, color: Colors.black54) : null,
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) =>
                         ItemDetailPage(checkList: widget.checkList, item: item),

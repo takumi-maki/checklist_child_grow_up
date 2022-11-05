@@ -55,7 +55,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 18.0, top: 10.0, right: 18.0),
-                          child: Text('「　${widget.item.content}　」',
+                          child: Text(widget.item.content,
                             style: Theme.of(context).textTheme.titleLarge,
                             textAlign: TextAlign.center,
                           ),
