@@ -34,11 +34,11 @@ class _LoadingGestureDetectorState extends State<LoadingGestureDetector> {
           alignment: Alignment.center,
           children: [
             widget.child,
-            SizedBox(
+            const SizedBox(
               height: 20,
               width: 20,
               child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(Theme.of(context).colorScheme.secondary),
+                valueColor: AlwaysStoppedAnimation(Colors.amber),
               ),
             )
           ]

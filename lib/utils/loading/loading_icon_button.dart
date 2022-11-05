@@ -21,19 +21,30 @@ class _LoadingIconButtonState extends State<LoadingIconButton> {
   bool _sending = false;
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: _sending ? null : () async {
-        setState(() {
-          _sending = true;
-        });
-        await widget.onPressed();
-        setState(() {
-          _sending = false;
-        });
-      },
-      icon: widget.icon,
-      iconSize: widget.iconSize,
-      color: widget.color,
-    );
+    return _sending
+      ? const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        child: SizedBox(
+          height: 16.0,
+          width: 16.0,
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation(Colors.amber),
+          ),
+        ),
+      )
+      : IconButton(
+        onPressed: () async {
+          setState(() {
+            _sending = true;
+          });
+          await widget.onPressed();
+          setState(() {
+            _sending = false;
+          });
+        },
+        icon: _sending ? const Icon(Icons.hourglass_top) : widget.icon,
+        iconSize: widget.iconSize,
+        color: widget.color,
+      );
   }
 }
