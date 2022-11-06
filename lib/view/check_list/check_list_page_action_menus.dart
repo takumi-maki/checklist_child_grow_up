@@ -22,6 +22,16 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
       child: PopupMenuButton<CheckListPopupMenuItem>(
         onSelected: (CheckListPopupMenuItem value) {
           switch(value) {
+            case CheckListPopupMenuItem.aboutCheckList:
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) {
+                        return const AboutCheckListPage();
+                      }
+                  )
+              );
+              break;
             case CheckListPopupMenuItem.aboutRoom:
               Navigator.push(context,
                   MaterialPageRoute(
@@ -29,16 +39,6 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
                         return AboutRoomPage(childName: widget.childName, roomId: widget.roomId);
                       }
                   )
-              );
-              break;
-            case CheckListPopupMenuItem.aboutCheckList:
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const AboutCheckListPage();
-                  }
-                )
               );
               break;
             case CheckListPopupMenuItem.aboutApp:
@@ -54,23 +54,23 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
         },
         itemBuilder: (context) => <PopupMenuEntry<CheckListPopupMenuItem>>[
           PopupMenuItem(
-              value: CheckListPopupMenuItem.aboutRoom,
-              child: Row(
-                children: [
-                  const Icon(Icons.room_preferences),
-                  const SizedBox(width: 15.0),
-                  Text('ルームについて', style: Theme.of(context).textTheme.bodyText1),
-                ],
-              )
-          ),
-          const PopupMenuDivider(),
-          PopupMenuItem(
               value: CheckListPopupMenuItem.aboutCheckList,
               child: Row(
                 children: [
                   const Icon(Icons.checklist),
                   const SizedBox(width: 15.0),
                   Text('成長のチェックリストについて', style: Theme.of(context).textTheme.bodyText1),
+                ],
+              )
+          ),
+          const PopupMenuDivider(),
+          PopupMenuItem(
+              value: CheckListPopupMenuItem.aboutRoom,
+              child: Row(
+                children: [
+                  const Icon(Icons.room_preferences),
+                  const SizedBox(width: 15.0),
+                  Text('ルームについて', style: Theme.of(context).textTheme.bodyText1),
                 ],
               )
           ),

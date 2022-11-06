@@ -10,6 +10,8 @@ class AboutCheckListPage extends StatefulWidget {
 }
 
 class _AboutCheckListPageState extends State<AboutCheckListPage> {
+  final double _horizontalMargin = 40.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,22 +22,22 @@ class _AboutCheckListPageState extends State<AboutCheckListPage> {
             children: [
 
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: _horizontalMargin),
                 child: Image.asset('assets/images/hiyoko_pen_skeleton.png', height: 100)
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
-                child: Text(
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: _horizontalMargin),
+                child: const Text(
                   '　成長のチェックリストは、わが子の成長の段階と、次のステップを知るために使います。月齢は目安です。'
                   '早ければ良いというわけではありません。',
                 )
               ),
-              const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 16.0),
-                  child: Divider()
+              Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: _horizontalMargin),
+                  child: const Divider()
               ),
               Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
+                  padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: _horizontalMargin),
                   child: Row(
                     children: [
                       Icon(Icons.bookmark, color: Theme.of(context).colorScheme.secondary),
@@ -53,7 +55,7 @@ class _AboutCheckListPageState extends State<AboutCheckListPage> {
                   )
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: _horizontalMargin),
                 child: RichText(
                     text: TextSpan(
                       style: Theme.of(context).textTheme.bodyText1,
@@ -73,20 +75,20 @@ class _AboutCheckListPageState extends State<AboutCheckListPage> {
                     )
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
-                child: Text(
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: _horizontalMargin),
+                child: const Text(
                   '　たとえば、わが子が生後5ヶ月だったとしましょう。チェックリストの5ヶ月を横に見ていきます。'
                   '「そろそろ、寝返りを打つころで、自分の手を見るようになり、話している人の目を見るようになり、'
                   '鏡に映るものに興味をしめすらしい」と、わが子の今の段階が見えてきます。',
                 )
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 16.0),
-                child: Divider(),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 26.0, horizontal: _horizontalMargin),
+                child: const Divider(),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: _horizontalMargin),
                 child: Row(
                   children: [
                     Icon(Icons.bookmark, color: Theme.of(context).colorScheme.secondary),
@@ -103,16 +105,16 @@ class _AboutCheckListPageState extends State<AboutCheckListPage> {
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
-                child: Text(
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: _horizontalMargin),
+                child: const Text(
                   '　「うちの子8カ月なのに、もう、つかまり立ちしようとしているわ！なんて早いんでしょう！'
                   '歩行器に座らせたら歩くんじゃないかしら？」、これは誤りです。'
                   '「子どもの成長は早ければ良い！」という考えは捨てましょう。'
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 6.0),
+                padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: _horizontalMargin),
                 child: RichText(
                   text: TextSpan(
                     style: Theme.of(context).textTheme.bodyText1,
@@ -127,9 +129,9 @@ class _AboutCheckListPageState extends State<AboutCheckListPage> {
                   )
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
-                child: Text(
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: _horizontalMargin),
+                child: const Text(
                   '　ハイハイの期間が長くても、それには理由があるのです。今は、両手で床をしっかり押して、'
                   'お尻を上げて、ハイハイを一生懸命練習している最中なのです。'
                   'この段階が充実してこそ、次のつかまり立ちに移っていけるのです。大人が早くて歩いて欲しいからといって、'
@@ -139,7 +141,7 @@ class _AboutCheckListPageState extends State<AboutCheckListPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: _horizontalMargin),
                 child: RichText(
                   text: TextSpan(
                     style: Theme.of(context).textTheme.bodyText1,
@@ -156,29 +158,29 @@ class _AboutCheckListPageState extends State<AboutCheckListPage> {
                   )
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
-                child: Text(
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: _horizontalMargin),
+                child: const Text(
                   '　その上で、次の成長段階に目を向けます。時が来れば、子どもは自分の判断で、'
                   '次のステップへと進みます。それは大人が強制できるものではありません。大人にできるのは、'
                   '「子どもが一人でできるようにお手伝いすること」だけなのです。',
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
-                child: Text(
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: _horizontalMargin),
+                child: const Text(
                   '　今、ハイハイを一生懸命していたら、次のつかまり立ちに移行しやすいように、'
                   '適切な高さで安定性の良い棚などを、そっと置いておいてあげる。これが環境を整えるということなのです。'
                   'このようにチェックリストは次の成長のステップを知るために活用してください。',
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 16.0),
-                child: Divider(),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 26.0, horizontal: _horizontalMargin),
+                child: const Divider(),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
-                child: Text(
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: _horizontalMargin),
+                child: const Text(
                   '( 出典: 藤崎達宏、'
                   '『０～３歳までの実践版 モンテッソーリ教育で才能をぐんぐん伸ばす！』、'
                   '三笠書房、 2018、p.246、(ISBN: 9784837927525) )',
