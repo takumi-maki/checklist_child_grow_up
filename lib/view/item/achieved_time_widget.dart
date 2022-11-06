@@ -76,8 +76,9 @@ class _AchievedTimeWidgetState extends State<AchievedTimeWidget> {
                 );
                 return;
               }
-              if(!mounted) return;
-              Navigator.pop(context);
+              setState(() {
+                widget.item.achievedTime = modifiedAchievedTime;
+              });
             },
             icon: const Icon(Icons.edit_calendar, size: 18.0, color: Colors.black54))
         ],
