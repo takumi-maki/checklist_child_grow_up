@@ -14,46 +14,52 @@ class AboutAppPage extends StatefulWidget {
 }
 
 class _AboutAppPageState extends State<AboutAppPage> {
-  final launchUrl = LaunchUrl();
+  late List<Tile> aboutAppContentList;
+
   @override
-  Widget build(BuildContext context) {
-    List<Tile> aboutAppContentList = [
+  void initState() {
+    super.initState();
+    final launchUrl = LaunchUrl();
+    aboutAppContentList = [
       Tile(
-        leading: const Icon(Icons.security),
-        title: const Text('プライバシーポリシー'),
-        onTap: () {
-          launchUrl.privacyPolicy();
-        }
+          leading: const Icon(Icons.security),
+          title: const Text('プライバシーポリシー'),
+          onTap: () {
+            launchUrl.privacyPolicy();
+          }
       ),
       Tile(
-        leading: const Icon(Icons.description),
-        title: const Text('利用規約'),
-        onTap: () {
-          launchUrl.termsOfService();
-        }
+          leading: const Icon(Icons.description),
+          title: const Text('利用規約'),
+          onTap: () {
+            launchUrl.termsOfService();
+          }
       ),
       Tile(
-        leading: const Icon(Icons.contact_mail),
-        title: const Text('お問い合わせ'),
-        onTap: () {
-          launchUrl.contactForm();
-        }
+          leading: const Icon(Icons.contact_mail),
+          title: const Text('お問い合わせ'),
+          onTap: () {
+            launchUrl.contactForm();
+          }
       ),
       Tile(
-        leading: const Icon(Icons.logout),
-        title: const Text('ログアウト'),
-        onTap: () {
-          AuthenticationFirestore.signOut();
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) {
-              return const LoginPage();
-            }),
-            (_) => false
-          );
-        }
+          leading: const Icon(Icons.logout),
+          title: const Text('ログアウト'),
+          onTap: () {
+            AuthenticationFirestore.signOut();
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  return const LoginPage();
+                }),
+                    (_) => false
+            );
+          }
       ),
     ];
+  }
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: WidgetUtils.createAppBar(context, 'アプリについて'),
       body: ListView.builder(
