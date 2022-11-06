@@ -17,21 +17,27 @@ class AdBanner extends StatefulWidget {
 }
 
 class _AdBannerState extends State<AdBanner> {
+  late BannerAd banner;
+
+  @override
+  void initState() {
+    super.initState();
+    banner = BannerAd(
+        size: AdSize.fullBanner,
+        adUnitId: AdBanner.unitId,
+        listener: BannerAdListener(
+          onAdLoaded: (Ad ad) => debugPrint('Banner was loaded'),
+          onAdFailedToLoad: (Ad ad, LoadAdError error) {
+            debugPrint('Banner Ad failed to load: $error');
+          },
+          onAdOpened: (Ad ad) => debugPrint('Banner Ad opened'),
+          onAdClosed: (Ad ad) => debugPrint('Banner Ad closed'),
+        ),
+        request: const AdRequest()
+    ) ..load();
+  }
   @override
   Widget build(BuildContext context) {
-    final banner = BannerAd(
-      size: AdSize.fullBanner,
-      adUnitId: AdBanner.unitId,
-      listener: BannerAdListener(
-        onAdLoaded: (Ad ad) => debugPrint('Banner was loaded'),
-        onAdFailedToLoad: (Ad ad, LoadAdError error) {
-          debugPrint('Banner Ad failed to load: $error');
-        },
-        onAdOpened: (Ad ad) => debugPrint('Banner Ad opened'),
-        onAdClosed: (Ad ad) => debugPrint('Banner Ad closed'),
-      ),
-      request: const AdRequest()
-    ) ..load();
     return SizedBox(
       width: double.infinity,
       height: 64.0,
