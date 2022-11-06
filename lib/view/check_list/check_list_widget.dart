@@ -27,7 +27,7 @@ class _CheckListWidgetState extends State<CheckListWidget> {
           );
           return Column(
             children: [
-              index != 0 && index % 5 == 0 ? const AdBanner() : const SizedBox(),
+              index != 0 && index % 7 == 0 ? const AdBanner() : const SizedBox(),
               Card(
                 child: ListTile(
                   leading: Row(
