@@ -15,51 +15,60 @@ class AboutRoomPage extends StatefulWidget {
 }
 
 class _AboutRoomPageState extends State<AboutRoomPage> {
+  late List<Tile> aboutRoomContentList;
+
+  @override
+  void initState() {
+    super.initState();
+    aboutRoomContentList = [
+      Tile(
+          leading: const Icon(Icons.people),
+          title: const Text('登録中のメールアドレス一覧'),
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(
+                    builder: (context) {
+                      return RoomMemberEmailListPage(roomId: widget.roomId);
+                    }
+                )
+            );
+          }
+      ),
+      Tile(
+          id: 'deleteRoom',
+          leading: const Icon(Icons.delete),
+          title: const Text('ルーム削除'),
+          onTap: () {
+            showRoomDeleteAlertDialog();
+          }
+      ),
+    ];
+  }
+
   void showRoomDeleteAlertDialog() {
     showDialog(context: context, barrierDismissible: false, builder: (context) {
       return RoomDeleteAlertDialog(childName: widget.childName, roomId: widget.roomId);
     });
   }
+
   @override
   Widget build(BuildContext context) {
-    List<Tile> aboutAppContentList = [
-      Tile(
-        leading: const Icon(Icons.people),
-        title: const Text('登録中のメールアドレス一覧'),
-        onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(
-                  builder: (context) {
-                    return RoomMemberEmailListPage(roomId: widget.roomId);
-                  }
-              )
-          );
-        }
-      ),
-      Tile(
-        id: 'deleteRoom',
-        leading: const Icon(Icons.delete),
-        title: const Text('ルーム削除'),
-        onTap: () {
-          showRoomDeleteAlertDialog();
-        }
-      ),
-    ];
+
     return Scaffold(
       appBar: WidgetUtils.createAppBar(context, 'ルームについて'),
       body: ListView.builder(
-          itemCount: aboutAppContentList.length,
+          itemCount: aboutRoomContentList.length,
           itemBuilder: (context, index) {
             return Card(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListTile(
-                  leading: aboutAppContentList[index].leading,
-                  title: aboutAppContentList[index].title,
+                  leading: aboutRoomContentList[index].leading,
+                  title: aboutRoomContentList[index].title,
                   trailing: const Icon(Icons.arrow_forward_ios),
-                  iconColor: aboutAppContentList[index].id == 'deleteRoom' ? Colors.red : Colors.black87,
-                  textColor: aboutAppContentList[index].id == 'deleteRoom' ? Colors.red : Colors.black87,
-                  onTap: aboutAppContentList[index].onTap,
+                  iconColor: aboutRoomContentList[index].id == 'deleteRoom' ? Colors.red : Colors.black87,
+                  textColor: aboutRoomContentList[index].id == 'deleteRoom' ? Colors.red : Colors.black87,
+                  onTap: aboutRoomContentList[index].onTap,
                 ),
               ),
             );
