@@ -16,6 +16,7 @@ class AchievedTimeWidget extends StatefulWidget {
 }
 
 class _AchievedTimeWidgetState extends State<AchievedTimeWidget> {
+  final DateTime currentTime = DateTime.now();
 
   Future<Timestamp?> modifyAchievedTime(DateTime achievedDate) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -60,6 +61,13 @@ class _AchievedTimeWidgetState extends State<AchievedTimeWidget> {
             onPressed: () async {
               final Timestamp? modifiedAchievedTime = await modifyAchievedTime(widget.item.achievedTime!.toDate());
               if (modifiedAchievedTime == null) return;
+              if (currentTime.isBefore(modifiedAchievedTime.toDate())) {
+                if (!mounted) return;
+                ScaffoldMessenger.of(context).showSnackBar(
+                    WidgetUtils.errorSnackBar('達成した日は本日以前に修正してください')
+                );
+                return;
+              }
               Item updatedItem = Item(
                 id: widget.item.id,
                 month: widget.item.month,
