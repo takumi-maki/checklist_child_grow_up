@@ -142,6 +142,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                     }
                     setState(() {
                       image = null;
+                      widget.item.hasComment = true;
                     });
                     imagePath = null;
                     commentController.clear();
