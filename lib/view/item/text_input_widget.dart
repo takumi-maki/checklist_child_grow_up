@@ -140,11 +140,10 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                       );
                       return;
                     }
-                    setState(() {
-                      image = null;
-                      widget.item.hasComment = true;
-                    });
+                    widget.item.hasComment = true;
+                    image = null;
                     imagePath = null;
+                    setState(() {});
                     commentController.clear();
                     if(!mounted) return;
                     FocusScope.of(context).unfocus();
