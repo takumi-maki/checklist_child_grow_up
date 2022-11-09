@@ -61,7 +61,7 @@ class _AchievementButtonWidgetState extends State<AchievementButtonWidget> {
             : await showDialog(context: context, builder: (context) {
               return CongratulationScreen(itemContent: widget.item.content);
             });
-          random.nextInt(29) == 0 ? ad.showRewardedAd() : null;
+          !widget.item.isAchieved && random.nextInt(29) == 0 ? ad.showRewardedAd() : null;
           if(!mounted) return;
           Navigator.pop(context);
         },
