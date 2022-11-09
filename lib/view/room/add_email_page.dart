@@ -22,6 +22,11 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
   final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
   final formKey = GlobalKey<FormState>();
 
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

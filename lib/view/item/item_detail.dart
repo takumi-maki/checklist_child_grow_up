@@ -26,6 +26,12 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
     itemImagePath = getItemImagePath();
   }
 
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
   String getItemImagePath() {
     final CheckListType checkListType = intToCheckListType(widget.checkList.type);
     final Map<dynamic, dynamic> result = CheckList.tabBarList.firstWhere((tabBar) {

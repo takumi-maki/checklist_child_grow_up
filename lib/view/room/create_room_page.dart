@@ -28,6 +28,13 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
   var uuid = const Uuid();
 
   @override
+  void dispose() {
+    childNameController.dispose();
+    partnerEmailController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: WidgetUtils.createAppBar(context, 'ルーム作成'),

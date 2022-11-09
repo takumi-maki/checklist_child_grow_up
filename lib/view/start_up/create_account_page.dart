@@ -26,6 +26,22 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
 
   @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  void resetControllers() {
+    nameController.clear();
+    emailController.clear();
+    passwordController.clear();
+    btnController.reset();
+    FocusScope.of(context).unfocus();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: WidgetUtils.createAppBar(context, 'アカウント作成'),
@@ -113,6 +129,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         )
                       )
                     );
+                    resetControllers();
                   },
                   child: const Text('作成')
                 )

@@ -25,6 +25,21 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  void resetControllers() {
+    emailController.clear();
+    passwordController.clear();
+    btnController.reset();
+    FocusScope.of(context).unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,6 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                               context,
                               MaterialPageRoute(builder: (context) => const CreateAccountPage())
                           );
+                          resetControllers();
                         }
                       ),
                     ]
@@ -96,6 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                                   context,
                                   MaterialPageRoute(builder: (context) => const PasswordRestEmailPage())
                               );
+                              resetControllers();
                             }
                         ),
                       ]

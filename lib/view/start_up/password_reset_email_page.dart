@@ -18,6 +18,13 @@ class _PasswordRestEmailPageState extends State<PasswordRestEmailPage> {
   final formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

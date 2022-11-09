@@ -36,6 +36,12 @@ class _TextInputWidgetState extends State<TextInputWidget> {
   String? imagePath;
 
   @override
+  void dispose() {
+    commentController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,

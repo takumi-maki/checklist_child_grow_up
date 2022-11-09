@@ -21,8 +21,8 @@ class _CongratulationScreenState extends State<CongratulationScreen> {
   }
   @override
   void dispose() {
-    super.dispose();
     confettiController.dispose();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
