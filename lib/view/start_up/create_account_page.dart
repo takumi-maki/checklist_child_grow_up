@@ -33,14 +33,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     super.dispose();
   }
 
-  void resetControllers() {
-    nameController.clear();
-    emailController.clear();
-    passwordController.clear();
-    btnController.reset();
-    FocusScope.of(context).unfocus();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,15 +113,13 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     signUpResult.user!.sendEmailVerification();
                     await ChangeButton.showSuccessFor1Seconds(btnController);
                     if(!mounted) return;
-                    Navigator.push(
-                      context, MaterialPageRoute(
-                        builder: (context) => CheckEmailPage(
-                          email: emailController.text,
-                          password: passwordController.text,
-                        )
-                      )
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CheckEmailPage(email: emailController.text, password: passwordController.text)
+                        ),
+                          (_) => false
                     );
-                    resetControllers();
                   },
                   child: const Text('作成')
                 )
