@@ -49,7 +49,7 @@ class _LoginCheckState extends State<LoginCheck> {
               ),
             );
           }
-          if (snapShot.hasData) {
+          if (snapShot.hasData && snapShot.data!.emailVerified) {
             return const RoomListPage();
           }
           return const LoginPage();
