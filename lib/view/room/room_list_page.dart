@@ -29,56 +29,53 @@ class _RoomListPageState extends State<RoomListPage> {
               .orderBy('created_time', descending: true)
               .snapshots(),
         builder: (context, roomSnapshot) {
-          if(roomSnapshot.hasData) {
-            if(roomSnapshot.data!.docs.isEmpty) {
-                return Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        Text('登録しているルームが存在しません'),
-                        Text('右下のボタンからルームを作成してください')
-                      ],
-                    ),
-                );
-              }
-              return SafeArea(
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: roomSnapshot.data!.docs.length,
-                        itemBuilder: (context, index) {
-                          Map<String, dynamic> data = roomSnapshot.data!.docs[index].data() as Map<String, dynamic>;
-                          return Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ListTile(
-                                leading: Image.asset('assets/images/hiyoko_up.png', height: 36),
-                                title: Text('${data['child_name']} のルーム'),
-                                trailing: const Icon(Icons.arrow_forward_ios),
-                                textColor: Colors.black87,
-                                iconColor: Colors.black87,
-                                onTap: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) => RoomTabBarWidget(
-                                          childName: data['child_name'],
-                                          roomId: roomSnapshot.data!.docs[index].id)
-                                      )
-                                  );
-                                },
-                              ),
-                            ),
-                          );
-                        }
-                      ),
-                    ),
-                    const AdBanner(),
-                  ],
-                ),
-              );
-          } else {
-            return const SizedBox();
+          if(!roomSnapshot.hasData) return const SizedBox();
+          if(roomSnapshot.data!.docs.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  Text('登録しているルームが存在しません'),
+                  Text('右下のボタンからルームを作成してください')
+                ],
+              ),
+            );
           }
+          return SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: roomSnapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        Map<String, dynamic> data = roomSnapshot.data!.docs[index].data() as Map<String, dynamic>;
+                        return Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              leading: Image.asset('assets/images/hiyoko_up.png', height: 36),
+                              title: Text('${data['child_name']} のルーム'),
+                              trailing: const Icon(Icons.arrow_forward_ios),
+                              textColor: Colors.black87,
+                              iconColor: Colors.black87,
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => RoomTabBarWidget(
+                                        childName: data['child_name'],
+                                        roomId: roomSnapshot.data!.docs[index].id)
+                                    )
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      }
+                  ),
+                ),
+                const AdBanner(),
+              ],
+            ),
+          );
         }
       ),
       floatingActionButton: Padding(
