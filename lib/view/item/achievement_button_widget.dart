@@ -32,19 +32,6 @@ class _AchievementButtonWidgetState extends State<AchievementButtonWidget> {
     ad.loadRewardedAd();
   }
 
-  Future congratulationDialog() async {
-    showDialog(context: context, builder: (context) {
-      return const CongratulationScreen();
-    });
-    await Future.delayed(const Duration(milliseconds: 1500));
-    final randomNumber = random.nextInt(29);
-    if (randomNumber == 0) {
-      ad.showRewardedAd();
-    }
-    if(!mounted) return;
-    Navigator.pop(context);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -69,7 +56,12 @@ class _AchievementButtonWidgetState extends State<AchievementButtonWidget> {
             return ChangeButton.showErrorFor4Seconds(btnController);
           }
           await ChangeButton.showSuccessFor1Seconds(btnController);
-          widget.item.isAchieved ? null : await congratulationDialog();
+          widget.item.isAchieved
+            ? null
+            : await showDialog(context: context, builder: (context) {
+              return CongratulationScreen(itemContent: widget.item.content);
+            });
+          random.nextInt(29) == 0 ? ad.showRewardedAd() : null;
           if(!mounted) return;
           Navigator.pop(context);
         },
