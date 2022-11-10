@@ -1,5 +1,5 @@
 import 'package:checklist_child_grow_up/model/check_list.dart';
-import 'package:checklist_child_grow_up/view/banner/ad_banner.dart';
+import 'package:checklist_child_grow_up/view/banner/ad_banner_widget.dart';
 import 'package:checklist_child_grow_up/view/item/item_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -27,7 +27,7 @@ class _CheckListWidgetState extends State<CheckListWidget> {
           );
           return Column(
             children: [
-              index != 0 && index % 7 == 0 ? const AdBanner() : const SizedBox(),
+              index != 0 && index % 7 == 0 ? const AdBannerWidget() : const SizedBox(),
               Card(
                 child: ListTile(
                   leading: Row(

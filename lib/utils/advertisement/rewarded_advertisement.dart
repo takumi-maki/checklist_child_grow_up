@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-class Ad {
+class RewardedAdvertisement {
   RewardedAd? rewardedAd;
 
   static String get rewardedAdUnitId {
@@ -18,11 +18,11 @@ class Ad {
       request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (RewardedAd ad) {
-          debugPrint('$ad loaded');
+          debugPrint('リワード広告 ロード完了');
           rewardedAd = ad;
         },
         onAdFailedToLoad: (LoadAdError error) {
-          debugPrint('RewardedAd failed to load: $error');
+          debugPrint('リワード広告 ロードエラー: $error');
           rewardedAd = null;
         }
       )

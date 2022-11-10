@@ -1,7 +1,7 @@
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
-import 'package:checklist_child_grow_up/view/banner/ad_banner.dart';
+import 'package:checklist_child_grow_up/view/banner/ad_banner_widget.dart';
 import 'package:checklist_child_grow_up/view/room/create_room_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +72,7 @@ class _RoomListPageState extends State<RoomListPage> {
                       }
                   ),
                 ),
-                const AdBanner(),
+                const AdBannerWidget(),
               ],
             ),
           );
