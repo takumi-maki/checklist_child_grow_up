@@ -42,7 +42,7 @@ class _CongratulationScreenState extends State<CongratulationScreen> {
                 Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 50.0, bottom: 20.0),
+                      padding: const EdgeInsets.only(top: 50.0, bottom: 10.0),
                       child: DefaultTextStyle(
                           style: const TextStyle(
                               fontSize: 30.0,
