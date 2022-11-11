@@ -32,7 +32,7 @@ class TextInputWidget extends StatefulWidget {
 class _TextInputWidgetState extends State<TextInputWidget> {
   TextEditingController commentController = TextEditingController();
   final User currentFirebaseUser = AuthenticationFirestore.currentFirebaseUser!;
-  File? image;
+  File? compressedImage;
   String? imagePath;
 
   @override
@@ -47,23 +47,23 @@ class _TextInputWidgetState extends State<TextInputWidget> {
       color: Colors.white,
       child: Column(
         children: [
-          image == null
+          compressedImage == null
             ? const SizedBox()
             : Stack(
               alignment: Alignment.topRight,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(left: 8.0, top: 8.0, right: 8.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12.0),
                     child: Image.file(
-                      image!,
-                      cacheHeight: 150,
+                      compressedImage!,
+                      height: 200,
                     )
                   )
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
+                  padding: const EdgeInsets.only(top: 2.0),
                   child: CircleAvatar(
                     maxRadius: 10.0,
                     backgroundColor: Theme.of(context).colorScheme.secondary,
@@ -74,7 +74,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                       color: Colors.white,
                       onPressed: () {
                         setState(() {
-                          image = null;
+                          compressedImage = null;
                         });
                       },
                       splashRadius: 0.1,
@@ -109,7 +109,8 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                 ),
                 LoadingIconButton(
                   onPressed: () async {
-                    image = await ImageFirebaseStorage.selectImage();
+                    var image = await ImageFirebaseStorage.selectImage();
+                    compressedImage = await ImageFirebaseStorage.compressImage(image);
                     setState((){});
                   },
                   icon: const Icon(Icons.image),
@@ -118,9 +119,9 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                 ),
                 LoadingIconButton(
                   onPressed: () async {
-                    if (commentController.text.isEmpty && image == null) return;
-                    if (image != null) {
-                      TaskSnapshot? uploadImageTaskSnapshot = await ImageFirebaseStorage.uploadImage(image!);
+                    if (commentController.text.isEmpty && compressedImage == null) return;
+                    if (compressedImage != null) {
+                      TaskSnapshot? uploadImageTaskSnapshot = await ImageFirebaseStorage.uploadImage(compressedImage!);
                       if (uploadImageTaskSnapshot == null) {
                         if(!mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -147,7 +148,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                       return;
                     }
                     widget.item.hasComment = true;
-                    image = null;
+                    compressedImage = null;
                     imagePath = null;
                     setState(() {});
                     commentController.clear();
