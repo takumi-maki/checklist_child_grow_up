@@ -106,6 +106,25 @@ class _CommentDetailWidgetState extends State<CommentDetailWidget> {
                             ),
                           );
                         },
+                        errorBuilder: (BuildContext context, Object object, StackTrace? stackTrace) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width * 0.50,
+                            height: MediaQuery.of(context).size.width * 0.40,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            child: Center(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Icon(Icons.error_outline),
+                                  Text('画像の取得に失敗しました', style: Theme.of(context).textTheme.bodySmall)
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                       )
                     ),
                 ),
