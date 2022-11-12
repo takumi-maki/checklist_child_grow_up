@@ -58,10 +58,6 @@ class AuthenticationFirestore {
     await _firebaseAuth.signOut();
   }
 
-  static Future<void> deleteAuth() async {
-    await currentFirebaseUser!.delete();
-  }
-
   static Future<String> sendPasswordRestEmail(String email) async {
     try {
       await _firebaseAuth.sendPasswordResetEmail(email: email);
