@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/model/check_list.dart';
 import 'package:checklist_child_grow_up/utils/firestore/comments.dart';
-import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:flutter/material.dart';
 
 
@@ -17,35 +16,6 @@ class CheckListFirestore {
       'type': checkListTypeToInt(type),
       'room_id': roomId,
       'items': newItems,
-    });
-  }
-  static Future updateHasCommentOfItem(WriteBatch batch, String newCommentItemId, CheckList checkList) async {
-    List updatedItems = [];
-    for (var item in checkList.items) {
-      if(item.id == newCommentItemId) {
-        updatedItems.add({
-          'id': item.id,
-          'month': item.month,
-          'is_achieved': item.isAchieved,
-          'content': item.content,
-          'has_comment': true,
-          'achieved_time': item.achievedTime
-        });
-      } else {
-        updatedItems.add({
-          'id': item.id,
-          'month':item.month,
-          'is_achieved': item.isAchieved,
-          'content': item.content,
-          'has_comment': item.hasComment,
-          'achieved_time': item.achievedTime
-        });
-      }
-    }
-    final DocumentReference checkListDocRef = RoomFirestore.rooms.doc(checkList.roomId)
-        .collection('check_lists').doc(checkList.id);
-    batch.update(checkListDocRef, {
-      'items': updatedItems,
     });
   }
 
@@ -65,7 +35,6 @@ class CheckListFirestore {
               'month': updatedItem.month,
               'is_achieved': updatedItem.isAchieved,
               'content': updatedItem.content,
-              'has_comment': updatedItem.hasComment,
               'achieved_time': updatedItem.achievedTime
             });
           } else {
@@ -74,7 +43,6 @@ class CheckListFirestore {
               'month': item['month'],
               'is_achieved': item['is_achieved'],
               'content': item['content'],
-              'has_comment': item['has_comment'],
               'achieved_time': item['achieved_time']
             });
           }

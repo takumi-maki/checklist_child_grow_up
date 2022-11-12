@@ -31,7 +31,6 @@ class RoomFirestore {
             'id': uuid.v4(),
             'month': item['month'],
             'content': item['content'],
-            'has_comment': false,
             'is_achieved': false,
           });
         }

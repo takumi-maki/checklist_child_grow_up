@@ -1,8 +1,9 @@
 import 'package:checklist_child_grow_up/model/check_list.dart';
+import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:checklist_child_grow_up/view/banner/ad_banner_widget.dart';
-import 'package:checklist_child_grow_up/view/item/item_detail.dart';
+import 'package:checklist_child_grow_up/view/check_list/check_list_card_detail_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class CheckListWidget extends StatefulWidget {
   final CheckList checkList;
@@ -22,39 +23,29 @@ class _CheckListWidgetState extends State<CheckListWidget> {
               month: widget.checkList.items[index].month,
               isAchieved: widget.checkList.items[index].isAchieved,
               content: widget.checkList.items[index].content,
-              hasComment: widget.checkList.items[index].hasComment,
               achievedTime: widget.checkList.items[index].achievedTime
           );
-          return Column(
-            children: [
-              index != 0 && index % 7 == 0 ? const AdBannerWidget() : const SizedBox(),
-              Card(
-                child: ListTile(
-                  leading: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.check_circle,
-                          color: item.isAchieved ? Theme.of(context).colorScheme.secondary : Colors.grey.shade300
-                      ),
-                      const SizedBox(width: 16.0),
-                      Text('${item.month}ヶ月'),
-                    ],
-                  ),
-                  title: Text(item.content),
-                  subtitle: item.achievedTime != null
-                    ? Text('達成した日: ${DateFormat('yyyy/MM/dd').format(item.achievedTime!.toDate())}')
-                    : null,
-                  trailing: item.hasComment ? const Icon(Icons.chat, color: Colors.black54) : null,
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                        ItemDetailPage(checkList: widget.checkList, item: item),
+          return StreamBuilder<QuerySnapshot>(
+              stream: RoomFirestore.rooms.doc(widget.checkList.roomId)
+                  .collection('check_lists').doc(widget.checkList.id)
+                  .collection('comments').orderBy('created_time', descending: false)
+                  .where('item_id', isEqualTo: item.id)
+                  .snapshots(),
+              builder: (context, commentSnapshot) {
+                if (!commentSnapshot.hasData) {
+                  return const SizedBox();
+                }
+                return Column(
+                  children: [
+                    index != 0 && index % 7 == 0 ? const AdBannerWidget() : const SizedBox(),
+                    CheckListCardDetailWidget(
+                      checkList: widget.checkList,
+                      item: item,
+                      hasComment: commentSnapshot.data!.docs.isNotEmpty
                     )
-                    );
-                  },
-                ),
-              ),
-            ],
-          );
+                  ],
+                );
+              });
         }
     );
   }

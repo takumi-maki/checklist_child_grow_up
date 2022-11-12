@@ -80,7 +80,6 @@ class Item {
   int month;
   bool isAchieved;
   String content;
-  bool hasComment;
   Timestamp? achievedTime;
 
   Item({
@@ -88,7 +87,6 @@ class Item {
     required this.month,
     required this.isAchieved,
     required this.content,
-    required this.hasComment,
     this.achievedTime,
   });
 }

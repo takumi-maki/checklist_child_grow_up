@@ -139,7 +139,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                         postAccountName: currentFirebaseUser.displayName,
                         createdTime: Timestamp.now()
                     );
-                    var commentAddResult = await CommentFireStore.addComment(widget.checkList, newComment, widget.item.hasComment);
+                    var commentAddResult = await CommentFireStore.addComment(widget.checkList, newComment);
                     if (!commentAddResult) {
                       if(!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -147,7 +147,6 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                       );
                       return;
                     }
-                    widget.item.hasComment = true;
                     compressedImage = null;
                     imagePath = null;
                     setState(() {});

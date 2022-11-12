@@ -44,7 +44,6 @@ class _AchievementButtonWidgetState extends State<AchievementButtonWidget> {
             month: widget.item.month,
             isAchieved: !widget.item.isAchieved,
             content: widget.item.content,
-            hasComment: widget.item.hasComment,
             achievedTime: widget.item.isAchieved ? null : Timestamp.now()
           );
           var result = await CheckListFirestore.updateItem(updateItem, widget.checkList);

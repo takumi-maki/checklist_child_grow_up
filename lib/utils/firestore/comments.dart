@@ -1,5 +1,4 @@
 import 'package:checklist_child_grow_up/utils/firebase_storage/images.dart';
-import 'package:checklist_child_grow_up/utils/firestore/check_lists.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,7 @@ import '../../model/comment.dart';
 class CommentFireStore {
   static final _firebaseFirestore = FirebaseFirestore.instance;
 
-  static Future<bool> addComment(CheckList checkList, Comment newComment, bool itemHasComment) async {
+  static Future<bool> addComment(CheckList checkList, Comment newComment) async {
     try {
       final batch = _firebaseFirestore.batch();
       final DocumentReference newCommentDoc = RoomFirestore.rooms.doc(checkList.roomId)
@@ -24,9 +23,6 @@ class CommentFireStore {
         'post_account_name': newComment.postAccountName,
         'created_time': newComment.createdTime
       });
-      if(!itemHasComment) {
-        await CheckListFirestore.updateHasCommentOfItem(batch, newComment.itemId, checkList);
-      }
       await batch.commit();
       debugPrint('メッセージの作成完了');
       return true;
