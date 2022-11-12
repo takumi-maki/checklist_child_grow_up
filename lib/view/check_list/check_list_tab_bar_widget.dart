@@ -63,40 +63,30 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
               .collection('check_lists').orderBy('type', descending: false)
               .snapshots(),
             builder: (context, snapshot) {
-              if(snapshot.hasData) {
-                // ルーム削除中エラーを出力しないための応急処置
-                if (snapshot.data!.docs.length < 4) {
-                  return TabBarView(
-                      children: CheckList.tabBarList.map((tabBar) {
-                        return const SizedBox();
-                      }).toList()
-                  );
-                }
+              if(!snapshot.hasData || snapshot.data!.docs.length < CheckList.tabBarList.length) {
                 return TabBarView(
-                  children: snapshot.data!.docs.map((doc) {
-                    List<Item> items = [];
-                    doc['items'].forEach((element) {
-                      Item item = Item(
-                        id: element['id'],
-                        month: element['month'],
-                        isAchieved: element['is_achieved'],
-                        content: element['content'],
-                        hasComment: element['has_comment'],
-                        achievedTime: element['achieved_time']
-                      );
-                      items.add(item);
-                    });
-                    CheckList checkList = CheckList(id: doc['id'], roomId: doc['room_id'], type: doc['type'], items: items);
-                    return CheckListWidget(checkList: checkList);
-                  }).toList()
-                );
-              } else {
-                return TabBarView(
-                  children: CheckList.tabBarList.map((e) {
-                    return const SizedBox();
-                  }).toList()
+                    children: CheckList.tabBarList.map((e) {
+                      return const SizedBox();
+                    }).toList()
                 );
               }
+              return TabBarView(
+                children: snapshot.data!.docs.map((doc) {
+                  List<Item> items = [];
+                  doc['items'].forEach((element) {
+                    Item item = Item(
+                      id: element['id'],
+                      month: element['month'],
+                      isAchieved: element['is_achieved'],
+                      content: element['content'],
+                      achievedTime: element['achieved_time']
+                    );
+                    items.add(item);
+                  });
+                  CheckList checkList = CheckList(id: doc['id'], roomId: doc['room_id'], type: doc['type'], items: items);
+                  return CheckListWidget(checkList: checkList);
+                }).toList()
+              );
             }
           ),
       )
