@@ -36,11 +36,14 @@ class _LoginCheckState extends State<LoginCheck> {
                       mainAxisSize: MainAxisSize.min,
                       children: const [
                         TitleWidget(),
-                        SizedBox(
-                          height: 30,
-                          width: 30,
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(Colors.amber),
+                        Padding(
+                          padding: EdgeInsets.all(30.0),
+                          child: SizedBox(
+                            height: 26,
+                            width: 26,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(Colors.amber),
+                            ),
                           ),
                         )
                       ],
