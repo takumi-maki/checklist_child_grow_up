@@ -15,11 +15,11 @@ class RoomFirestore {
   static Future<bool> setNewRoom(Room newRoom) async {
     try {
       final batch = _firebaseFireStore.batch();
-      DocumentReference newRoomsDoc = rooms.doc();
+      DocumentReference newRoomsDoc = rooms.doc(newRoom.id);
       batch.set(newRoomsDoc, {
-        'id': newRoomsDoc.id,
+        'id': newRoom.id,
         'child_name': newRoom.childName,
-        'joined_accounts': newRoom.joinedAccounts,
+        'registered_email_addresses': newRoom.registeredEmailAddresses,
         'created_time': newRoom.createdTime,
       });
       List<dynamic> checkListAllItem = await FunctionUtils.getCheckListItems();
@@ -49,7 +49,7 @@ class RoomFirestore {
       await rooms.doc(updateRoom.id).set({
         'id': updateRoom.id,
         'child_name': updateRoom.childName,
-        'joined_accounts': updateRoom.joinedAccounts,
+        'registered_email_addresses': updateRoom.registeredEmailAddresses,
         'created_time': updateRoom.createdTime,
       });
       debugPrint('ルーム情報更新完了');

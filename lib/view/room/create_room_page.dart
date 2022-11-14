@@ -20,7 +20,7 @@ class CreateRoomPage extends StatefulWidget {
 }
 
 class _CreateRoomPageState extends State<CreateRoomPage> {
-  User loginUser = AuthenticationFirestore.currentFirebaseUser!;
+  final User currentFirebaseUser = AuthenticationFirestore.currentFirebaseUser!;
   TextEditingController childNameController = TextEditingController();
   TextEditingController partnerEmailController = TextEditingController();
   final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
@@ -64,7 +64,7 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                 child: TextFormField(
                   controller: partnerEmailController,
                   validator: (value) {
-                    return Validator.getPartnerEmailValidatorMessage(value, loginUser.email);
+                    return Validator.getPartnerEmailValidatorMessage(value, currentFirebaseUser.email);
                   },
                   decoration: const InputDecoration(
                     labelText: 'パートナーのメールアドレス',
@@ -82,13 +82,13 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                     );
                     return ChangeButton.showErrorFor4Seconds(btnController);
                   }
-                  List<dynamic> joinedAccounts =  partnerEmailController.text.isEmpty
-                      ? [loginUser.email]
-                      : [loginUser.email, partnerEmailController.text];
+                  List<dynamic> registeredEmailAddresses =  partnerEmailController.text.isEmpty
+                      ? [currentFirebaseUser.email]
+                      : [currentFirebaseUser.email, partnerEmailController.text];
                   Room newRoom = Room(
-                    id: '',
+                    id: uuid.v4(),
                     childName: childNameController.text,
-                    joinedAccounts: joinedAccounts,
+                    registeredEmailAddresses: registeredEmailAddresses,
                     createdTime: Timestamp.now(),
                   );
                   var setNewRoomResult = await RoomFirestore.setNewRoom(newRoom);

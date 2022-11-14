@@ -17,7 +17,7 @@ class RoomListPage extends StatefulWidget {
 }
 
 class _RoomListPageState extends State<RoomListPage> {
-  User user = AuthenticationFirestore.currentFirebaseUser!;
+  final User currentFirebaseUser = AuthenticationFirestore.currentFirebaseUser!;
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +25,9 @@ class _RoomListPageState extends State<RoomListPage> {
       appBar: WidgetUtils.createAppBar(context, 'ルーム一覧'),
       body: StreamBuilder<QuerySnapshot>(
         stream: RoomFirestore.rooms
-              .where('joined_accounts', arrayContains: user.email)
-              .orderBy('created_time', descending: true)
-              .snapshots(),
+          .where('registered_email_addresses', arrayContains: currentFirebaseUser.email)
+          .orderBy('created_time', descending: true)
+          .snapshots(),
         builder: (context, roomSnapshot) {
           if(!roomSnapshot.hasData) return const SizedBox();
           if(roomSnapshot.data!.docs.isEmpty) {

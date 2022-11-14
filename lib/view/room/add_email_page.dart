@@ -65,19 +65,20 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                   if(emailController.text.isNotEmpty) {
                     DocumentSnapshot documentSnapshot = await RoomFirestore.rooms.doc(widget.roomId).get();
                     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
-                    List<dynamic> newJoinedAccounts = data['joined_accounts'];
-                    if(newJoinedAccounts.contains(emailController.text)) {
+                    List<dynamic> registeredEmailAddresses;
+                    registeredEmailAddresses = data['registered_email_addresses'];
+                    if(registeredEmailAddresses.contains(emailController.text)) {
                       if(!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
                         WidgetUtils.errorSnackBar('既に登録済みのメールアドレスです')
                       );
                       return ChangeButton.showErrorFor4Seconds(btnController);
                     }
-                    newJoinedAccounts.add(emailController.text);
+                    registeredEmailAddresses.add(emailController.text);
                     Room updateRoom = Room(
                         id: widget.roomId,
                         childName: data['child_name'],
-                        joinedAccounts: newJoinedAccounts,
+                        registeredEmailAddresses: registeredEmailAddresses,
                         createdTime: data['created_time']
                     );
                     var result = await RoomFirestore.updateRoom(updateRoom);
