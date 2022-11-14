@@ -65,9 +65,8 @@ class CommentFireStore {
           .collection('comments').doc(comment.id);
       batch.delete(commentsDocRef);
       Map<String, dynamic> data = comment.data() as Map<String, dynamic>;
-      if (data['image_path'] != null) {
-        await ImageFirebaseStorage.deleteImage(data['image_path']);
-      }
+      if (data['image_path'] == null) continue;
+      await ImageFirebaseStorage.deleteImage(data['image_path']);
     }
   }
 }
