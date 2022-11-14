@@ -1,20 +1,29 @@
 import 'dart:typed_data';
 
+import 'package:checklist_child_grow_up/model/check_list.dart';
+import 'package:checklist_child_grow_up/utils/firestore/comments.dart';
 import 'package:checklist_child_grow_up/utils/loading/loading_gesture_detector.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 import '../../model/comment.dart';
+import '../../utils/firestore/authentications.dart';
+import '../../utils/widget_utils.dart';
 import 'image_preview_screen.dart';
 
 class CommentDetailWidget extends StatefulWidget {
+  final String roomId;
+  final String checkListId;
   final Comment comment;
   final Timestamp? prevCommentCreatedTime;
   final bool isMine;
   const CommentDetailWidget({
     Key? key,
+    required this.roomId,
+    required this.checkListId,
     required this.comment,
     required this.prevCommentCreatedTime,
     required this.isMine
@@ -25,6 +34,40 @@ class CommentDetailWidget extends StatefulWidget {
 }
 
 class _CommentDetailWidgetState extends State<CommentDetailWidget> {
+  late User currentFirebaseUser;
+
+  @override
+  void initState() {
+    super.initState();
+    currentFirebaseUser = AuthenticationFirestore.currentFirebaseUser!;
+    if (!widget.isMine && !widget.comment.readAccountIds.contains(currentFirebaseUser.uid)) {
+      Future(() async {
+        await updateReadAccountIds();
+      });
+    }
+  }
+  Future<void> updateReadAccountIds() async {
+    List updatedReadAccountIds;
+    updatedReadAccountIds = widget.comment.readAccountIds;
+    updatedReadAccountIds.add(currentFirebaseUser.uid);
+    final updatedComment = Comment(
+      id: widget.comment.id,
+      text: widget.comment.text,
+      imagePath: widget.comment.imagePath,
+      itemId: widget.comment.itemId,
+      postedAccountId: widget.comment.postedAccountId,
+      postedAccountName: widget.comment.postedAccountName,
+      readAccountIds: updatedReadAccountIds,
+      createdTime: widget.comment.createdTime
+    );
+    var updateCommentResult = await CommentFireStore.updateComment(widget.roomId, widget.checkListId, updatedComment);
+    if (!updateCommentResult) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        WidgetUtils.errorSnackBar('既読機能の更新に失敗しました')
+      );
+    }
+  }
   bool shouldHideCommentDate() {
     if(widget.prevCommentCreatedTime == null) return false;
     final thisCommentCreatedAt = widget.comment.createdTime.toDate();
@@ -155,7 +198,7 @@ class _CommentDetailWidgetState extends State<CommentDetailWidget> {
           Row(
             mainAxisAlignment: widget.isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
             children: [
-              Text(widget.comment.postAccountName ?? ''),
+              Text(widget.comment.postedAccountName ?? ''),
             ],
           ),
         ],

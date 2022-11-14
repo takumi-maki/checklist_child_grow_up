@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../model/check_list.dart';
 import '../../model/comment.dart';
@@ -32,6 +33,7 @@ class TextInputWidget extends StatefulWidget {
 class _TextInputWidgetState extends State<TextInputWidget> {
   TextEditingController commentController = TextEditingController();
   final User currentFirebaseUser = AuthenticationFirestore.currentFirebaseUser!;
+  var uuid = const Uuid();
   File? compressedImage;
   String? imagePath;
 
@@ -132,12 +134,14 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                       imagePath = await uploadImageTaskSnapshot.ref.getDownloadURL();
                     }
                     Comment newComment = Comment(
-                        text: commentController.text.isEmpty ? null : commentController.text,
-                        imagePath: imagePath,
-                        itemId: widget.item.id,
-                        postAccountId: currentFirebaseUser.uid,
-                        postAccountName: currentFirebaseUser.displayName,
-                        createdTime: Timestamp.now()
+                      id: uuid.v4(),
+                      text: commentController.text.isEmpty ? null : commentController.text,
+                      imagePath: imagePath,
+                      itemId: widget.item.id,
+                      postedAccountId: currentFirebaseUser.uid,
+                      postedAccountName: currentFirebaseUser.displayName,
+                      readAccountIds: [currentFirebaseUser.uid],
+                      createdTime: Timestamp.now()
                     );
                     var commentAddResult = await CommentFireStore.addComment(widget.checkList, newComment);
                     if (!commentAddResult) {

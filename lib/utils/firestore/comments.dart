@@ -14,13 +14,15 @@ class CommentFireStore {
       final batch = _firebaseFirestore.batch();
       final DocumentReference newCommentDoc = RoomFirestore.rooms.doc(checkList.roomId)
         .collection('check_lists').doc(checkList.id)
-        .collection('comments').doc();
+        .collection('comments').doc(newComment.id);
       batch.set(newCommentDoc, {
+        'id': newComment.id,
         'text': newComment.text,
         'image_path': newComment.imagePath,
         'item_id': newComment.itemId,
-        'post_account_id': newComment.postAccountId,
-        'post_account_name': newComment.postAccountName,
+        'posted_account_id': newComment.postedAccountId,
+        'posted_account_name': newComment.postedAccountName,
+        'read_account_ids': newComment.readAccountIds,
         'created_time': newComment.createdTime
       });
       await batch.commit();
@@ -31,6 +33,30 @@ class CommentFireStore {
       return false;
     }
   }
+
+  static Future<bool> updateComment(String roomId, String checkListId, Comment updatedComment) async {
+    try {
+      final DocumentReference commentDoc = RoomFirestore.rooms.doc(roomId)
+          .collection('check_lists').doc(checkListId)
+          .collection('comments').doc(updatedComment.id);
+      await commentDoc.set({
+        'id': updatedComment.id,
+        'text': updatedComment.text,
+        'image_path': updatedComment.imagePath,
+        'item_id': updatedComment.itemId,
+        'posted_account_id': updatedComment.postedAccountId,
+        'posted_account_name': updatedComment.postedAccountName,
+        'read_account_ids': updatedComment.readAccountIds,
+        'created_time': updatedComment.createdTime
+      });
+      debugPrint('コメント情報更新完了');
+      return true;
+    } on FirebaseException catch(e) {
+      debugPrint('コメント情報更新エラー: $e');
+      return false;
+    }
+  }
+
   static Future deleteComments(WriteBatch batch, DocumentReference checkListsDocRef) async {
     final CollectionReference commentsColRef = checkListsDocRef.collection('comments');
     var commentSnapshot = await commentsColRef.get();
@@ -39,7 +65,9 @@ class CommentFireStore {
           .collection('comments').doc(comment.id);
       batch.delete(commentsDocRef);
       Map<String, dynamic> data = comment.data() as Map<String, dynamic>;
-      await ImageFirebaseStorage.deleteImage(data['image_path']);
+      if (data['image_path'] != null) {
+        await ImageFirebaseStorage.deleteImage(data['image_path']);
+      }
     }
   }
 }

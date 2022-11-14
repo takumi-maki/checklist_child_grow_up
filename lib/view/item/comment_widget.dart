@@ -50,17 +50,21 @@ class _CommentWidgetState extends State<CommentWidget> {
                   final Timestamp? prevCommentCreatedTime = prevComment == null ? null : prevComment['created_time'];
                   Map<String, dynamic> data = commentSnapshot.data!.docs[index].data() as Map<String, dynamic>;
                   Comment comment = Comment(
+                    id: data['id'],
                     text: data['text'],
                     imagePath: data['image_path'],
                     itemId: data['item_id'],
-                    postAccountId: data['post_account_id'],
-                    postAccountName: data['post_account_name'],
+                    postedAccountId: data['posted_account_id'],
+                    postedAccountName: data['posted_account_name'],
+                    readAccountIds: data['read_account_ids'],
                     createdTime: data['created_time']
                   );
                   return CommentDetailWidget(
+                    roomId: widget.roomId,
+                    checkListId: widget.checkListId,
                     comment: comment,
                     prevCommentCreatedTime: prevCommentCreatedTime,
-                    isMine: comment.postAccountId == currentFirebaseUser.uid
+                    isMine: comment.postedAccountId == currentFirebaseUser.uid
                   );
                 }
               );
