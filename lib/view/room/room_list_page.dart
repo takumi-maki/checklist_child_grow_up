@@ -60,7 +60,7 @@ class _RoomListPageState extends State<RoomListPage> {
                               iconColor: Colors.black87,
                               onTap: () {
                                 Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) => RoomTabBarWidget(
+                                    MaterialPageRoute(builder: (context) => CheckListTabBarWidget(
                                         childName: data['child_name'],
                                         roomId: roomSnapshot.data!.docs[index].id)
                                     )

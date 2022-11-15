@@ -5,21 +5,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../model/check_list.dart';
+import '../../utils/route_utils.dart';
 import 'check_list_widget.dart';
 
-class RoomTabBarWidget extends StatefulWidget {
+class CheckListTabBarWidget extends StatefulWidget {
 final String childName;
 final String roomId;
-  const RoomTabBarWidget({Key? key, required this.childName, required this.roomId}) : super(key: key);
+  const CheckListTabBarWidget({Key? key, required this.childName, required this.roomId}) : super(key: key);
 
   @override
-  State<RoomTabBarWidget> createState() => _RoomTabBarWidgetState();
+  State<CheckListTabBarWidget> createState() => _CheckListTabBarWidgetState();
 }
 
-class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
+class _CheckListTabBarWidgetState extends State<CheckListTabBarWidget> with RouteAware {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  // 遷移先の画面から戻ってきたら再描画する。comments情報を更新するため。
+  @override
+  void didPopNext() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    
     return DefaultTabController(
         length: CheckList.tabBarList.length,
         child: Scaffold(
@@ -46,8 +58,8 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
                       child: Tab(child: Column(
                       children: [
                         CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            backgroundImage: AssetImage(tabBar['imagePath'])
+                          backgroundColor: Colors.transparent,
+                          backgroundImage: AssetImage(tabBar['imagePath'])
                         ),
                         Text(tabBar['text'], style: const TextStyle(fontSize: 12), softWrap: false),
                       ],
@@ -65,9 +77,9 @@ class _RoomTabBarWidgetState extends State<RoomTabBarWidget> {
             builder: (context, snapshot) {
               if(!snapshot.hasData || snapshot.data!.docs.length < CheckList.tabBarList.length) {
                 return TabBarView(
-                    children: CheckList.tabBarList.map((e) {
-                      return const SizedBox();
-                    }).toList()
+                  children: CheckList.tabBarList.map((e) {
+                    return const SizedBox();
+                  }).toList()
                 );
               }
               return TabBarView(

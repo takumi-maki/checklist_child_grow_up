@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:checklist_child_grow_up/model/check_list.dart';
 import 'package:checklist_child_grow_up/utils/firestore/comments.dart';
 import 'package:checklist_child_grow_up/utils/loading/loading_gesture_detector.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -60,7 +59,11 @@ class _CommentDetailWidgetState extends State<CommentDetailWidget> {
       readAccountIds: updatedReadAccountIds,
       createdTime: widget.comment.createdTime
     );
-    var updateCommentResult = await CommentFireStore.updateComment(widget.roomId, widget.checkListId, updatedComment);
+    var updateCommentResult = await CommentFireStore.updateComment(
+      widget.roomId,
+      widget.checkListId,
+      updatedComment
+    );
     if (!updateCommentResult) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
