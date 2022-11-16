@@ -102,7 +102,7 @@ class _CheckListCardDetailWidgetState extends State<CheckListCardDetailWidget> {
               : null,
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                ItemDetailPage(checkList: widget.checkList, item: widget.item, comments: comments),
+                ItemDetailPage(checkList: widget.checkList, item: widget.item),
               ));
             },
           ),

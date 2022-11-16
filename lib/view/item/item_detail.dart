@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';
 import '../../model/comment.dart';
+import '../../utils/firestore/rooms.dart';
 import '../../utils/widget_utils.dart';
 import 'achievement_button_widget.dart';
 import 'achieved_time_widget.dart';
@@ -14,8 +15,7 @@ import 'text_input_widget.dart';
 class ItemDetailPage extends StatefulWidget {
   final CheckList checkList;
   final Item item;
-  final List<Comment>? comments;
-  const ItemDetailPage({Key? key, required this.checkList, required this.item, required this.comments}) : super(key: key);
+  const ItemDetailPage({Key? key, required this.checkList, required this.item}) : super(key: key);
 
   @override
   State<ItemDetailPage> createState() => _ItemDetailPageState();
@@ -45,9 +45,6 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
     }, orElse: () => {'imagePath': 'assets/images/hiyoko_dance.png'});
     return result['imagePath'];
   }
-
-  Timestamp? getPrevCommentCreatedTime(int index) =>
-    index > 0 ? widget.comments![index - 1].createdTime : null;
 
   @override
   Widget build(BuildContext context) {
@@ -84,25 +81,50 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                             child: Divider()
                         ),
                         Expanded(
-                          child: widget.comments == null
-                            ? const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 20.0),
-                            child: Text('コメントはまだありません')
-                            )
-                            : ListView.builder(
-                              controller: scrollController,
-                              itemCount: widget.comments!.length,
-                              itemBuilder: (context, index) {
-                                final Timestamp? prevCommentCreatedTime = getPrevCommentCreatedTime(index);
-                                return CommentDetailWidget(
-                                  roomId: widget.checkList.roomId,
-                                  checkListId: widget.checkList.id,
-                                  comment: widget.comments![index],
-                                  prevCommentCreatedTime: prevCommentCreatedTime,
-                                  isMine: widget.comments![index].postedAccountId == currentFirebaseUser.uid
-                                );
-                              }
-                            )
+                          child: StreamBuilder<QuerySnapshot>(
+                          stream: RoomFirestore.rooms.doc(widget.checkList.roomId)
+                              .collection('check_lists').doc(widget.checkList.id)
+                              .collection('comments').orderBy('created_time', descending: false)
+                              .where('item_id', isEqualTo: widget.item.id)
+                              .snapshots(),
+                          builder: (context, commentSnapshot) {
+                            if (!commentSnapshot.hasData) {
+                              return const SizedBox();
+                            }
+                            if (commentSnapshot.data!.docs.isEmpty) {
+                              return const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                                  child: Text('コメントはまだありません')
+                              );
+                            }
+                            return ListView.builder(
+                                controller: scrollController,
+                                itemCount: commentSnapshot.data!.docs.length,
+                                itemBuilder: (context, index) {
+                                  final Map<String, dynamic>? prevComment = (index > 0 ? commentSnapshot.data!.docs[index - 1].data() : null) as Map<String, dynamic>?;
+                                  final Timestamp? prevCommentCreatedTime = prevComment == null ? null : prevComment['created_time'];
+                                  Map<String, dynamic> data = commentSnapshot.data!.docs[index].data() as Map<String, dynamic>;
+                                  Comment comment = Comment(
+                                      id: data['id'],
+                                      text: data['text'],
+                                      imagePath: data['image_path'],
+                                      itemId: data['item_id'],
+                                      postedAccountId: data['posted_account_id'],
+                                      postedAccountName: data['posted_account_name'],
+                                      readAccountIds: data['read_account_ids'],
+                                      createdTime: data['created_time']
+                                  );
+                                  return CommentDetailWidget(
+                                      roomId: widget.checkList.roomId,
+                                      checkListId: widget.checkList.id,
+                                      comment: comment,
+                                      prevCommentCreatedTime: prevCommentCreatedTime,
+                                      isMine: comment.postedAccountId == currentFirebaseUser.uid
+                                  );
+                                }
+                            );
+                          }
+                          )
                         )
                       ],
                     ),
