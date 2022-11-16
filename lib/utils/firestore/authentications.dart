@@ -8,7 +8,7 @@ class AuthenticationFirestore {
   static Future<dynamic> signUp({required name, required String email, required String password}) async {
     try {
       UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-      await _firebaseAuth.currentUser!.updateDisplayName(name);
+      debugPrint('Authentication ユーザ作成完了');
       return userCredential;
     } on FirebaseAuthException catch(e) {
       if (e.code == 'email-already-in-use') {
@@ -71,5 +71,9 @@ class AuthenticationFirestore {
         return 'パスワードリセットのメール送信に失敗しました';
       }
     }
+  }
+
+  static Future<void> delete(User user) async {
+    await user.delete();
   }
 }

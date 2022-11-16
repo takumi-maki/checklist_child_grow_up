@@ -1,4 +1,6 @@
 
+import 'package:checklist_child_grow_up/model/account.dart';
+import 'package:checklist_child_grow_up/utils/firestore/accounts.dart';
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
 import '../../utils/loading/change_button.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
@@ -31,6 +33,39 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
+  }
+
+  Future<dynamic> signUpAuthentication() async {
+    var signUpResult = await AuthenticationFirestore.signUp(
+        name: nameController.text,
+        email: emailController.text,
+        password: passwordController.text
+    );
+    if (signUpResult is! UserCredential) {
+      if(!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+          WidgetUtils.errorSnackBar(signUpResult)
+      );
+      return ChangeButton.showErrorFor4Seconds(btnController);
+    }
+    return signUpResult;
+  }
+
+  Future<void> createAccountFirestore(User user) async {
+    final newAccount = Account(
+        id: user.uid,
+        name: nameController.text,
+        email: emailController.text
+    );
+    var accountResult = await AccountFirestore.setAccount(newAccount);
+    if (!accountResult) {
+      if(!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+          WidgetUtils.errorSnackBar('アカウントの作成に失敗しました')
+      );
+      AuthenticationFirestore.delete(user);
+      return ChangeButton.showErrorFor4Seconds(btnController);
+    }
   }
 
   @override
@@ -98,27 +133,17 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       );
                       return ChangeButton.showErrorFor4Seconds(btnController);
                     }
-                    var signUpResult = await AuthenticationFirestore.signUp(
-                      name: nameController.text,
-                      email: emailController.text,
-                      password: passwordController.text
-                    );
-                    if (signUpResult is! UserCredential) {
-                      if(!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        WidgetUtils.errorSnackBar(signUpResult)
-                      );
-                      return ChangeButton.showErrorFor4Seconds(btnController);
-                    }
+                    final signUpResult = await signUpAuthentication();
                     signUpResult.user!.sendEmailVerification();
+                    createAccountFirestore(signUpResult.user!);
                     await ChangeButton.showSuccessFor1Seconds(btnController);
                     if(!mounted) return;
                     Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CheckEmailPage(email: emailController.text, password: passwordController.text)
-                        ),
-                          (_) => false
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CheckEmailPage(email: emailController.text, password: passwordController.text)
+                      ),
+                        (_) => false
                     );
                   },
                   child: const Text('作成')
