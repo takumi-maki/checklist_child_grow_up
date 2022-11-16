@@ -61,7 +61,10 @@ class _CheckListCardDetailWidgetState extends State<CheckListCardDetailWidget> {
         .snapshots(),
       builder: (context, commentSnapshot) {
         if (!commentSnapshot.hasData) {
-          return const SizedBox();
+          return const SizedBox(
+            height: 64.0,
+            width: double.infinity,
+          );
         }
         if (commentSnapshot.data!.docs.isNotEmpty) {
           setComments(commentSnapshot.data!.docs);
