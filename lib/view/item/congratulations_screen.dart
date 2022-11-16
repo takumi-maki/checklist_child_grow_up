@@ -44,9 +44,8 @@ class _CongratulationScreenState extends State<CongratulationScreen> {
                       child: DefaultTextStyle(
                           style: const TextStyle(
                               fontSize: 30.0,
-                              letterSpacing: 2.0,
+                              letterSpacing: 1.4,
                               color: Colors.black54,
-                              shadows: [Shadow(offset: Offset(2.0, 2.0), blurRadius: 2.0, color: Colors.black26)]
                           ),
                           child: AnimatedTextKit(
                             animatedTexts: [

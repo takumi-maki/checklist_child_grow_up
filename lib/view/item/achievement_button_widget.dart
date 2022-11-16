@@ -10,7 +10,7 @@ import '../../utils/firestore/check_lists.dart';
 import '../../utils/loading/change_button.dart';
 import '../../utils/loading/loading_button.dart';
 import '../../utils/widget_utils.dart';
-import 'congratulation_screen.dart';
+import 'congratulations_screen.dart';
 
 class AchievementButtonWidget extends StatefulWidget {
   final CheckList checkList;
