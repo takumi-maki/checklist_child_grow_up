@@ -1,9 +1,12 @@
+import 'package:checklist_child_grow_up/utils/firestore/accounts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/banner/ad_banner_widget.dart';
 import 'package:checklist_child_grow_up/view/room/add_email_page.dart';
 import 'package:flutter/material.dart';
+
+import '../../model/account.dart';
 
 class RegisteredEmailAddressesPage extends StatefulWidget {
   final String roomId;
@@ -30,18 +33,41 @@ class _RegisteredEmailAddressesPageState extends State<RegisteredEmailAddressesP
               children: [
                 Expanded(
                   child: ListView.builder(
-                      itemCount: registeredEmailAddresses.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
-                              leading: Image.asset('assets/images/chicken.png', height: 36),
-                              title: Text(registeredEmailAddresses[index]),
+                    itemCount: registeredEmailAddresses.length,
+                    itemBuilder: (context, index) {
+                      return StreamBuilder<QuerySnapshot>(
+                        stream: AccountFirestore.accounts.where('email', isEqualTo: registeredEmailAddresses[index]).snapshots(),
+                        builder: (context, accountSnapshot) {
+                          if (!accountSnapshot.hasData) {
+                            return const SizedBox();
+                          }
+                          if (accountSnapshot.data!.docs.isEmpty) {
+                            return Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListTile(
+                                  leading: Image.asset('assets/images/chicken.png', height: 36),
+                                  title: Text(registeredEmailAddresses[index]),
+                                  subtitle: const Text('未登録アカウント'),
+                                ),
+                              ),
+                            );
+                          }
+                          Map<String, dynamic> data = accountSnapshot.data!.docs.first.data() as Map<String, dynamic>;
+                          return Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListTile(
+                                leading: Image.asset('assets/images/chicken.png', height: 36),
+                                title: Text(data['email']),
+                                subtitle: Text(data['name']),
+                              ),
                             ),
-                          ),
-                        );
-                      }),
+                          );
+                        }
+                      );
+                    }
+                  ),
                 ),
                 const AdBannerWidget(),
               ],
