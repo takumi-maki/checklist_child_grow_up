@@ -21,7 +21,6 @@ class CommentFireStore {
         'image_path': newComment.imagePath,
         'item_id': newComment.itemId,
         'posted_account_id': newComment.postedAccountId,
-        'posted_account_name': newComment.postedAccountName,
         'read_account_ids': newComment.readAccountIds,
         'created_time': newComment.createdTime
       });
@@ -45,7 +44,6 @@ class CommentFireStore {
         'image_path': updatedComment.imagePath,
         'item_id': updatedComment.itemId,
         'posted_account_id': updatedComment.postedAccountId,
-        'posted_account_name': updatedComment.postedAccountName,
         'read_account_ids': updatedComment.readAccountIds,
         'created_time': updatedComment.createdTime
       });

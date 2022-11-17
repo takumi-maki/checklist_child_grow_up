@@ -139,7 +139,6 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                       imagePath: imagePath,
                       itemId: widget.item.id,
                       postedAccountId: currentFirebaseUser.uid,
-                      postedAccountName: currentFirebaseUser.displayName,
                       readAccountIds: [currentFirebaseUser.uid],
                       createdTime: Timestamp.now()
                     );

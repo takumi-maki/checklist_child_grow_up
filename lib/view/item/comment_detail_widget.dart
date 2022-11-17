@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:checklist_child_grow_up/utils/firestore/accounts.dart';
 import 'package:checklist_child_grow_up/utils/firestore/comments.dart';
 import 'package:checklist_child_grow_up/utils/loading/loading_gesture_detector.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -55,7 +56,6 @@ class _CommentDetailWidgetState extends State<CommentDetailWidget> {
       imagePath: widget.comment.imagePath,
       itemId: widget.comment.itemId,
       postedAccountId: widget.comment.postedAccountId,
-      postedAccountName: widget.comment.postedAccountName,
       readAccountIds: updatedReadAccountIds,
       createdTime: widget.comment.createdTime
     );
@@ -198,11 +198,26 @@ class _CommentDetailWidgetState extends State<CommentDetailWidget> {
                 child: Text(widget.comment.text!, style: TextStyle(color: widget.isMine ? Colors.white : Colors.black87)),
               ),
             ),
-          Row(
-            mainAxisAlignment: widget.isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
-            children: [
-              Text(widget.comment.postedAccountName ?? ''),
-            ],
+          StreamBuilder<QuerySnapshot>(
+            stream: AccountFirestore.accounts
+              .where('id', isEqualTo: widget.comment.postedAccountId).snapshots(),
+            builder: (context, accountSnapshot) {
+              if (!accountSnapshot.hasData  || accountSnapshot.data!.docs.isEmpty) {
+                return Row(
+                  mainAxisAlignment: widget.isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
+                  children: const [
+                    Text('unknown'),
+                  ],
+                );
+              }
+              Map<String, dynamic> account = accountSnapshot.data!.docs.first.data() as Map<String, dynamic>;
+              return Row(
+                mainAxisAlignment: widget.isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
+                children: [
+                  Text(account['name']),
+                ],
+              );
+            }
           ),
         ],
       ),

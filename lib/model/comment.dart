@@ -6,7 +6,6 @@ class Comment {
   String? imagePath;
   String itemId;
   String postedAccountId;
-  String? postedAccountName;
   List<dynamic> readAccountIds;
   Timestamp createdTime;
 
@@ -16,7 +15,6 @@ class Comment {
     this.imagePath,
     required this.itemId,
     required this.postedAccountId,
-    this.postedAccountName,
     required this.readAccountIds,
     required this.createdTime,
   });

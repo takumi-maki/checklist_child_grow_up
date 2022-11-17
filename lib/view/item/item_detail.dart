@@ -110,7 +110,6 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                                       imagePath: data['image_path'],
                                       itemId: data['item_id'],
                                       postedAccountId: data['posted_account_id'],
-                                      postedAccountName: data['posted_account_name'],
                                       readAccountIds: data['read_account_ids'],
                                       createdTime: data['created_time']
                                   );
