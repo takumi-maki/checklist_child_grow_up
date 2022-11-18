@@ -46,6 +46,16 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
     return result['imagePath'];
   }
 
+  Timestamp? getPrevCommentCreatedTime(int index, List<QueryDocumentSnapshot<Object?>> commentDocs) {
+    final Map<String, dynamic>? prevComment = ( index > 0
+      ? commentDocs[index - 1].data()
+      : null
+    ) as Map<String, dynamic>?;
+    return prevComment != null
+      ? prevComment['created_time']
+      : null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -77,50 +87,50 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                           : AchievedTimeWidget(checkList: widget.checkList, item: widget.item),
                         AchievementButtonWidget(checkList: widget.checkList, item: widget.item),
                         const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                            child: Divider()
+                          padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                          child: Divider()
                         ),
                         Expanded(
                           child: StreamBuilder<QuerySnapshot>(
                           stream: RoomFirestore.rooms.doc(widget.checkList.roomId)
-                              .collection('check_lists').doc(widget.checkList.id)
-                              .collection('comments').orderBy('created_time', descending: false)
-                              .where('item_id', isEqualTo: widget.item.id)
-                              .snapshots(),
+                            .collection('check_lists').doc(widget.checkList.id)
+                            .collection('comments').orderBy('created_time', descending: false)
+                            .where('item_id', isEqualTo: widget.item.id)
+                            .snapshots(),
                           builder: (context, commentSnapshot) {
                             if (!commentSnapshot.hasData) {
                               return const SizedBox();
                             }
-                            if (commentSnapshot.data!.docs.isEmpty) {
+                            List<QueryDocumentSnapshot<Object?>> commentDocs = commentSnapshot.data!.docs;
+                            if (commentDocs.isEmpty) {
                               return const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 20.0),
-                                  child: Text('コメントはまだありません')
+                                padding: EdgeInsets.symmetric(vertical: 20.0),
+                                child: Text('コメントはまだありません')
                               );
                             }
                             return ListView.builder(
-                                controller: scrollController,
-                                itemCount: commentSnapshot.data!.docs.length,
-                                itemBuilder: (context, index) {
-                                  final Map<String, dynamic>? prevComment = (index > 0 ? commentSnapshot.data!.docs[index - 1].data() : null) as Map<String, dynamic>?;
-                                  final Timestamp? prevCommentCreatedTime = prevComment == null ? null : prevComment['created_time'];
-                                  Map<String, dynamic> data = commentSnapshot.data!.docs[index].data() as Map<String, dynamic>;
-                                  Comment comment = Comment(
-                                      id: data['id'],
-                                      text: data['text'],
-                                      imagePath: data['image_path'],
-                                      itemId: data['item_id'],
-                                      postedAccountId: data['posted_account_id'],
-                                      readAccountIds: data['read_account_ids'],
-                                      createdTime: data['created_time']
-                                  );
-                                  return CommentDetailWidget(
-                                      roomId: widget.checkList.roomId,
-                                      checkListId: widget.checkList.id,
-                                      comment: comment,
-                                      prevCommentCreatedTime: prevCommentCreatedTime,
-                                      isMine: comment.postedAccountId == currentFirebaseUser.uid
-                                  );
-                                }
+                              controller: scrollController,
+                              itemCount: commentDocs.length,
+                              itemBuilder: (context, index) {
+                                Timestamp? prevCommentCreatedTime = getPrevCommentCreatedTime(index, commentDocs);
+                                Map<String, dynamic> data = commentDocs[index].data() as Map<String, dynamic>;
+                                Comment comment = Comment(
+                                  id: data['id'],
+                                  text: data['text'],
+                                  imagePath: data['image_path'],
+                                  itemId: data['item_id'],
+                                  postedAccountId: data['posted_account_id'],
+                                  readAccountIds: data['read_account_ids'],
+                                  createdTime: data['created_time']
+                                );
+                                return CommentDetailWidget(
+                                  roomId: widget.checkList.roomId,
+                                  checkListId: widget.checkList.id,
+                                  comment: comment,
+                                  prevCommentCreatedTime: prevCommentCreatedTime,
+                                  isMine: comment.postedAccountId == currentFirebaseUser.uid
+                                );
+                              }
                             );
                           }
                           )
