@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-import 'utils/route_utils.dart';
 import 'view/start_up/login_check.dart';
 
 void main() async {
@@ -32,7 +31,6 @@ class MyApp extends StatelessWidget {
         dividerColor: Colors.black54,
       ),
       home: const LoginCheck(),
-      navigatorObservers: [routeObserver],
     );
   }
 }
