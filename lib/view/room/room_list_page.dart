@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/firestore/authentications.dart';
-import '../check_list/check_list_tab_bar_widget.dart';
+import '../check_list/check_lists_page.dart';
 
 class RoomListPage extends StatefulWidget {
   const RoomListPage({Key? key}) : super(key: key);
@@ -60,7 +60,7 @@ class _RoomListPageState extends State<RoomListPage> {
                               iconColor: Colors.black87,
                               onTap: () {
                                 Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) => CheckListTabBarWidget(
+                                    MaterialPageRoute(builder: (context) => CheckListsPageWidget(
                                         childName: data['child_name'],
                                         roomId: roomSnapshot.data!.docs[index].id)
                                     )
