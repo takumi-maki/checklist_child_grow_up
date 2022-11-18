@@ -20,7 +20,6 @@ class _AboutCheckListPageState extends State<AboutCheckListPage> {
         child: Center(
           child: Column(
             children: [
-
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: _horizontalMargin),
                 child: Image.asset('assets/images/hiyoko_pen_skeleton.png', height: 100)
@@ -61,16 +60,21 @@ class _AboutCheckListPageState extends State<AboutCheckListPage> {
                       style: Theme.of(context).textTheme.bodyText1,
                       children: const [
                         TextSpan(text:'　まず、成長のチェックリストで、'
-                          'わが子の月齢がどのような段階にあるのかを確認しましょう。チェックリストは',
+                          'わが子の月齢がどのような段階にあるのかを確認しましょう。'
+                          'チェックリストは4つのジャンルにわかれています。\n',
                         ),
-                        TextSpan(
-                          text: '「体の大きな動き(からだ)」 「手の動き(手のうごき)」 '
-                              '「ことばの成長と理解(ことば)」 「生活習慣(せいかつ)」 ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        WidgetSpan(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10.0),
+                            child: Text(
+                              '\n　・ 体の大きな動き(からだ)\n　・ 手の動き(手のうごき) '
+                                  '\n　・ ことばの成長と理解(ことば)\n　・ 生活習慣(せいかつ) ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
                         ),
-                        TextSpan(text: 'の、4つのジャンルにわかれています。'),
                       ]
                     )
                 ),
