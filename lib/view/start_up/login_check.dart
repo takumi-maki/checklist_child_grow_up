@@ -37,7 +37,7 @@ class _LoginCheckState extends State<LoginCheck> {
                       children: const [
                         TitleWidget(),
                         Padding(
-                          padding: EdgeInsets.all(30.0),
+                          padding: EdgeInsets.symmetric(vertical: 20.0),
                           child: SizedBox(
                             height: 26,
                             width: 26,
@@ -45,6 +45,10 @@ class _LoginCheckState extends State<LoginCheck> {
                               valueColor: AlwaysStoppedAnimation(Colors.amber),
                             ),
                           ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.0),
+                          child: Text('　読み込み中...'),
                         )
                       ],
                     )
