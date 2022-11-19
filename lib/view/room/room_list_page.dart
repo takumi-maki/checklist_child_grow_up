@@ -29,7 +29,17 @@ class _RoomListPageState extends State<RoomListPage> {
           .orderBy('created_time', descending: true)
           .snapshots(),
         builder: (context, roomSnapshot) {
-          if(!roomSnapshot.hasData) return const SizedBox();
+          if(!roomSnapshot.hasData) {
+            return const Center(
+              child: SizedBox(
+                height: 20.0,
+                width: 20.0,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(Colors.amber),
+                ),
+              ),
+            );
+          }
           if(roomSnapshot.data!.docs.isEmpty) {
             return Center(
               child: Column(
@@ -60,10 +70,10 @@ class _RoomListPageState extends State<RoomListPage> {
                               iconColor: Colors.black87,
                               onTap: () {
                                 Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) => CheckListsPageWidget(
-                                        childName: data['child_name'],
-                                        roomId: roomSnapshot.data!.docs[index].id)
-                                    )
+                                  MaterialPageRoute(builder: (context) => CheckListsPageWidget(
+                                    childName: data['child_name'],
+                                    roomId: roomSnapshot.data!.docs[index].id)
+                                  )
                                 );
                               },
                             ),
