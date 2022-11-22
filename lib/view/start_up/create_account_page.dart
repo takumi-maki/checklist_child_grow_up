@@ -37,7 +37,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
 
   Future<dynamic> signUpAuthentication() async {
     var signUpResult = await AuthenticationFirestore.signUp(
-        name: nameController.text,
         email: emailController.text,
         password: passwordController.text
     );
@@ -63,7 +62,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       ScaffoldMessenger.of(context).showSnackBar(
           WidgetUtils.errorSnackBar('アカウントの作成に失敗しました')
       );
-      AuthenticationFirestore.delete(user);
+      AuthenticationFirestore.deleteAuth(user);
       return ChangeButton.showErrorFor4Seconds(btnController);
     }
   }

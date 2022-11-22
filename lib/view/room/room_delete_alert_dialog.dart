@@ -23,7 +23,7 @@ class _RoomDeleteAlertDialogState extends State<RoomDeleteAlertDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
         title: const Text('ルームの削除'),
-        content: Text('本当に${widget.childName}のルームを削除してもいいですか?'),
+        content: Text('本当に${widget.childName}のルームを削除してもよろしいですか?'),
         actions: [
           Column(
             children: [

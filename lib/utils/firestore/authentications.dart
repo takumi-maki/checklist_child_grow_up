@@ -5,7 +5,7 @@ class AuthenticationFirestore {
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   static User? currentFirebaseUser;
 
-  static Future<dynamic> signUp({required name, required String email, required String password}) async {
+  static Future<dynamic> signUp({required String email, required String password}) async {
     try {
       UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       debugPrint('Authentication ユーザ作成完了');
@@ -73,7 +73,36 @@ class AuthenticationFirestore {
     }
   }
 
-  static Future<void> delete(User user) async {
-    await user.delete();
+  static Future<dynamic> reAuthenticate(User user, String password) async {
+    final credential = EmailAuthProvider.credential(email: user.email!, password: password);
+    try {
+      UserCredential userCredential = await user.reauthenticateWithCredential(credential);
+      return userCredential;
+    } on FirebaseAuthException catch (e) {
+      late String errorMessage;
+      switch (e.code) {
+        case 'user-not-found':
+          errorMessage = 'このアカウントは存在しません';
+          break;
+        case 'wrong-password':
+          errorMessage = 'パスワードが正しくありません';
+          break;
+        default:
+          errorMessage = 'アカウント削除に失敗しました';
+          break;
+      }
+      return errorMessage;
+    }
+  }
+
+  static Future<bool> deleteAuth(User user) async {
+    try {
+      await user.delete();
+      debugPrint('Auth削除成功');
+      return true;
+    } on FirebaseAuthException catch (e) {
+      debugPrint('Auth削除失敗: $e');
+      return false;
+    }
   }
 }

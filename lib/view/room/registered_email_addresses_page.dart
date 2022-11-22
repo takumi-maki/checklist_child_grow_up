@@ -6,8 +6,6 @@ import 'package:checklist_child_grow_up/view/banner/ad_banner_widget.dart';
 import 'package:checklist_child_grow_up/view/room/add_email_page.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/account.dart';
-
 class RegisteredEmailAddressesPage extends StatefulWidget {
   final String roomId;
   const RegisteredEmailAddressesPage({Key? key, required this.roomId}) : super(key: key);

@@ -1,3 +1,4 @@
+import 'package:checklist_child_grow_up/view/start_up/account_delete_alert_dialog.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/tile.dart';
@@ -56,8 +57,21 @@ class _AboutAppPageState extends State<AboutAppPage> {
             );
           }
       ),
+      Tile(
+        id: 'deleteAccount',
+        leading: const Icon(Icons.delete),
+        title: const Text('アカウント削除'),
+        onTap: () => showAccountDeleteAlertDialog()
+      ),
     ];
   }
+
+  void showAccountDeleteAlertDialog() {
+    showDialog(context: context, barrierDismissible: false, builder: (context) {
+      return const AccountDeleteAlertDialog();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,8 +86,8 @@ class _AboutAppPageState extends State<AboutAppPage> {
                 leading: aboutAppContentList[index].leading,
                 title: aboutAppContentList[index].title,
                 trailing: const Icon(Icons.arrow_forward_ios),
-                textColor: Colors.black87,
-                iconColor: Colors.black87,
+                iconColor: aboutAppContentList[index].id == 'deleteAccount' ? Colors.red : Colors.black87,
+                textColor: aboutAppContentList[index].id == 'deleteAccount' ? Colors.red : Colors.black87,
                 onTap: aboutAppContentList[index].onTap,
               ),
             ),
