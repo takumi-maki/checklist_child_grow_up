@@ -46,10 +46,7 @@ class _LoginCheckState extends State<LoginCheck> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.0),
-                          child: Text('　読み込み中...'),
-                        )
+                        Text('　読み込み中...')
                       ],
                     )
                 ),
