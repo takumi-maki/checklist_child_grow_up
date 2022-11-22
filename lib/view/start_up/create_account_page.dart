@@ -35,38 +35,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     super.dispose();
   }
 
-  Future<dynamic> signUpAuthentication() async {
-    var signUpResult = await AuthenticationFirestore.signUp(
-        email: emailController.text,
-        password: passwordController.text
-    );
-    if (signUpResult is! UserCredential) {
-      if(!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-          WidgetUtils.errorSnackBar(signUpResult)
-      );
-      return ChangeButton.showErrorFor4Seconds(btnController);
-    }
-    return signUpResult;
-  }
-
-  Future<void> createAccountFirestore(User user) async {
-    final newAccount = Account(
-        id: user.uid,
-        name: nameController.text,
-        email: emailController.text
-    );
-    var accountResult = await AccountFirestore.setAccount(newAccount);
-    if (!accountResult) {
-      if(!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-          WidgetUtils.errorSnackBar('アカウントの作成に失敗しました')
-      );
-      AuthenticationFirestore.deleteAuth(user);
-      return ChangeButton.showErrorFor4Seconds(btnController);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,9 +100,32 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       );
                       return ChangeButton.showErrorFor4Seconds(btnController);
                     }
-                    final signUpResult = await signUpAuthentication();
+                    final signUpResult = await AuthenticationFirestore.signUp(
+                        email: emailController.text,
+                        password: passwordController.text
+                    );
+                    if (signUpResult is! UserCredential) {
+                      if(!mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          WidgetUtils.errorSnackBar(signUpResult)
+                      );
+                      return ChangeButton.showErrorFor4Seconds(btnController);
+                    }
                     signUpResult.user!.sendEmailVerification();
-                    createAccountFirestore(signUpResult.user!);
+                    final newAccount = Account(
+                        id: signUpResult.user!.uid,
+                        name: nameController.text,
+                        email: emailController.text
+                    );
+                    final accountResult = await AccountFirestore.setAccount(newAccount);
+                    if (!accountResult) {
+                      if(!mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          WidgetUtils.errorSnackBar('アカウントの作成に失敗しました')
+                      );
+                      AuthenticationFirestore.deleteAuth(signUpResult.user!);
+                      return ChangeButton.showErrorFor4Seconds(btnController);
+                    }
                     await ChangeButton.showSuccessFor1Seconds(btnController);
                     if(!mounted) return;
                     Navigator.pushAndRemoveUntil(
