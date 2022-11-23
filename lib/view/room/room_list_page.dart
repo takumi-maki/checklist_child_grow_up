@@ -41,13 +41,33 @@ class _RoomListPageState extends State<RoomListPage> {
             );
           }
           if(roomSnapshot.data!.docs.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Text('登録しているルームが存在しません'),
-                  Text('右下のボタンからルームを作成してください')
-                ],
+            return SafeArea(
+              child: Stack(
+                children: [
+                  Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Icon(
+                            Icons.info_outline,
+                            color: Colors.black54,
+                          ),
+                        ),
+                        Text('登録しているルームが存在しません'),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 50.0),
+                          child: Text('右下のボタンからルームを作成してください'),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Align(
+                    alignment: Alignment.bottomCenter,
+                    child: AdBannerWidget()
+                  )
+                ]
               ),
             );
           }
