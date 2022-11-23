@@ -19,75 +19,84 @@ class CheckEmailPage extends StatefulWidget {
 
 class _CheckEmailPageState extends State<CheckEmailPage> {
   final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
+  final double _horizontalMargin = 40.0;
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: WidgetUtils.createAppBar(context, 'メールアドレス確認'),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             children: [
-              const SizedBox(height: 10.0),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
+                padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: _horizontalMargin),
                 child: Text(
-                  '登録したメールアドレス(${widget.email})あてに確認のメールを送信しました。',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  '【 ${widget.email} 】宛に、確認のメールを送信しました。',
+                  style: Theme.of(context).textTheme.titleMedium,
                 )
               ),
-              Image.asset('assets/images/hiyoko_mail.png', height: 150),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 16.0),
-                child: Divider()
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 14.0),
+                child: Image.asset('assets/images/hiyoko_mail.png', height: 130),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: _horizontalMargin),
+                child: const Text('\n ・ メールに記載されているURLをクリックして、認証をお願いします。')
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: _horizontalMargin),
+                child: const Text('\n ・ 認証完了後、下のボタンからログインしてください。')
               ),
               const SizedBox(height: 10.0),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 3.0),
-                child: Text('受信したメールに記載されているURLをクリックして認証をお願いします。')
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: _horizontalMargin),
+                child: const Divider()
               ),
               const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 3.0),
-                child: Text('認証完了後、下のボタンからログインしてください。')
+                padding: EdgeInsets.symmetric(vertical: 10.0),
+                child: Icon(Icons.error_outline_rounded, color: Colors.black54),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 3.0),
-                child: Text('( 迷惑メールフォルダに可能性がありますので、そちらもご確認ください。)')
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: _horizontalMargin),
+                child: const Text('メールが迷惑フォルダに入る可能性がありますので、そちらもご確認ください。'),
               ),
-              const SizedBox(height: 36.0),
-              LoadingButton(
-                btnController: btnController,
-                onPressed: () async {
-                  var signInResult = await AuthenticationFirestore.emailSignIn(
-                      email: widget.email,
-                      password: widget.password
-                  );
-                  if(signInResult is! UserCredential) {
-                    if (!mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      WidgetUtils.errorSnackBar(signInResult)
+              const SizedBox(height: 30.0),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 80.0),
+                child: LoadingButton(
+                  btnController: btnController,
+                  onPressed: () async {
+                    var signInResult = await AuthenticationFirestore.emailSignIn(
+                        email: widget.email,
+                        password: widget.password
                     );
-                    return ChangeButton.showErrorFor4Seconds(btnController);
-                  }
-                  if(!signInResult.user!.emailVerified) {
+                    if(signInResult is! UserCredential) {
+                      if (!mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        WidgetUtils.errorSnackBar(signInResult)
+                      );
+                      return ChangeButton.showErrorFor4Seconds(btnController);
+                    }
+                    if(!signInResult.user!.emailVerified) {
+                      if (!mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        WidgetUtils.errorSnackBar('メール認証が終了していません')
+                      );
+                      return ChangeButton.showErrorFor4Seconds(btnController);
+                    }
+                    await ChangeButton.showSuccessFor1Seconds(btnController);
                     if (!mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      WidgetUtils.errorSnackBar('メール認証が終了していません')
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const RoomListPage()
+                      ),
+                      (_) => false
                     );
-                    return ChangeButton.showErrorFor4Seconds(btnController);
-                  }
-                  await ChangeButton.showSuccessFor1Seconds(btnController);
-                  if (!mounted) return;
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const RoomListPage()
-                    ),
-                    (_) => false
-                  );
-                },
-                child: const Text('ログイン')
+                  },
+                  child: const Text('ログイン')
+                ),
               ),
             ],
 
