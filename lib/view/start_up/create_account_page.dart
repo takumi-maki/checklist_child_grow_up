@@ -101,6 +101,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       return ChangeButton.showErrorFor4Seconds(btnController);
                     }
                     final signUpResult = await AuthenticationFirestore.signUp(
+                        name: nameController.text,
                         email: emailController.text,
                         password: passwordController.text
                     );

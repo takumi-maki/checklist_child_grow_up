@@ -5,9 +5,10 @@ class AuthenticationFirestore {
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   static User? currentFirebaseUser;
 
-  static Future<dynamic> signUp({required String email, required String password}) async {
+  static Future<dynamic> signUp({required String name, required String email, required String password}) async {
     try {
       UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+      await _firebaseAuth.currentUser!.updateDisplayName(name);
       debugPrint('Authentication ユーザ作成完了');
       return userCredential;
     } on FirebaseAuthException catch(e) {
