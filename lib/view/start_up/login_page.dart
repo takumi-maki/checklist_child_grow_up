@@ -37,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
     emailController.clear();
     passwordController.clear();
     btnController.reset();
+    formKey.currentState?.reset();
     FocusScope.of(context).unfocus();
   }
 
@@ -44,14 +45,14 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: SizedBox(
-            width: double.infinity,
+        child: Center(
+          child: SingleChildScrollView(
             child: Form(
               key: formKey,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 10),
                   const TitleWidget(),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -83,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                       obscureText: true,
                     ),
                   ),
-                  const SizedBox(height: 10.0),
+                  const SizedBox(height: 14.0),
                   RichText(text: TextSpan(
                     style: Theme.of(context).textTheme.bodyText1,
                     children: [
@@ -117,41 +118,43 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ]
                   )),
-                  const SizedBox(height: 50),
-                  LoadingButton(
-                    btnController: btnController,
-                    onPressed: () async {
-                      if(!formKey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            WidgetUtils.errorSnackBar('正しく入力されていない項目があります')
-                        );
-                        return ChangeButton.showErrorFor4Seconds(btnController);
-                      }
-                      var signInResult = await AuthenticationFirestore.emailSignIn(email: emailController.text, password: passwordController.text);
-                      if(signInResult is! UserCredential) {
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 30.0),
+                    child: LoadingButton(
+                      btnController: btnController,
+                      onPressed: () async {
+                        if(!formKey.currentState!.validate()) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              WidgetUtils.errorSnackBar('正しく入力されていない項目があります')
+                          );
+                          return ChangeButton.showErrorFor4Seconds(btnController);
+                        }
+                        var signInResult = await AuthenticationFirestore.emailSignIn(email: emailController.text, password: passwordController.text);
+                        if(signInResult is! UserCredential) {
+                          if(!mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              WidgetUtils.errorSnackBar(signInResult)
+                          );
+                          return ChangeButton.showErrorFor4Seconds(btnController);
+                        }
+                        if(!signInResult.user!.emailVerified) {
+                          if(!mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              WidgetUtils.errorSnackBar('メール認証が終了していません')
+                          );
+                          return ChangeButton.showErrorFor4Seconds(btnController);
+                        }
+                        await ChangeButton.showSuccessFor1Seconds(btnController);
                         if(!mounted) return;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            WidgetUtils.errorSnackBar(signInResult)
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RoomListPage()
+                            )
                         );
-                        return ChangeButton.showErrorFor4Seconds(btnController);
-                      }
-                      if(!signInResult.user!.emailVerified) {
-                        if(!mounted) return;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            WidgetUtils.errorSnackBar('メール認証が終了していません')
-                        );
-                        return ChangeButton.showErrorFor4Seconds(btnController);
-                      }
-                      await ChangeButton.showSuccessFor1Seconds(btnController);
-                      if(!mounted) return;
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const RoomListPage()
-                          )
-                      );
-                    },
-                    child: const Text('ログイン')
+                      },
+                      child: const Text('ログイン')
+                    ),
                   ),
                 ],
               ),
