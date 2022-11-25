@@ -12,7 +12,7 @@ import 'package:intl/intl.dart';
 import '../../model/comment.dart';
 import '../../utils/firestore/authentications.dart';
 import '../../utils/widget_utils.dart';
-import 'image_preview_screen.dart';
+import 'image_preview_widget.dart';
 
 class CommentDetailWidget extends StatefulWidget {
   final String roomId;
@@ -82,7 +82,7 @@ class _CommentDetailWidgetState extends State<CommentDetailWidget> {
   }
   void showPreviewImage(Uint8List image) {
     showDialog(context: context, builder: (context) {
-      return ImagePreviewScreen(image: image);
+      return ImagePreviewWidget(image: image);
     });
   }
   @override

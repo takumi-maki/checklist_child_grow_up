@@ -2,15 +2,11 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
-class ImagePreviewScreen extends StatefulWidget {
+class ImagePreviewWidget extends StatelessWidget {
+  const ImagePreviewWidget({Key? key, required this.image}) : super(key: key);
+
   final Uint8List image;
-  const ImagePreviewScreen({Key? key, required this.image}) : super(key: key);
 
-  @override
-  State<ImagePreviewScreen> createState() => _ImagePreviewScreenState();
-}
-
-class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -24,7 +20,7 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
             child: InteractiveViewer(
               minScale: 0.1,
               maxScale: 5,
-              child: Image.memory(widget.image),
+              child: Image.memory(image),
             ),
           ),
         ),
@@ -36,8 +32,8 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              icon: const Icon(Icons.close),
-              color: Colors.white
+                icon: const Icon(Icons.close),
+                color: Colors.white
             ),
           ),
         )
