@@ -49,9 +49,7 @@ class _RoomDeleteAlertDialogState extends State<RoomDeleteAlertDialog> {
                     if(!result) {
                       btnController.error();
                       if(!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        WidgetUtils.errorSnackBar('ルーム削除に失敗しました')
-                      );
+                      WidgetUtils.errorSnackBar(context, 'ルーム削除に失敗しました');
                       ChangeButton.showErrorFor4Seconds(btnController);
                       if(!mounted) return;
                       return Navigator.pop(context);
@@ -68,7 +66,7 @@ class _RoomDeleteAlertDialogState extends State<RoomDeleteAlertDialog> {
                       )
                     );
                   },
-                  color: Colors.red,
+                  color: Theme.of(context).errorColor,
                   child: const Text('ルーム削除')
               ),
               const SizedBox(height: 16.0),

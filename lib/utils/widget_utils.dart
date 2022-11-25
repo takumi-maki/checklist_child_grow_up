@@ -11,10 +11,12 @@ class WidgetUtils {
       centerTitle: true, systemOverlayStyle: SystemUiOverlayStyle.dark,
     );
   }
-  static SnackBar errorSnackBar(String title) {
-    return SnackBar(
-        backgroundColor: Colors.red,
-        content: Text(title)
+  static ScaffoldFeatureController<SnackBar, SnackBarClosedReason> errorSnackBar(BuildContext context, String title) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(title),
+        backgroundColor: Theme.of(context).errorColor
+      )
     );
   }
 }

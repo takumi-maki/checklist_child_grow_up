@@ -49,9 +49,7 @@ class _AchievementButtonWidgetState extends State<AchievementButtonWidget> {
           var result = await CheckListFirestore.updateItem(updateItem, widget.checkList);
           if (!result) {
             if(!mounted) return;
-            ScaffoldMessenger.of(context).showSnackBar(
-                WidgetUtils.errorSnackBar('アイテム更新に失敗しました')
-            );
+            WidgetUtils.errorSnackBar(context, 'アイテム更新に失敗しました');
             return ChangeButton.showErrorFor4Seconds(btnController);
           }
           await ChangeButton.showSuccessFor1Seconds(btnController);

@@ -57,9 +57,7 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                 btnController: btnController,
                 onPressed: () async {
                   if(!formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      WidgetUtils.errorSnackBar('正しく入力されていない項目があります')
-                    );
+                    WidgetUtils.errorSnackBar(context, '正しく入力されていない項目があります');
                     return ChangeButton.showErrorFor4Seconds(btnController);
                   }
                   if(emailController.text.isNotEmpty) {
@@ -69,9 +67,7 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                     registeredEmailAddresses = data['registered_email_addresses'];
                     if(registeredEmailAddresses.contains(emailController.text)) {
                       if(!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        WidgetUtils.errorSnackBar('既に登録済みのメールアドレスです')
-                      );
+                      WidgetUtils.errorSnackBar(context, '既に登録済みのメールアドレスです');
                       return ChangeButton.showErrorFor4Seconds(btnController);
                     }
                     registeredEmailAddresses.add(emailController.text);
@@ -84,9 +80,7 @@ class _RoomAddEmailPageState extends State<AddEmailPage> {
                     var result = await RoomFirestore.updateRoom(updateRoom);
                     if(!result) {
                       if(!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          WidgetUtils.errorSnackBar('メールアドレスの追加に失敗しました')
-                      );
+                      WidgetUtils.errorSnackBar(context, 'メールアドレスの追加に失敗しました');
                       return ChangeButton.showErrorFor4Seconds(btnController);
                     }
                     await ChangeButton.showSuccessFor1Seconds(btnController);

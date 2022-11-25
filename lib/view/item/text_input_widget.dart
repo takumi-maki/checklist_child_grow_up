@@ -126,9 +126,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                       TaskSnapshot? uploadImageTaskSnapshot = await ImageFirebaseStorage.uploadImage(compressedImage!);
                       if (uploadImageTaskSnapshot == null) {
                         if(!mounted) return;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            WidgetUtils.errorSnackBar('画像の送信に失敗しました')
-                        );
+                        WidgetUtils.errorSnackBar(context, '画像の送信に失敗しました');
                         return;
                       }
                       imagePath = await uploadImageTaskSnapshot.ref.getDownloadURL();
@@ -145,9 +143,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                     var commentAddResult = await CommentFireStore.addComment(widget.checkList, newComment);
                     if (!commentAddResult) {
                       if(!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          WidgetUtils.errorSnackBar('コメントの送信に失敗しました')
-                      );
+                      WidgetUtils.errorSnackBar(context, 'コメントの送信に失敗しました');
                       return;
                     }
                     compressedImage = null;

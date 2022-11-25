@@ -66,9 +66,8 @@ class _CommentDetailWidgetState extends State<CommentDetailWidget> {
     );
     if (!updateCommentResult) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        WidgetUtils.errorSnackBar('既読機能の更新に失敗しました')
-      );
+      WidgetUtils.errorSnackBar(context, '既読機能の更新に失敗しました');
+      return;
     }
   }
   bool shouldHideCommentDate() {

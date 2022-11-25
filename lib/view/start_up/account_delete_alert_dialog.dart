@@ -32,9 +32,7 @@ class _AccountDeleteAlertDialogState extends State<AccountDeleteAlertDialog> {
 
   void deleteErrorHandling(String message) {
     if(!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      WidgetUtils.errorSnackBar(message)
-    );
+    WidgetUtils.errorSnackBar(context, message);
     ChangeButton.showErrorFor4Seconds(btnController);
     if(!mounted) return;
     return Navigator.pop(context);
@@ -128,7 +126,7 @@ class _AccountDeleteAlertDialogState extends State<AccountDeleteAlertDialog> {
               child: LoadingButton(
                 btnController: btnController,
                 onPressed: () => onDeletedAccount(),
-                color: Colors.red,
+                color: Theme.of(context).errorColor,
                 child: const Text('アカウント削除')
               ),
             ),

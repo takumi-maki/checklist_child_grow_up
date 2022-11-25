@@ -95,9 +95,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   btnController: btnController,
                   onPressed: () async {
                     if(!formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        WidgetUtils.errorSnackBar('正しく入力されていない項目があります')
-                      );
+                      WidgetUtils.errorSnackBar(context, '正しく入力されていない項目があります');
                       return ChangeButton.showErrorFor4Seconds(btnController);
                     }
                     final signUpResult = await AuthenticationFirestore.signUp(
@@ -107,9 +105,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     );
                     if (signUpResult is! UserCredential) {
                       if(!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          WidgetUtils.errorSnackBar(signUpResult)
-                      );
+                      WidgetUtils.errorSnackBar(context, signUpResult);
                       return ChangeButton.showErrorFor4Seconds(btnController);
                     }
                     signUpResult.user!.sendEmailVerification();
@@ -121,9 +117,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     final accountResult = await AccountFirestore.setAccount(newAccount);
                     if (!accountResult) {
                       if(!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          WidgetUtils.errorSnackBar('アカウントの作成に失敗しました')
-                      );
+                      WidgetUtils.errorSnackBar(context, 'アカウントの作成に失敗しました');
                       AuthenticationFirestore.deleteAuth(signUpResult.user!);
                       return ChangeButton.showErrorFor4Seconds(btnController);
                     }

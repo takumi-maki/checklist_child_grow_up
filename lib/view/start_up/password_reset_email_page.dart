@@ -58,17 +58,13 @@ class _PasswordRestEmailPageState extends State<PasswordRestEmailPage> {
                     btnController: btnController,
                     onPressed: () async {
                       if(!formKey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            WidgetUtils.errorSnackBar('正しく入力されていない項目があります')
-                        );
+                        WidgetUtils.errorSnackBar(context, '正しく入力されていない項目があります');
                         return ChangeButton.showErrorFor4Seconds(btnController);
                       }
                       var passwordRestResult = await AuthenticationFirestore.sendPasswordRestEmail(emailController.text);
                       if (passwordRestResult != 'success') {
                         if(!mounted) return;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            WidgetUtils.errorSnackBar(passwordRestResult)
-                        );
+                        WidgetUtils.errorSnackBar(context, passwordRestResult);
                         return ChangeButton.showErrorFor4Seconds(btnController);
                       }
                       await ChangeButton.showSuccessFor1Seconds(btnController);

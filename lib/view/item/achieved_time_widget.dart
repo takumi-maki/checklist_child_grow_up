@@ -63,9 +63,7 @@ class _AchievedTimeWidgetState extends State<AchievedTimeWidget> {
               if (modifiedAchievedTime == null) return;
               if (currentTime.isBefore(modifiedAchievedTime.toDate())) {
                 if (!mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                    WidgetUtils.errorSnackBar('達成した日は本日以前に修正してください')
-                );
+                WidgetUtils.errorSnackBar(context, '達成した日は本日以前で修正してください');
                 return;
               }
               Item updatedItem = Item(
@@ -78,9 +76,7 @@ class _AchievedTimeWidgetState extends State<AchievedTimeWidget> {
               var result = await CheckListFirestore.updateItem(updatedItem, widget.checkList);
               if (!result) {
                 if (!mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                    WidgetUtils.errorSnackBar('達成した日の更新に失敗しました')
-                );
+                WidgetUtils.errorSnackBar(context, '達成した日の更新に失敗しました');
                 return;
               }
               setState(() {

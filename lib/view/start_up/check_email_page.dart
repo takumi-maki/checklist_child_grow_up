@@ -73,16 +73,12 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
                     );
                     if(signInResult is! UserCredential) {
                       if (!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        WidgetUtils.errorSnackBar(signInResult)
-                      );
+                      WidgetUtils.errorSnackBar(context, signInResult);
                       return ChangeButton.showErrorFor4Seconds(btnController);
                     }
                     if(!signInResult.user!.emailVerified) {
                       if (!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        WidgetUtils.errorSnackBar('メール認証が終了していません')
-                      );
+                      WidgetUtils.errorSnackBar(context, 'メール認証が終了していません');
                       return ChangeButton.showErrorFor4Seconds(btnController);
                     }
                     await ChangeButton.showSuccessFor1Seconds(btnController);

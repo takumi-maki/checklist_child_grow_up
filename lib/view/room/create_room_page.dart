@@ -77,9 +77,7 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                 btnController: btnController,
                 onPressed: () async {
                   if(!formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      WidgetUtils.errorSnackBar('正しく入力されていない項目があります')
-                    );
+                    WidgetUtils.errorSnackBar(context, '正しく入力されていない項目があります');
                     return ChangeButton.showErrorFor4Seconds(btnController);
                   }
                   List<dynamic> registeredEmailAddresses =  partnerEmailController.text.isEmpty
@@ -94,9 +92,7 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                   var setNewRoomResult = await RoomFirestore.setNewRoom(newRoom);
                   if (!setNewRoomResult) {
                     if(!mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      WidgetUtils.errorSnackBar('ルームの作成に失敗しました')
-                    );
+                    WidgetUtils.errorSnackBar(context, 'ルームの作成に失敗しました');
                     return ChangeButton.showErrorFor4Seconds(btnController);
                   }
                   await ChangeButton.showSuccessFor1Seconds(btnController);
