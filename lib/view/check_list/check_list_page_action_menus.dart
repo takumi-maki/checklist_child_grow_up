@@ -1,6 +1,6 @@
-import 'package:checklist_child_grow_up/view/about/about_app_page.dart';
+import 'package:checklist_child_grow_up/view/about/about_app_menus_page.dart';
 import 'package:checklist_child_grow_up/view/about/about_check_list_page.dart';
-import 'package:checklist_child_grow_up/view/about/about_room_page.dart';
+import 'package:checklist_child_grow_up/view/about/about_room_menus_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';
@@ -23,32 +23,21 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
         onSelected: (CheckListPopupMenuItem value) {
           switch(value) {
             case CheckListPopupMenuItem.aboutCheckList:
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) {
-                        return const AboutCheckListPage();
-                      }
-                  )
-              );
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const AboutCheckListPage();
+              }));
               break;
             case CheckListPopupMenuItem.aboutRoom:
-              Navigator.push(context,
-                  MaterialPageRoute(
-                      builder: (context) {
-                        return AboutRoomPage(childName: widget.childName, roomId: widget.roomId);
-                      }
-                  )
-              );
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return AboutRoomMenusPage(childName: widget.childName, roomId: widget.roomId);
+              }));
               break;
             case CheckListPopupMenuItem.aboutApp:
-              showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (context) {
-                    return const AboutAppPage();
-                  }
-              );
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const AboutAppMenusPage();
+              }));
+              break;
+            default:
               break;
           }
         },
@@ -57,8 +46,10 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
               value: CheckListPopupMenuItem.aboutCheckList,
               child: Row(
                 children: [
-                  const Icon(Icons.checklist),
-                  const SizedBox(width: 15.0),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 16.0),
+                    child: Icon(Icons.checklist),
+                  ),
                   Text('成長のチェックリストについて', style: Theme.of(context).textTheme.bodyText1),
                 ],
               )
@@ -68,8 +59,10 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
               value: CheckListPopupMenuItem.aboutRoom,
               child: Row(
                 children: [
-                  const Icon(Icons.room_preferences),
-                  const SizedBox(width: 15.0),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 16.0),
+                    child: Icon(Icons.room_preferences),
+                  ),
                   Text('ルームについて', style: Theme.of(context).textTheme.bodyText1),
                 ],
               )
@@ -79,8 +72,10 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
               value: CheckListPopupMenuItem.aboutApp,
               child: Row(
                 children: [
-                  const Icon(Icons.info),
-                  const SizedBox(width: 15.0),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 16.0),
+                    child: Icon(Icons.info),
+                  ),
                   Text('アプリについて', style: Theme.of(context).textTheme.bodyText1),
                 ],
               )

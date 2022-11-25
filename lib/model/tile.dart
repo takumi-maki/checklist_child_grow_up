@@ -4,13 +4,14 @@ class Tile {
   String? id;
   Icon leading;
   Text title;
-  dynamic onTap;
-
+  bool isErrorText;
+  VoidCallback onTap;
 
   Tile({
     this.id,
     required this.leading,
     required this.title,
-    required this.onTap
+    this.isErrorText = false,
+    required this.onTap,
   });
 }
