@@ -64,64 +64,66 @@ class _CheckListsPageWidgetState extends State<CheckListsPageWidget> {
       length: CheckList.tabBarList.length,
       child: Scaffold(
         appBar: CheckListsAppBarWidget(childName: widget.childName, roomId: widget.roomId),
-        body: StreamBuilder<QuerySnapshot>(
-          stream: RoomFirestore.rooms.doc(widget.roomId)
-            .collection('check_lists').orderBy('type', descending: false)
-            .snapshots(),
-          builder: (context, checkListSnapshot) {
-            if(!checkListSnapshot.hasData || checkListSnapshot.data!.docs.length < CheckList.tabBarList.length) {
+        body: SafeArea(
+          child: StreamBuilder<QuerySnapshot>(
+            stream: RoomFirestore.rooms.doc(widget.roomId)
+              .collection('check_lists').orderBy('type', descending: false)
+              .snapshots(),
+            builder: (context, checkListSnapshot) {
+              if(!checkListSnapshot.hasData || checkListSnapshot.data!.docs.length < CheckList.tabBarList.length) {
+                return TabBarView(
+                  children: CheckList.tabBarList.map((e) {
+                    return const SizedBox();
+                  }).toList()
+                );
+              }
               return TabBarView(
-                children: CheckList.tabBarList.map((e) {
-                  return const SizedBox();
-                }).toList()
-              );
-            }
-            return TabBarView(
-              children: checkListSnapshot.data!.docs.map((doc) {
-                CheckList checkList = getCheckList(doc);
-                return ListView.builder(
-                  itemCount: checkList.items.length,
-                  itemBuilder: (context, index) {
-                    final Item item = checkList.items[index];
-                    return Column(
-                      children: [
-                        index != 0 && index % 7 == 0 ? const AdBannerWidget() : const SizedBox(),
-                        StreamBuilder<QuerySnapshot>(
-                          stream: RoomFirestore.rooms.doc(checkList.roomId)
-                            .collection('check_lists').doc(checkList.id)
-                            .collection('comments').orderBy('created_time', descending: false)
-                            .where('item_id', isEqualTo: item.id)
-                            .snapshots(),
-                          builder: (context, commentSnapshot) {
-                            if (!commentSnapshot.hasData) {
-                              return const SizedBox(
-                                height: 64.0,
-                                width: double.infinity,
-                              );
-                            }
-                            if (commentSnapshot.data!.docs.isNotEmpty) {
-                              final unreadCommentsCount = countUnreadComments(commentSnapshot.data!.docs);
+                children: checkListSnapshot.data!.docs.map((doc) {
+                  CheckList checkList = getCheckList(doc);
+                  return ListView.builder(
+                    itemCount: checkList.items.length,
+                    itemBuilder: (context, index) {
+                      final Item item = checkList.items[index];
+                      return Column(
+                        children: [
+                          index != 0 && index % 7 == 0 ? const AdBannerWidget() : const SizedBox(),
+                          StreamBuilder<QuerySnapshot>(
+                            stream: RoomFirestore.rooms.doc(checkList.roomId)
+                              .collection('check_lists').doc(checkList.id)
+                              .collection('comments').orderBy('created_time', descending: false)
+                              .where('item_id', isEqualTo: item.id)
+                              .snapshots(),
+                            builder: (context, commentSnapshot) {
+                              if (!commentSnapshot.hasData) {
+                                return const SizedBox(
+                                  height: 64.0,
+                                  width: double.infinity,
+                                );
+                              }
+                              if (commentSnapshot.data!.docs.isNotEmpty) {
+                                final unreadCommentsCount = countUnreadComments(commentSnapshot.data!.docs);
+                                return CheckListCardDetailWidget(
+                                  checkList: checkList,
+                                  item: item,
+                                  hasComments: true,
+                                  unreadCommentsCount: unreadCommentsCount,
+                                );
+                              }
                               return CheckListCardDetailWidget(
                                 checkList: checkList,
                                 item: item,
-                                hasComments: true,
-                                unreadCommentsCount: unreadCommentsCount,
+                                hasComments: false,
                               );
                             }
-                            return CheckListCardDetailWidget(
-                              checkList: checkList,
-                              item: item,
-                              hasComments: false,
-                            );
-                          }
-                        )
-                      ],
-                    );
-                  }
-                );
-              }).toList()
-            );
-          }
+                          )
+                        ],
+                      );
+                    }
+                  );
+                }).toList()
+              );
+            }
+          ),
         ),
       )
     );

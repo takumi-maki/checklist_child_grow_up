@@ -19,15 +19,15 @@ class _RegisteredEmailAddressesPageState extends State<RegisteredEmailAddressesP
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: WidgetUtils.createAppBar(context, '登録中のメールアドレス一覧'),
-      body: StreamBuilder<DocumentSnapshot>(
-        stream: RoomFirestore.rooms.doc(widget.roomId).snapshots(),
-        builder: (context, roomSnapshot) {
-          if(!roomSnapshot.hasData) {
-            return const SizedBox();
-          }
-          List<dynamic> registeredEmailAddresses = roomSnapshot.data!['registered_email_addresses'];
-          return SafeArea(
-            child: Column(
+      body: SafeArea(
+        child: StreamBuilder<DocumentSnapshot>(
+          stream: RoomFirestore.rooms.doc(widget.roomId).snapshots(),
+          builder: (context, roomSnapshot) {
+            if(!roomSnapshot.hasData) {
+              return const SizedBox();
+            }
+            List<dynamic> registeredEmailAddresses = roomSnapshot.data!['registered_email_addresses'];
+            return Column(
               children: [
                 Expanded(
                   child: ListView.builder(
@@ -69,9 +69,9 @@ class _RegisteredEmailAddressesPageState extends State<RegisteredEmailAddressesP
                 ),
                 const AdBannerWidget(),
               ],
-            ),
-          );
-        }
+            );
+          }
+        ),
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 54.0),

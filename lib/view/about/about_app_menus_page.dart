@@ -73,23 +73,25 @@ class _AboutAppMenusPageState extends State<AboutAppMenusPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: WidgetUtils.createAppBar(context, 'アプリについて'),
-      body: ListView.builder(
-        itemCount: aboutAppMenus.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListTile(
-                leading: aboutAppMenus[index].leading,
-                title: aboutAppMenus[index].title,
-                trailing: const Icon(Icons.arrow_forward_ios),
-                iconColor: aboutAppMenus[index].isErrorText ? Theme.of(context).errorColor : Colors.black87,
-                textColor: aboutAppMenus[index].isErrorText ? Theme.of(context).errorColor : Colors.black87,
-                onTap: aboutAppMenus[index].onTap,
+      body: SafeArea(
+        child: ListView.builder(
+          itemCount: aboutAppMenus.length,
+          itemBuilder: (context, index) {
+            return Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  leading: aboutAppMenus[index].leading,
+                  title: aboutAppMenus[index].title,
+                  trailing: const Icon(Icons.arrow_forward_ios),
+                  iconColor: aboutAppMenus[index].isErrorText ? Theme.of(context).errorColor : Colors.black87,
+                  textColor: aboutAppMenus[index].isErrorText ? Theme.of(context).errorColor : Colors.black87,
+                  onTap: aboutAppMenus[index].onTap,
+                ),
               ),
-            ),
-          );
-        }
+            );
+          }
+        ),
       ),
     );
   }

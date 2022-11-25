@@ -23,26 +23,26 @@ class _RoomListPageState extends State<RoomListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: WidgetUtils.createAppBar(context, 'ルーム一覧'),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: RoomFirestore.rooms
-          .where('registered_email_addresses', arrayContains: currentFirebaseUser.email)
-          .orderBy('created_time', descending: true)
-          .snapshots(),
-        builder: (context, roomSnapshot) {
-          if(!roomSnapshot.hasData) {
-            return const Center(
-              child: SizedBox(
-                height: 20.0,
-                width: 20.0,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(Colors.amber),
+      body: SafeArea(
+        child: StreamBuilder<QuerySnapshot>(
+          stream: RoomFirestore.rooms
+            .where('registered_email_addresses', arrayContains: currentFirebaseUser.email)
+            .orderBy('created_time', descending: true)
+            .snapshots(),
+          builder: (context, roomSnapshot) {
+            if(!roomSnapshot.hasData) {
+              return const Center(
+                child: SizedBox(
+                  height: 20.0,
+                  width: 20.0,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(Colors.amber),
+                  ),
                 ),
-              ),
-            );
-          }
-          if(roomSnapshot.data!.docs.isEmpty) {
-            return SafeArea(
-              child: Stack(
+              );
+            }
+            if(roomSnapshot.data!.docs.isEmpty) {
+              return Stack(
                 children: [
                   Center(
                     child: Column(
@@ -68,11 +68,9 @@ class _RoomListPageState extends State<RoomListPage> {
                     child: AdBannerWidget()
                   )
                 ]
-              ),
-            );
-          }
-          return SafeArea(
-            child: Column(
+              );
+            }
+            return Column(
               children: [
                 Expanded(
                   child: ListView.builder(
@@ -104,9 +102,9 @@ class _RoomListPageState extends State<RoomListPage> {
                 ),
                 const AdBannerWidget(),
               ],
-            ),
-          );
-        }
+            );
+          }
+        ),
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 54.0),

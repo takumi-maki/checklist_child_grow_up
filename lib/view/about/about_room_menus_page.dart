@@ -52,23 +52,25 @@ class _AboutRoomMenusPageState extends State<AboutRoomMenusPage> {
 
     return Scaffold(
       appBar: WidgetUtils.createAppBar(context, 'ルームについて'),
-      body: ListView.builder(
-          itemCount: aboutRoomMenus.length,
-          itemBuilder: (context, index) {
-            return Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListTile(
-                  leading: aboutRoomMenus[index].leading,
-                  title: aboutRoomMenus[index].title,
-                  trailing: const Icon(Icons.arrow_forward_ios),
-                  iconColor: aboutRoomMenus[index].isErrorText ? Theme.of(context).colorScheme.error : Colors.black87,
-                  textColor: aboutRoomMenus[index].isErrorText ? Theme.of(context).colorScheme.error : Colors.black87,
-                  onTap: aboutRoomMenus[index].onTap,
+      body: SafeArea(
+        child: ListView.builder(
+            itemCount: aboutRoomMenus.length,
+            itemBuilder: (context, index) {
+              return Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    leading: aboutRoomMenus[index].leading,
+                    title: aboutRoomMenus[index].title,
+                    trailing: const Icon(Icons.arrow_forward_ios),
+                    iconColor: aboutRoomMenus[index].isErrorText ? Theme.of(context).colorScheme.error : Colors.black87,
+                    textColor: aboutRoomMenus[index].isErrorText ? Theme.of(context).colorScheme.error : Colors.black87,
+                    onTap: aboutRoomMenus[index].onTap,
+                  ),
                 ),
-              ),
-            );
-          }
+              );
+            }
+        ),
       ),
     );
   }
