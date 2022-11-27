@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/banner/ad_banner_widget.dart';
-import 'package:checklist_child_grow_up/view/room/add_email_page.dart';
+import 'package:checklist_child_grow_up/view/room/add_email_widget.dart';
 import 'package:flutter/material.dart';
 
 class RegisteredEmailAddressesPage extends StatefulWidget {
@@ -76,9 +76,24 @@ class _RegisteredEmailAddressesPageState extends State<RegisteredEmailAddressesP
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 54.0),
         child: FloatingActionButton(
-          onPressed: () async {
-            if(!mounted) return;
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AddEmailPage(roomId: widget.roomId)));
+          onPressed: () {
+            showModalBottomSheet(
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(20.0)
+                )
+              ),
+              isScrollControlled: true,
+              isDismissible: false,
+              context: context, 
+              builder: (BuildContext context) {
+              return Padding(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom
+                ),
+                child: AddEmailWidget(roomId: widget.roomId),
+              );
+            });
           },
           backgroundColor: Theme.of(context).colorScheme.secondary,
           child: const Icon(Icons.add),

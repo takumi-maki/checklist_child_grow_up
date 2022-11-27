@@ -3,8 +3,8 @@ import '../../utils/loading/change_button.dart';
 import 'package:checklist_child_grow_up/utils/validator.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/room/room_list_page.dart';
-import 'package:checklist_child_grow_up/view/start_up/create_account_page.dart';
-import 'package:checklist_child_grow_up/view/start_up/password_reset_email_page.dart';
+import 'package:checklist_child_grow_up/view/start_up/create_account_widget.dart';
+import 'package:checklist_child_grow_up/view/start_up/password_reset_email_widget.dart';
 import 'package:checklist_child_grow_up/view/start_up/title_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -92,10 +92,23 @@ class _LoginPageState extends State<LoginPage> {
                       TextSpan(text: 'こちら',
                         style: const TextStyle(color: Colors.blue),
                         recognizer: TapGestureRecognizer()..onTap = () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const CreateAccountPage())
-                          );
+                          showModalBottomSheet(
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20.0)
+                              )
+                            ),
+                            isDismissible: false,
+                            isScrollControlled: true,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                  bottom: MediaQuery.of(context).viewInsets.bottom
+                                ),
+                                child: const CreateAccountWidget(),
+                              );
+                          });
                           resetControllers();
                         }
                       ),
@@ -109,10 +122,23 @@ class _LoginPageState extends State<LoginPage> {
                         TextSpan(text: 'こちら',
                             style: const TextStyle(color: Colors.blue),
                             recognizer: TapGestureRecognizer()..onTap = () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const PasswordRestEmailPage())
-                              );
+                              showModalBottomSheet(
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(20.0)
+                                  )
+                                ),
+                                isDismissible: false,
+                                isScrollControlled: true,
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context).viewInsets.bottom
+                                    ),
+                                    child: const PasswordRestEmailWidget(),
+                                  );
+                              });
                               resetControllers();
                             }
                         ),

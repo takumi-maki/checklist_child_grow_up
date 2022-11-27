@@ -2,7 +2,7 @@ import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:checklist_child_grow_up/view/banner/ad_banner_widget.dart';
-import 'package:checklist_child_grow_up/view/room/create_room_page.dart';
+import 'package:checklist_child_grow_up/view/room/create_room_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -110,7 +110,24 @@ class _RoomListPageState extends State<RoomListPage> {
         padding: const EdgeInsets.only(bottom: 54.0),
         child: FloatingActionButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateRoomPage()));
+            showModalBottomSheet(
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(20.0)
+                )
+              ),
+              isScrollControlled: true,
+              isDismissible: false,
+              context: context,
+              builder: (BuildContext context) {
+                return Padding(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom
+                  ),
+                  child: const CreateRoomWidget(),
+                );
+              }
+            );
           },
           backgroundColor: Theme.of(context).colorScheme.secondary,
           child: const Icon(Icons.add),
