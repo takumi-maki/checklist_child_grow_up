@@ -44,6 +44,19 @@ enum CheckListType {
   life
 }
 
+
+class CheckListProgress {
+  CheckListType type;
+  int totalItemsCount;
+  int isAchievedItemsCount;
+
+  CheckListProgress({
+    required this.type,
+    required this.totalItemsCount,
+    required this.isAchievedItemsCount
+  });
+}
+
 int checkListTypeToInt(CheckListType type) {
   switch (type) {
     case CheckListType.body:

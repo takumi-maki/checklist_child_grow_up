@@ -1,4 +1,5 @@
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
+import 'package:checklist_child_grow_up/view/room/room_list_card_detail_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:checklist_child_grow_up/view/banner/ad_banner_widget.dart';
@@ -6,8 +7,9 @@ import 'package:checklist_child_grow_up/view/room/create_room_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/check_list.dart';
 import '../../utils/firestore/authentications.dart';
-import '../check_list/check_lists_page.dart';
+
 
 class RoomListPage extends StatefulWidget {
   const RoomListPage({Key? key}) : super(key: key);
@@ -18,6 +20,26 @@ class RoomListPage extends StatefulWidget {
 
 class _RoomListPageState extends State<RoomListPage> {
   final User currentFirebaseUser = AuthenticationFirestore.currentFirebaseUser!;
+
+  List<CheckListProgress> countCheckListsProgress(
+    List<QueryDocumentSnapshot<Object?>> checkListDocuments
+  ) {
+    return checkListDocuments.map((doc) {
+      Map<String, dynamic> checkList = doc.data() as Map<String, dynamic>;
+      final List items = checkList['items'];
+      int isAchievedItemsCount = 0;
+      for (var item in items) {
+        if (item['is_achieved']) {
+          isAchievedItemsCount ++;
+        }
+      }
+      return CheckListProgress(
+          type: intToCheckListType(checkList['type']),
+          totalItemsCount: items.length,
+          isAchievedItemsCount: isAchievedItemsCount
+      );
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +72,7 @@ class _RoomListPageState extends State<RoomListPage> {
                       children: const [
                         Padding(
                           padding: EdgeInsets.all(10.0),
-                          child: Icon(
-                            Icons.info_outline,
-                            color: Colors.black54,
-                          ),
+                          child: Icon(Icons.info_outline, color: Colors.black54),
                         ),
                         Text('登録しているルームが存在しません'),
                         Padding(
@@ -74,30 +93,37 @@ class _RoomListPageState extends State<RoomListPage> {
               children: [
                 Expanded(
                   child: ListView.builder(
-                      itemCount: roomSnapshot.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        Map<String, dynamic> data = roomSnapshot.data!.docs[index].data() as Map<String, dynamic>;
-                        return Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
-                              leading: Image.asset('assets/images/hiyoko_up.png', height: 36),
-                              title: Text('${data['child_name']} のルーム'),
-                              trailing: const Icon(Icons.arrow_forward_ios),
-                              textColor: Colors.black87,
-                              iconColor: Colors.black87,
-                              onTap: () {
-                                Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => CheckListsPageWidget(
-                                    childName: data['child_name'],
-                                    roomId: roomSnapshot.data!.docs[index].id)
-                                  )
-                                );
-                              },
-                            ),
-                          ),
-                        );
-                      }
+                    itemCount: roomSnapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      Map<String, dynamic> room = roomSnapshot.data!.docs[index].data() as Map<String, dynamic>;
+                      return StreamBuilder<QuerySnapshot>(
+                        stream: RoomFirestore.rooms.doc(room['id'])
+                          .collection('check_lists').orderBy('type', descending: false)
+                          .snapshots(),
+                        builder: (context, checkListSnapshot) {
+                          if (!checkListSnapshot.hasData) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                height: 164.0,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade200,
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                              ),
+                            );
+                          }
+                          final List<CheckListProgress> checkListsProgress =
+                            countCheckListsProgress(checkListSnapshot.data!.docs);
+                          return RoomListCardDetailWidget(
+                            roomId: room['id'],
+                            childName: room['child_name'],
+                            checkListsProgress: checkListsProgress
+                          );
+                        }
+                      );
+                    }
                   ),
                 ),
                 const AdBannerWidget(),
