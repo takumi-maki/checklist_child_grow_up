@@ -38,7 +38,10 @@ class _RegisteredEmailAddressesPageState extends State<RegisteredEmailAddressesP
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
-                            leading: Image.asset('assets/images/chicken.png', height: 36),
+                            leading: CircleAvatar(
+                              backgroundColor: Colors.orange.shade200,
+                              child: Image.asset('assets/images/chicken.png', height: 36)
+                            ),
                             title: Text(email),
                             subtitle: StreamBuilder<QuerySnapshot>(
                               stream: AccountFirestore.accounts

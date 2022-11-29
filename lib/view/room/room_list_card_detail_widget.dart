@@ -51,9 +51,20 @@ class _RoomListCardDetailWidgetState extends State<RoomListCardDetailWidget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Image.asset(
-                    'assets/images/hiyoko_up.png',
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.2,
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.green.shade200,
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Image.asset(
+                            'assets/images/hiyoko_up.png',
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.6,
