@@ -33,36 +33,30 @@ class _RegisteredEmailAddressesPageState extends State<RegisteredEmailAddressesP
                   child: ListView.builder(
                     itemCount: registeredEmailAddresses.length,
                     itemBuilder: (context, index) {
-                      return StreamBuilder<QuerySnapshot>(
-                        stream: AccountFirestore.accounts.where('email', isEqualTo: registeredEmailAddresses[index]).snapshots(),
-                        builder: (context, accountSnapshot) {
-                          if (!accountSnapshot.hasData) {
-                            return const SizedBox();
-                          }
-                          if (accountSnapshot.data!.docs.isEmpty) {
-                            return Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ListTile(
-                                  leading: Image.asset('assets/images/chicken.png', height: 36),
-                                  title: Text(registeredEmailAddresses[index]),
-                                  subtitle: const Text('未登録アカウント'),
-                                ),
-                              ),
-                            );
-                          }
-                          Map<String, dynamic> data = accountSnapshot.data!.docs.first.data() as Map<String, dynamic>;
-                          return Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ListTile(
-                                leading: Image.asset('assets/images/chicken.png', height: 36),
-                                title: Text(data['email']),
-                                subtitle: Text(data['name']),
-                              ),
+                      final email = registeredEmailAddresses[index];
+                      return Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            leading: Image.asset('assets/images/chicken.png', height: 36),
+                            title: Text(email),
+                            subtitle: StreamBuilder<QuerySnapshot>(
+                              stream: AccountFirestore.accounts
+                                .where('email', isEqualTo: email)
+                                .snapshots(),
+                              builder: (context, accountSnapshot) {
+                                if (!accountSnapshot.hasData) {
+                                  return const SizedBox();
+                                }
+                                if (accountSnapshot.data!.docs.isEmpty) {
+                                  return const Text('未登録アカウント');
+                                }
+                                Map<String, dynamic> data = accountSnapshot.data!.docs.first.data() as Map<String, dynamic>;
+                                return Text(data['name']);
+                              }
                             ),
-                          );
-                        }
+                          ),
+                        )
                       );
                     }
                   ),
