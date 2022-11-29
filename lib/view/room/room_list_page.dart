@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';
+import '../../model/room.dart';
 import '../../utils/firestore/authentications.dart';
 
 
@@ -95,9 +96,16 @@ class _RoomListPageState extends State<RoomListPage> {
                   child: ListView.builder(
                     itemCount: roomSnapshot.data!.docs.length,
                     itemBuilder: (context, index) {
-                      Map<String, dynamic> room = roomSnapshot.data!.docs[index].data() as Map<String, dynamic>;
+                      Map<String, dynamic> data = roomSnapshot.data!.docs[index].data() as Map<String, dynamic>;
+                      final Room room = Room(
+                          id: data['id'],
+                          childName: data['child_name'],
+                          registeredEmailAddresses: data['registered_email_addresses'],
+                          createdTime: data['created_time'],
+                          imagePath: data['image_path']
+                      );
                       return StreamBuilder<QuerySnapshot>(
-                        stream: RoomFirestore.rooms.doc(room['id'])
+                        stream: RoomFirestore.rooms.doc(room.id)
                           .collection('check_lists').orderBy('type', descending: false)
                           .snapshots(),
                         builder: (context, checkListSnapshot) {
@@ -117,8 +125,7 @@ class _RoomListPageState extends State<RoomListPage> {
                           final List<CheckListProgress> checkListsProgress =
                             countCheckListsProgress(checkListSnapshot.data!.docs);
                           return RoomListCardDetailWidget(
-                            roomId: room['id'],
-                            childName: room['child_name'],
+                            room: room,
                             checkListsProgress: checkListsProgress
                           );
                         }

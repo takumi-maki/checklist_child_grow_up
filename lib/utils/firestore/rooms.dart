@@ -21,10 +21,11 @@ class RoomFirestore {
         'child_name': newRoom.childName,
         'registered_email_addresses': newRoom.registeredEmailAddresses,
         'created_time': newRoom.createdTime,
+        'image_path': newRoom.imagePath
       });
-      List<dynamic> checkListAllItem = await FunctionUtils.getCheckListItems();
+      List<dynamic> checkListAllItems = await FunctionUtils.getCheckListItems();
       CheckList.tabBarList.asMap().forEach((index, tabBar) async {
-        List typeItems = checkListAllItem[index];
+        List typeItems = checkListAllItems[index];
         List newItems = [];
         for (var item in typeItems) {
           newItems.add({
@@ -51,6 +52,7 @@ class RoomFirestore {
         'child_name': updateRoom.childName,
         'registered_email_addresses': updateRoom.registeredEmailAddresses,
         'created_time': updateRoom.createdTime,
+        'image_path': updateRoom.imagePath,
       });
       debugPrint('ルーム情報更新完了');
       return true;

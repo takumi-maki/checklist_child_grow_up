@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import '../../utils/firebase_storage/images.dart';
 import '../../utils/loading/change_button.dart';
 import 'package:checklist_child_grow_up/utils/validator.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
@@ -26,6 +30,8 @@ class _CreateRoomWidgetState extends State<CreateRoomWidget> {
   final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
   final formKey = GlobalKey<FormState>();
   var uuid = const Uuid();
+  File? compressedImage;
+  String? imagePath;
 
   @override
   void dispose() {
@@ -37,7 +43,7 @@ class _CreateRoomWidgetState extends State<CreateRoomWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 460,
+      height: 500,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
@@ -62,8 +68,48 @@ class _CreateRoomWidgetState extends State<CreateRoomWidget> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    GestureDetector(
+                      onTap: () async {
+                        var image = await ImageFirebaseStorage.selectImage();
+                        compressedImage = await ImageFirebaseStorage.compressImage(image);
+                        setState((){});
+                      },
+                      child: Stack(
+                        alignment: Alignment.topRight,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(6.0),
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.2,
+                              child: FittedBox(
+                                fit: BoxFit.contain,
+                                child: compressedImage == null
+                                  ? CircleAvatar(
+                                    backgroundColor: Colors.green.shade200,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Image.asset(
+                                        'assets/images/hiyoko_up.png',
+                                      ),
+                                    ),
+                                  )
+                                  : CircleAvatar(
+                                    backgroundColor: Colors.grey.shade200,
+                                    backgroundImage: FileImage(compressedImage!)
+                                  ),
+                              ),
+                            ),
+                          ),
+                          CircleAvatar(
+                            radius: 14.0,
+                            backgroundColor: Theme.of(context).colorScheme.secondary,
+                            child: const Icon(Icons.add_a_photo, color: Colors.white, size: 18.0),
+                          )
+                        ]
+                      ),
+                    ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: SizedBox(
                         width: 300,
                         child: TextFormField(
@@ -103,6 +149,15 @@ class _CreateRoomWidgetState extends State<CreateRoomWidget> {
                               WidgetUtils.errorSnackBar(context, '正しく入力されていない項目があります');
                               return ChangeButton.showErrorFor4Seconds(btnController);
                             }
+                            if (compressedImage != null) {
+                              TaskSnapshot? uploadImageTaskSnapshot = await ImageFirebaseStorage.uploadImage(compressedImage!);
+                              if (uploadImageTaskSnapshot == null) {
+                                if(!mounted) return;
+                                WidgetUtils.errorSnackBar(context, '画像の送信に失敗しました');
+                                return;
+                              }
+                              imagePath = await uploadImageTaskSnapshot.ref.getDownloadURL();
+                            }
                             List<dynamic> registeredEmailAddresses =  partnerEmailController.text.isEmpty
                                 ? [currentFirebaseUser.email]
                                 : [currentFirebaseUser.email, partnerEmailController.text];
@@ -111,6 +166,7 @@ class _CreateRoomWidgetState extends State<CreateRoomWidget> {
                               childName: childNameController.text,
                               registeredEmailAddresses: registeredEmailAddresses,
                               createdTime: Timestamp.now(),
+                              imagePath: imagePath,
                             );
                             var setNewRoomResult = await RoomFirestore.setNewRoom(newRoom);
                             if (!setNewRoomResult) {

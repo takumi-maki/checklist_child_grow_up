@@ -97,7 +97,9 @@ class _RoomAddEmailPageState extends State<AddEmailWidget> {
                                 id: widget.roomId,
                                 childName: data['child_name'],
                                 registeredEmailAddresses: registeredEmailAddresses,
-                                createdTime: data['created_time']
+                                createdTime: data['created_time'],
+                                imagePath: data['image_path']
+
                             );
                             var result = await RoomFirestore.updateRoom(updateRoom);
                             if(!result) {

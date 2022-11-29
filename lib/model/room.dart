@@ -5,11 +5,13 @@ class Room {
   String childName;
   List<dynamic> registeredEmailAddresses;
   Timestamp createdTime;
+  String? imagePath;
 
   Room({
     required this.id,
     required this.childName,
     required this.registeredEmailAddresses,
-    required this.createdTime
+    required this.createdTime,
+    this.imagePath
   });
 }
