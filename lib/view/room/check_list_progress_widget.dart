@@ -14,16 +14,13 @@ class CheckListProgressWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.5,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(title),
-          Text('${checkListProgress.isAchievedItemsCount} / ${checkListProgress.totalItemsCount}'),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(title),
+        Text('${checkListProgress.isAchievedItemsCount} / ${checkListProgress.totalItemsCount}'),
+      ],
     );
   }
 }

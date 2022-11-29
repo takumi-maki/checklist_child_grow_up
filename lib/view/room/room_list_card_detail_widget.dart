@@ -55,36 +55,39 @@ class _RoomListCardDetailWidgetState extends State<RoomListCardDetailWidget> {
                     'assets/images/hiyoko_up.png',
                     width: MediaQuery.of(context).size.width * 0.2,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: widget.checkListsProgress.map((checkListProgress) {
-                        switch (checkListProgress.type) {
-                          case CheckListType.body:
-                            return CheckListProgressWidget(
-                              title: '体の大きな動き',
-                              checkListProgress: checkListProgress
-                            );
-                          case CheckListType.hand:
-                            return CheckListProgressWidget(
-                              title: '手の動き',
-                              checkListProgress: checkListProgress
-                            );
-                          case CheckListType.voice:
-                            return CheckListProgressWidget(
-                              title: 'ことばの成長と理解',
-                              checkListProgress: checkListProgress
-                            );
-                          case CheckListType.life:
-                            return CheckListProgressWidget(
-                              title: '生活習慣',
-                              checkListProgress: checkListProgress
-                            );
-                          default:
-                            return const SizedBox();
-                        }
-                      }).toList(),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: widget.checkListsProgress.map((checkListProgress) {
+                          switch (checkListProgress.type) {
+                            case CheckListType.body:
+                              return CheckListProgressWidget(
+                                title: '体の大きな動き',
+                                checkListProgress: checkListProgress
+                              );
+                            case CheckListType.hand:
+                              return CheckListProgressWidget(
+                                title: '手の動き',
+                                checkListProgress: checkListProgress
+                              );
+                            case CheckListType.voice:
+                              return CheckListProgressWidget(
+                                title: 'ことばの成長と理解',
+                                checkListProgress: checkListProgress
+                              );
+                            case CheckListType.life:
+                              return CheckListProgressWidget(
+                                title: '生活習慣',
+                                checkListProgress: checkListProgress
+                              );
+                            default:
+                              return const SizedBox();
+                          }
+                        }).toList(),
+                      ),
                     ),
                   ),
                   const Icon(Icons.arrow_forward_ios),
