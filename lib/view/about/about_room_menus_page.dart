@@ -1,4 +1,5 @@
 import 'package:checklist_child_grow_up/model/tile.dart';
+import 'package:checklist_child_grow_up/view/room/edit_room_widget.dart';
 import 'package:checklist_child_grow_up/view/room/room_delete_alert_dialog.dart';
 import 'package:checklist_child_grow_up/view/room/registered_email_addresses_page.dart';
 import 'package:flutter/material.dart';
@@ -33,12 +34,38 @@ class _AboutRoomMenusPageState extends State<AboutRoomMenusPage> {
         }))
       ),
       Tile(
+          leading: const Icon(Icons.edit_note),
+          title: const Text('ルーム編集'),
+          onTap: () => handleEditRoomOnTap()
+      ),
+      Tile(
         leading: const Icon(Icons.delete),
         title: const Text('ルーム削除'),
         isErrorText: true,
         onTap: () => handleRoomDeleteOnTap()
       ),
     ];
+  }
+
+  void handleEditRoomOnTap() async {
+    showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20.0)
+        )
+      ),
+      isScrollControlled: true,
+      isDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom
+          ),
+          child: EditRoomWidget(roomId: widget.roomId)
+        );
+      }
+    );
   }
 
   void handleRoomDeleteOnTap() {

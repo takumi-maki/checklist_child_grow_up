@@ -43,7 +43,7 @@ class _CreateRoomWidgetState extends State<CreateRoomWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 500,
+      height: 520,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
@@ -74,13 +74,13 @@ class _CreateRoomWidgetState extends State<CreateRoomWidget> {
                         compressedImage = await ImageFirebaseStorage.compressImage(image);
                         setState((){});
                       },
-                      child: Stack(
-                        alignment: Alignment.topRight,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(6.0),
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.2,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Stack(
+                          alignment: Alignment.topRight,
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.3,
                               child: FittedBox(
                                 fit: BoxFit.contain,
                                 child: compressedImage == null
@@ -99,13 +99,13 @@ class _CreateRoomWidgetState extends State<CreateRoomWidget> {
                                   ),
                               ),
                             ),
-                          ),
-                          CircleAvatar(
-                            radius: 14.0,
-                            backgroundColor: Theme.of(context).colorScheme.secondary,
-                            child: const Icon(Icons.add_a_photo, color: Colors.white, size: 18.0),
-                          )
-                        ]
+                            CircleAvatar(
+                              radius: 14.0,
+                              backgroundColor: Theme.of(context).colorScheme.secondary,
+                              child: const Icon(Icons.add_a_photo, color: Colors.white, size: 20.0),
+                            )
+                          ]
+                        ),
                       ),
                     ),
                     Padding(
