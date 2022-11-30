@@ -166,7 +166,7 @@ class _EditRoomWidgetState extends State<EditRoomWidget> {
                                   await ImageFirebaseStorage.uploadImage(compressedImage!);
                                 if (uploadImageTaskSnapshot == null) {
                                   if(!mounted) return;
-                                  WidgetUtils.errorSnackBar(context, '画像の送信に失敗しました');
+                                  WidgetUtils.errorSnackBar(context, '画像の登録に失敗しました');
                                   return;
                                 }
                                 imagePath = await uploadImageTaskSnapshot.ref.getDownloadURL();
@@ -181,8 +181,12 @@ class _EditRoomWidgetState extends State<EditRoomWidget> {
                               var updateRoomResult = await RoomFirestore.updateRoom(updatedRoom);
                               if (!updateRoomResult) {
                                 if(!mounted) return;
-                                WidgetUtils.errorSnackBar(context, 'ルームの作成に失敗しました');
+                                WidgetUtils.errorSnackBar(context, 'ルームの編集に失敗しました');
                                 return ChangeButton.showErrorFor4Seconds(btnController);
+                              }
+                              // ルーム更新成功後、元の画像データ削除
+                              if (room.imagePath != null) {
+                                await ImageFirebaseStorage.deleteImage(room.imagePath!);
                               }
                               await ChangeButton.showSuccessFor1Seconds(btnController);
                               if(!mounted) return;
