@@ -32,19 +32,7 @@ class _PasswordRestEmailWidgetState extends State<PasswordRestEmailWidget> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          automaticallyImplyLeading: false,
-          iconTheme: const IconThemeData(color: Colors.black87),
-          title: Text('パスワード再設定', style: Theme.of(context).textTheme.subtitle1),
-          actions: [
-            IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: const Icon(Icons.close)
-            )
-          ],
-        ),
+        appBar: WidgetUtils.createModalBottomSheetAppBar(context, 'パスワード再設定'),
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(

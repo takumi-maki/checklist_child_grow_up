@@ -42,19 +42,7 @@ class _EditRoomWidgetState extends State<EditRoomWidget> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          automaticallyImplyLeading: false,
-          iconTheme: const IconThemeData(color: Colors.black87),
-          title: Text('ルーム編集', style: Theme.of(context).textTheme.subtitle1),
-          actions: [
-            IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: const Icon(Icons.close)
-            ),
-          ],
-        ),
+        appBar: WidgetUtils.createModalBottomSheetAppBar(context, 'ルーム編集'),
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(

@@ -36,19 +36,7 @@ class _RoomAddEmailPageState extends State<AddEmailWidget> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          automaticallyImplyLeading: false,
-          iconTheme: const IconThemeData(color: Colors.black87),
-          title: Text('メールアドレス追加', style: Theme.of(context).textTheme.subtitle1),
-          actions: [
-            IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: const Icon(Icons.close)
-            )
-          ],
-        ),
+        appBar: WidgetUtils.createModalBottomSheetAppBar(context, 'メールアドレス追加'),
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
