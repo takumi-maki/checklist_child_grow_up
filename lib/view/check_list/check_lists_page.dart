@@ -1,3 +1,4 @@
+import 'package:checklist_child_grow_up/utils/error_page.dart';
 import 'package:checklist_child_grow_up/view/check_list/check_lists_app_bar_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
@@ -25,6 +26,11 @@ class CheckListsPageWidget extends StatefulWidget {
 
 class _CheckListsPageWidgetState extends State<CheckListsPageWidget> {
   final User currentFirebaseUser = AuthenticationFirestore.currentFirebaseUser!;
+
+  String getChildName(AsyncSnapshot<DocumentSnapshot<Object?>> roomSnapshot) {
+    Map<String, dynamic> data = roomSnapshot.data!.data() as Map<String, dynamic>;
+    return data['child_name'];
+  }
 
   CheckList getCheckList(QueryDocumentSnapshot<Object?> checkListSnapshot) {
     List docItems = checkListSnapshot['items'];
@@ -62,69 +68,78 @@ class _CheckListsPageWidgetState extends State<CheckListsPageWidget> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: CheckList.tabBarList.length,
-      child: Scaffold(
-        appBar: CheckListsAppBarWidget(childName: widget.childName, roomId: widget.roomId),
-        body: SafeArea(
-          child: StreamBuilder<QuerySnapshot>(
-            stream: RoomFirestore.rooms.doc(widget.roomId)
-              .collection('check_lists').orderBy('type', descending: false)
-              .snapshots(),
-            builder: (context, checkListSnapshot) {
-              if(!checkListSnapshot.hasData || checkListSnapshot.data!.docs.length < CheckList.tabBarList.length) {
-                return TabBarView(
-                  children: CheckList.tabBarList.map((e) {
-                    return const SizedBox();
-                  }).toList()
-                );
-              }
-              return TabBarView(
-                children: checkListSnapshot.data!.docs.map((doc) {
-                  CheckList checkList = getCheckList(doc);
-                  return ListView.builder(
-                    itemCount: checkList.items.length,
-                    itemBuilder: (context, index) {
-                      final Item item = checkList.items[index];
-                      return Column(
-                        children: [
-                          index != 0 && index % 7 == 0 ? const AdBannerWidget() : const SizedBox(),
-                          StreamBuilder<QuerySnapshot>(
-                            stream: RoomFirestore.rooms.doc(checkList.roomId)
-                              .collection('check_lists').doc(checkList.id)
-                              .collection('comments').orderBy('created_time', descending: false)
-                              .where('item_id', isEqualTo: item.id)
-                              .snapshots(),
-                            builder: (context, commentSnapshot) {
-                              if (!commentSnapshot.hasData) {
-                                return const SizedBox(
-                                  height: 64.0,
-                                  width: double.infinity,
-                                );
-                              }
-                              if (commentSnapshot.data!.docs.isNotEmpty) {
-                                final unreadCommentsCount = countUnreadComments(commentSnapshot.data!.docs);
-                                return CheckListCardDetailWidget(
-                                  checkList: checkList,
-                                  item: item,
-                                  hasComments: true,
-                                  unreadCommentsCount: unreadCommentsCount,
-                                );
-                              }
-                              return CheckListCardDetailWidget(
-                                checkList: checkList,
-                                item: item,
-                                hasComments: false,
-                              );
-                            }
-                          )
-                        ],
+      child: StreamBuilder<DocumentSnapshot>(
+        stream: RoomFirestore.rooms.doc(widget.roomId).snapshots(),
+        builder: (context, roomSnapshot) {
+          if (!roomSnapshot.hasData) {
+            return const ErrorPage(text: 'ルーム情報の取得に失敗しました');
+          }
+          final String childName = getChildName(roomSnapshot);
+          return Scaffold(
+            appBar: CheckListsAppBarWidget(childName: childName, roomId: widget.roomId),
+            body: SafeArea(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: RoomFirestore.rooms.doc(widget.roomId)
+                  .collection('check_lists').orderBy('type', descending: false)
+                  .snapshots(),
+                builder: (context, checkListSnapshot) {
+                  if(!checkListSnapshot.hasData || checkListSnapshot.data!.docs.length < CheckList.tabBarList.length) {
+                    return TabBarView(
+                      children: CheckList.tabBarList.map((e) {
+                        return const SizedBox();
+                      }).toList()
+                    );
+                  }
+                  return TabBarView(
+                    children: checkListSnapshot.data!.docs.map((doc) {
+                      CheckList checkList = getCheckList(doc);
+                      return ListView.builder(
+                        itemCount: checkList.items.length,
+                        itemBuilder: (context, index) {
+                          final Item item = checkList.items[index];
+                          return Column(
+                            children: [
+                              index != 0 && index % 7 == 0 ? const AdBannerWidget() : const SizedBox(),
+                              StreamBuilder<QuerySnapshot>(
+                                stream: RoomFirestore.rooms.doc(checkList.roomId)
+                                  .collection('check_lists').doc(checkList.id)
+                                  .collection('comments').orderBy('created_time', descending: false)
+                                  .where('item_id', isEqualTo: item.id)
+                                  .snapshots(),
+                                builder: (context, commentSnapshot) {
+                                  if (!commentSnapshot.hasData) {
+                                    return const SizedBox(
+                                      height: 64.0,
+                                      width: double.infinity,
+                                    );
+                                  }
+                                  if (commentSnapshot.data!.docs.isNotEmpty) {
+                                    final unreadCommentsCount = countUnreadComments(commentSnapshot.data!.docs);
+                                    return CheckListCardDetailWidget(
+                                      checkList: checkList,
+                                      item: item,
+                                      hasComments: true,
+                                      unreadCommentsCount: unreadCommentsCount,
+                                    );
+                                  }
+                                  return CheckListCardDetailWidget(
+                                    checkList: checkList,
+                                    item: item,
+                                    hasComments: false,
+                                  );
+                                }
+                              )
+                            ],
+                          );
+                        }
                       );
-                    }
+                    }).toList()
                   );
-                }).toList()
-              );
-            }
-          ),
-        ),
+                }
+              ),
+            ),
+          );
+        }
       )
     );
   }
