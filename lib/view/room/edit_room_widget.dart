@@ -172,8 +172,8 @@ class _EditRoomWidgetState extends State<EditRoomWidget> {
                                 WidgetUtils.errorSnackBar(context, 'ルームの編集に失敗しました');
                                 return ChangeButton.showErrorFor4Seconds(btnController);
                               }
-                              // ルーム更新成功後、元の画像データ削除
-                              if (room.imagePath != null) {
+                              // 画像変更を含むルーム更新が成功した場合、元の画像データ(Storageデータ)を削除
+                              if (compressedImage != null && room.imagePath != null) {
                                 await ImageFirebaseStorage.deleteImage(room.imagePath!);
                               }
                               await ChangeButton.showSuccessFor1Seconds(btnController);
