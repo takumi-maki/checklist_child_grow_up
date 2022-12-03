@@ -1,3 +1,4 @@
+import 'package:age_calculator/age_calculator.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/room/room_list_card_detail_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -40,6 +41,11 @@ class _RoomListPageState extends State<RoomListPage> {
           isAchievedItemsCount: isAchievedItemsCount
       );
     }).toList();
+  }
+
+  calculateAgeMonths(DateTime birthdate) {
+    final age = AgeCalculator.age(birthdate);
+    return age.years * 12 + age.months;
   }
 
   @override
@@ -104,6 +110,7 @@ class _RoomListPageState extends State<RoomListPage> {
                         registeredEmailAddresses: data['registered_email_addresses'],
                         imagePath: data['image_path']
                       );
+                      final ageMonths = calculateAgeMonths(room.birthdate.toDate());
                       return StreamBuilder<QuerySnapshot>(
                         stream: RoomFirestore.rooms.doc(room.id)
                           .collection('check_lists').orderBy('type', descending: false)
@@ -126,6 +133,7 @@ class _RoomListPageState extends State<RoomListPage> {
                             countCheckListsProgress(checkListSnapshot.data!.docs);
                           return RoomListCardDetailWidget(
                             room: room,
+                            ageMonths: ageMonths,
                             checkListsProgress: checkListsProgress
                           );
                         }

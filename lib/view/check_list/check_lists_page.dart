@@ -14,10 +14,12 @@ class CheckListsPageWidget extends StatefulWidget {
   const CheckListsPageWidget({
     Key? key,
     required this.childName,
+    required this.ageMonths,
     required this.roomId
   }) : super(key: key);
 
   final String childName;
+  final int ageMonths;
   final String roomId;
 
   @override
@@ -76,7 +78,11 @@ class _CheckListsPageWidgetState extends State<CheckListsPageWidget> {
           }
           final String childName = getChildName(roomSnapshot);
           return Scaffold(
-            appBar: CheckListsAppBarWidget(childName: childName, roomId: widget.roomId),
+            appBar: CheckListsAppBarWidget(
+              childName: childName,
+              ageMonths: widget.ageMonths,
+              roomId: widget.roomId
+            ),
             body: SafeArea(
               child: StreamBuilder<QuerySnapshot>(
                 stream: RoomFirestore.rooms.doc(widget.roomId)

@@ -9,10 +9,12 @@ class RoomListCardDetailWidget extends StatefulWidget {
   const RoomListCardDetailWidget({
     Key? key,
     required this.room,
+    required this.ageMonths,
     required this.checkListsProgress
   }) : super(key: key);
 
   final Room room;
+  final int ageMonths;
   final List<CheckListProgress> checkListsProgress;
 
 
@@ -21,8 +23,6 @@ class RoomListCardDetailWidget extends StatefulWidget {
 }
 
 class _RoomListCardDetailWidgetState extends State<RoomListCardDetailWidget> {
-
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -30,6 +30,7 @@ class _RoomListCardDetailWidgetState extends State<RoomListCardDetailWidget> {
         Navigator.push(context,
           MaterialPageRoute(builder: (context) => CheckListsPageWidget(
             childName: widget.room.childName,
+            ageMonths: widget.ageMonths,
             roomId: widget.room.id)
           )
         );
@@ -40,12 +41,25 @@ class _RoomListCardDetailWidgetState extends State<RoomListCardDetailWidget> {
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Text(
-                  widget.room.childName,
-                  style: Theme.of(context).textTheme.titleLarge
-                ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        widget.room.childName,
+                        style: Theme.of(context).textTheme.titleLarge,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text('( ${widget.ageMonths}ヶ月 )', style: Theme.of(context).textTheme.titleSmall),
+                  ),
+                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,54 +69,60 @@ class _RoomListCardDetailWidgetState extends State<RoomListCardDetailWidget> {
                     child: FittedBox(
                       fit: BoxFit.contain,
                       child: widget.room.imagePath == null
-                        ? CircleAvatar(
-                          backgroundColor: Colors.green.shade200,
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Image.asset(
-                              'assets/images/hiyoko_up.png',
-                            ),
+                          ? CircleAvatar(
+                        backgroundColor: Colors.green.shade200,
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Image.asset(
+                            'assets/images/hiyoko_up.png',
                           ),
-                        )
-                        : CircleAvatar(
+                        ),
+                      )
+                          : CircleAvatar(
                           backgroundColor: Colors.grey.shade200,
                           backgroundImage: NetworkImage(widget.room.imagePath!)
-                        ),
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: widget.checkListsProgress.map((checkListProgress) {
-                          switch (checkListProgress.type) {
-                            case CheckListType.body:
-                              return CheckListProgressWidget(
-                                title: '体の大きな動き',
-                                checkListProgress: checkListProgress
-                              );
-                            case CheckListType.hand:
-                              return CheckListProgressWidget(
-                                title: '手の動き',
-                                checkListProgress: checkListProgress
-                              );
-                            case CheckListType.voice:
-                              return CheckListProgressWidget(
-                                title: 'ことばの成長と理解',
-                                checkListProgress: checkListProgress
-                              );
-                            case CheckListType.life:
-                              return CheckListProgressWidget(
-                                title: '生活習慣',
-                                checkListProgress: checkListProgress
-                              );
-                            default:
-                              return const SizedBox();
-                          }
-                        }).toList(),
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('達成したアイテム数', style: Theme.of(context).textTheme.bodySmall),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: widget.checkListsProgress.map((checkListProgress) {
+                              switch (checkListProgress.type) {
+                                case CheckListType.body:
+                                  return CheckListProgressWidget(
+                                      title: '体の大きな動き',
+                                      checkListProgress: checkListProgress
+                                  );
+                                case CheckListType.hand:
+                                  return CheckListProgressWidget(
+                                      title: '手の動き',
+                                      checkListProgress: checkListProgress
+                                  );
+                                case CheckListType.voice:
+                                  return CheckListProgressWidget(
+                                      title: 'ことばの成長と理解',
+                                      checkListProgress: checkListProgress
+                                  );
+                                case CheckListType.life:
+                                  return CheckListProgressWidget(
+                                      title: '生活習慣',
+                                      checkListProgress: checkListProgress
+                                  );
+                                default:
+                                  return const SizedBox();
+                              }
+                            }).toList(),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const Icon(Icons.arrow_forward_ios),
