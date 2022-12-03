@@ -34,7 +34,7 @@ class _AchievedTimeWidgetState extends State<AchievedTimeWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('達成した日 ： ${DateFormat('yyyy/MM/dd').format(widget.item.achievedTime!.toDate())}',
+          Text('達成した日 ： ${DateFormat('yyyy年MM月dd日').format(widget.item.achievedTime!.toDate())}',
             style: const TextStyle(color: Colors.black54),
           ),
           IconButton(

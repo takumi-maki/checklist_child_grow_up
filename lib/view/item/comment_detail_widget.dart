@@ -105,7 +105,7 @@ class _CommentDetailWidgetState extends State<CommentDetailWidget> {
                       color: Colors.grey.shade200,
                       borderRadius: BorderRadius.circular(48),
                     ),
-                    child: Text(DateFormat('yyyy/MM/dd').format(widget.comment.createdTime.toDate()))
+                    child: Text(DateFormat('yyyy年MM月dd日').format(widget.comment.createdTime.toDate()))
                   ),
                 )
             ],
