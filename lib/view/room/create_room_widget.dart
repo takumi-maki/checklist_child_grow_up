@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:intl/intl.dart';
 import '../../utils/firebase_storage/images.dart';
 import '../../utils/loading/change_button.dart';
 import 'package:checklist_child_grow_up/utils/validator.dart';
@@ -26,18 +27,54 @@ class CreateRoomWidget extends StatefulWidget {
 class _CreateRoomWidgetState extends State<CreateRoomWidget> {
   final User currentFirebaseUser = AuthenticationFirestore.currentFirebaseUser!;
   TextEditingController childNameController = TextEditingController();
+  TextEditingController birthdateController = TextEditingController();
   TextEditingController partnerEmailController = TextEditingController();
   final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
   final formKey = GlobalKey<FormState>();
   var uuid = const Uuid();
+  DateTime? birthdate;
   File? compressedImage;
   String? imagePath;
 
   @override
   void dispose() {
     childNameController.dispose();
+    birthdateController.dispose();
     partnerEmailController.dispose();
     super.dispose();
+  }
+
+  Future<void> pickBirthdate() async {
+    final DateTime currentTime = DateTime.now();
+    final DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: currentTime,
+        firstDate: DateTime.now().add(const Duration(days: - 1096)),
+        lastDate: DateTime.now().add(const Duration(days: 1096)),
+        builder: (context, child) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: ColorScheme.light(
+                  primary: Colors.orange.shade300,
+                  onSurface: Colors.black87
+              ),
+              textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+                  primary: Theme.of(context).colorScheme.secondary
+                ),
+              ),
+            ),
+            child: child!,
+          );
+        }
+    );
+    if (pickedDate != null) {
+       birthdateController.text = DateFormat('yyyy年MM月dd日').format(pickedDate);
+       setState(() {
+         birthdate = pickedDate;
+       });
+    }
+    return;
   }
 
   @override
@@ -113,6 +150,26 @@ class _CreateRoomWidgetState extends State<CreateRoomWidget> {
                       ),
                     ),
                     Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: SizedBox(
+                        width: 300,
+                        child: TextFormField(
+                          controller: birthdateController,
+                          onTap: () {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                            pickBirthdate();
+                          },
+                          validator: (value) {
+                            return Validator.getRequiredValidatorMessage(value);
+                          },
+                          decoration: const InputDecoration(
+                            labelText: '生年月日 (必須)',
+                            labelStyle: TextStyle(fontSize: 14.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
                       padding: const EdgeInsets.only(bottom: 30.0),
                       child: SizedBox(
                         width: 300,
@@ -152,8 +209,8 @@ class _CreateRoomWidgetState extends State<CreateRoomWidget> {
                             Room newRoom = Room(
                               id: uuid.v4(),
                               childName: childNameController.text,
+                              birthdate: Timestamp.fromDate(birthdate!),
                               registeredEmailAddresses: registeredEmailAddresses,
-                              createdTime: Timestamp.now(),
                               imagePath: imagePath,
                             );
                             var setNewRoomResult = await RoomFirestore.setNewRoom(newRoom);
