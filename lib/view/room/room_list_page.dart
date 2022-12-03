@@ -50,7 +50,7 @@ class _RoomListPageState extends State<RoomListPage> {
         child: StreamBuilder<QuerySnapshot>(
           stream: RoomFirestore.rooms
             .where('registered_email_addresses', arrayContains: currentFirebaseUser.email)
-            .orderBy('created_time', descending: true)
+            .orderBy('birthdate', descending: true)
             .snapshots(),
           builder: (context, roomSnapshot) {
             if(!roomSnapshot.hasData) {
@@ -98,11 +98,11 @@ class _RoomListPageState extends State<RoomListPage> {
                     itemBuilder: (context, index) {
                       Map<String, dynamic> data = roomSnapshot.data!.docs[index].data() as Map<String, dynamic>;
                       final Room room = Room(
-                          id: data['id'],
-                          childName: data['child_name'],
-                          registeredEmailAddresses: data['registered_email_addresses'],
-                          createdTime: data['created_time'],
-                          imagePath: data['image_path']
+                        id: data['id'],
+                        childName: data['child_name'],
+                        birthdate: data['birthdate'],
+                        registeredEmailAddresses: data['registered_email_addresses'],
+                        imagePath: data['image_path']
                       );
                       return StreamBuilder<QuerySnapshot>(
                         stream: RoomFirestore.rooms.doc(room.id)

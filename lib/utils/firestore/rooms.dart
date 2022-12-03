@@ -19,8 +19,8 @@ class RoomFirestore {
       batch.set(newRoomsDoc, {
         'id': newRoom.id,
         'child_name': newRoom.childName,
+        'birthdate': newRoom.birthdate,
         'registered_email_addresses': newRoom.registeredEmailAddresses,
-        'created_time': newRoom.createdTime,
         'image_path': newRoom.imagePath
       });
       List<dynamic> checkListAllItems = await FunctionUtils.getCheckListItems();
@@ -50,8 +50,8 @@ class RoomFirestore {
       await rooms.doc(updateRoom.id).set({
         'id': updateRoom.id,
         'child_name': updateRoom.childName,
+        'birthdate': updateRoom.birthdate,
         'registered_email_addresses': updateRoom.registeredEmailAddresses,
-        'created_time': updateRoom.createdTime,
         'image_path': updateRoom.imagePath,
       });
       debugPrint('ルーム情報更新完了');

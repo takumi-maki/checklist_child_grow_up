@@ -71,8 +71,8 @@ class _EditRoomWidgetState extends State<EditRoomWidget> {
                     final Room room = Room(
                         id: data['id'],
                         childName: data['child_name'],
+                        birthdate: data['birthdate'],
                         registeredEmailAddresses: data['registered_email_addresses'],
-                        createdTime: data['created_time'],
                         imagePath: data['image_path']
                     );
                     childNameController = TextEditingController(text: room.childName);
@@ -162,8 +162,8 @@ class _EditRoomWidgetState extends State<EditRoomWidget> {
                               Room updatedRoom = Room(
                                 id: room.id,
                                 childName: childNameController.text,
+                                birthdate: room.birthdate,
                                 registeredEmailAddresses: room.registeredEmailAddresses,
-                                createdTime: room.createdTime,
                                 imagePath: imagePath ?? room.imagePath,
                               );
                               var updateRoomResult = await RoomFirestore.updateRoom(updatedRoom);
