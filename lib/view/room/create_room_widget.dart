@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:checklist_child_grow_up/utils/function_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
@@ -45,29 +46,7 @@ class _CreateRoomWidgetState extends State<CreateRoomWidget> {
   }
 
   Future<void> pickBirthdate() async {
-    final DateTime currentTime = DateTime.now();
-    final DateTime? pickedDate = await showDatePicker(
-        context: context,
-        initialDate: currentTime,
-        firstDate: DateTime.now().add(const Duration(days: - 1096)),
-        lastDate: DateTime.now().add(const Duration(days: 1096)),
-        builder: (context, child) {
-          return Theme(
-            data: Theme.of(context).copyWith(
-              colorScheme: ColorScheme.light(
-                  primary: Colors.orange.shade300,
-                  onSurface: Colors.black87
-              ),
-              textButtonTheme: TextButtonThemeData(
-                style: TextButton.styleFrom(
-                  primary: Theme.of(context).colorScheme.secondary
-                ),
-              ),
-            ),
-            child: child!,
-          );
-        }
-    );
+    final DateTime? pickedDate = await FunctionUtils.pickDateFromDatePicker(context, DateTime.now());
     if (pickedDate != null) {
        birthdateController.text = DateFormat('yyyy年MM月dd日').format(pickedDate);
        setState(() {

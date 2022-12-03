@@ -1,3 +1,4 @@
+import 'package:checklist_child_grow_up/utils/function_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -19,28 +20,7 @@ class _AchievedTimeWidgetState extends State<AchievedTimeWidget> {
   final DateTime currentTime = DateTime.now();
 
   Future<Timestamp?> modifyAchievedTime(DateTime achievedDate) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: achievedDate,
-      firstDate: DateTime.now().add(const Duration(days: - 3650)),
-      lastDate: DateTime.now().add(const Duration(days: 3650)),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Colors.orange.shade300,
-              onSurface: Colors.black87
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                primary: Theme.of(context).colorScheme.secondary
-              ),
-            ),
-          ),
-          child: child!,
-        );
-      }
-    );
+    final DateTime? pickedDate = await FunctionUtils.pickDateFromDatePicker(context, achievedDate);
     if (pickedDate != null && pickedDate != achievedDate) {
       return Timestamp.fromDate(pickedDate);
     }
