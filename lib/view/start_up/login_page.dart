@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../utils/loading/loading_button.dart';
+import 'send_email_verification_alert_dialog.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -160,8 +161,9 @@ class _LoginPageState extends State<LoginPage> {
                           return ChangeButton.showErrorFor4Seconds(btnController);
                         }
                         if(!signInResult.user!.emailVerified) {
-                          if(!mounted) return;
-                          WidgetUtils.errorSnackBar(context, 'メール認証が終了していません');
+                          showDialog(context: context, builder: (context) {
+                            return SendEmailVerificationAlertDialog(user: signInResult.user!);
+                          });
                           return ChangeButton.showErrorFor4Seconds(btnController);
                         }
                         await ChangeButton.showSuccessFor1Seconds(btnController);

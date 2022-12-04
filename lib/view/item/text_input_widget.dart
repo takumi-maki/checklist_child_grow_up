@@ -9,7 +9,6 @@ import 'package:uuid/uuid.dart';
 
 import '../../model/check_list.dart';
 import '../../model/comment.dart';
-import '../../utils/firebase_storage/images.dart';
 import '../../utils/firestore/authentications.dart';
 import '../../utils/firestore/comments.dart';
 import '../../utils/loading/loading_icon_button.dart';

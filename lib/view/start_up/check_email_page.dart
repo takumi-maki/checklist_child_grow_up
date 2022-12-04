@@ -79,7 +79,7 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
                       }
                       if(!signInResult.user!.emailVerified) {
                         if (!mounted) return;
-                        WidgetUtils.errorSnackBar(context, 'メール認証が終了していません');
+                        WidgetUtils.errorSnackBar(context, 'メール認証が完了していません');
                         return ChangeButton.showErrorFor4Seconds(btnController);
                       }
                       await ChangeButton.showSuccessFor1Seconds(btnController);
