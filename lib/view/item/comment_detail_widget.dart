@@ -88,13 +88,9 @@ class _CommentDetailWidgetState extends State<CommentDetailWidget> {
                 ? const SizedBox()
                 : Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 18.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(48),
-                    ),
-                    child: Text(DateFormat('yyyy年MM月dd日').format(widget.comment.createdTime.toDate()))
+                  child: Text(
+                    DateFormat('yyyy年MM月dd日').format(widget.comment.createdTime.toDate()),
+                    style: Theme.of(context).textTheme.bodySmall
                   ),
                 )
             ],
@@ -115,8 +111,8 @@ class _CommentDetailWidgetState extends State<CommentDetailWidget> {
                 ),
                 padding: const EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
-                  border: widget.isMine ? null : Border.all(width: 0.1),
-                  color: widget.isMine ? Colors.black54 : Colors.white,
+                  border: widget.isMine ? null : Border.all(width: 0.4),
+                  color: widget.isMine ? Colors.grey.shade300 : Colors.white,
                   borderRadius: BorderRadius.only(
                       topLeft: const Radius.circular(12.0),
                       topRight: const Radius.circular(12.0),
@@ -124,7 +120,7 @@ class _CommentDetailWidgetState extends State<CommentDetailWidget> {
                       bottomRight: widget.isMine ? Radius.zero : const Radius.circular(12.0),
                       )
                 ),
-                child: Text(widget.comment.text!, style: TextStyle(color: widget.isMine ? Colors.white : Colors.black87)),
+                child: Text(widget.comment.text!, style: const TextStyle(color: Colors.black87)),
               ),
             ),
           StreamBuilder<QuerySnapshot>(
