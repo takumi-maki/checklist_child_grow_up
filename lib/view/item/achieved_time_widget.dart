@@ -59,9 +59,6 @@ class _AchievedTimeWidgetState extends State<AchievedTimeWidget> {
                 WidgetUtils.errorSnackBar(context, '達成した日の更新に失敗しました');
                 return;
               }
-              setState(() {
-                widget.item.achievedTime = modifiedAchievedTime;
-              });
             },
             icon: const Icon(Icons.edit_calendar, size: 18.0, color: Colors.black54))
         ],

@@ -25,11 +25,13 @@ class _AchievementButtonWidgetState extends State<AchievementButtonWidget> {
   final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
   final rewardAd = RewardedAdvertisement();
   final random = Random();
+  late final bool isAchieved;
 
   @override
   void initState() {
     super.initState();
     rewardAd.loadRewardedAd();
+    isAchieved = widget.item.isAchieved;
   }
 
   @override
@@ -53,17 +55,16 @@ class _AchievementButtonWidgetState extends State<AchievementButtonWidget> {
             return ChangeButton.showErrorFor4Seconds(btnController);
           }
           await ChangeButton.showSuccessFor1Seconds(btnController);
-          widget.item.isAchieved
-            ? null
-            : await showDialog(context: context, builder: (context) {
+          updateItem.isAchieved
+            ? await showDialog(context: context, builder: (context) {
               return CongratulationScreen(itemContent: widget.item.content);
-            });
-          !widget.item.isAchieved && random.nextInt(29) == 0 ? rewardAd.showRewardedAd() : null;
+            }) : null;
+          updateItem.isAchieved && random.nextInt(29) == 0 ? rewardAd.showRewardedAd() : null;
           if(!mounted) return;
           Navigator.pop(context);
         },
-        color: widget.item.isAchieved ? Colors.grey.shade100 : Theme.of(context).colorScheme.secondary,
-        child: widget.item.isAchieved
+        color: isAchieved ? Colors.grey.shade100 : Theme.of(context).colorScheme.secondary,
+        child: isAchieved
           ? const Text('達成をキャンセル', style: TextStyle(color: Colors.black54))
           : const Text('達成')
       ),

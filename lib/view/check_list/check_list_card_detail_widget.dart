@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../model/check_list.dart';
-import '../item/item_detail.dart';
+import '../item/item_detail_page.dart';
 
 class CheckListCardDetailWidget extends StatelessWidget {
   const CheckListCardDetailWidget({
@@ -53,7 +53,7 @@ class CheckListCardDetailWidget extends StatelessWidget {
           : null,
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) =>
-            ItemDetailPage(checkList: checkList, item: item),
+            ItemDetailPage(checkList: checkList, itemId: item.id),
           ));
         },
       ),
