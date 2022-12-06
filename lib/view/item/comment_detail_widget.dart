@@ -111,7 +111,7 @@ class _CommentDetailWidgetState extends State<CommentDetailWidget> {
                 ),
                 padding: const EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
-                  border: widget.isMine ? null : Border.all(width: 0.4),
+                  border: widget.isMine ? null : Border.all(color: Colors.black26),
                   color: widget.isMine ? Colors.grey.shade300 : Colors.white,
                   borderRadius: BorderRadius.only(
                       topLeft: const Radius.circular(12.0),
