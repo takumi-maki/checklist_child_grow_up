@@ -1,4 +1,3 @@
-import 'package:checklist_child_grow_up/utils/error_page.dart';
 import 'package:checklist_child_grow_up/view/check_list/check_lists_app_bar_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
@@ -8,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../../model/check_list.dart';
 import '../../utils/firestore/authentications.dart';
 import '../banner/ad_banner_widget.dart';
+import '../error_page.dart';
 import 'check_list_card_detail_widget.dart';
 
 class CheckListsPageWidget extends StatefulWidget {
