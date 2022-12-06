@@ -85,17 +85,38 @@ class _CongratulationScreenState extends State<CongratulationScreen> {
                   ),
                 ),
                 Align(
-                  alignment: Alignment.topCenter,
-                  child: ConfettiWidget(
-                    confettiController: confettiController,
-                    blastDirectionality: BlastDirectionality.explosive,
-                    numberOfParticles: 30,
-                    minimumSize: const Size(10, 10),
-                    maximumSize: const Size(15, 15),
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(50.0),
+                    child: ConfettiWidget(
+                      confettiController: confettiController,
+                      blastDirectionality: BlastDirectionality.explosive,
+                      numberOfParticles: 16,
+                      emissionFrequency: 0.03,
+                      gravity: 0.05,
+                      minimumSize: const Size(10.0, 10.0),
+                      maximumSize: const Size(10.0, 10.0),
+                        colors: const [Colors.orange, Colors.amber, Colors.green, Colors.red]
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.all(50.0),
+                    child: ConfettiWidget(
+                      confettiController: confettiController,
+                      blastDirectionality: BlastDirectionality.explosive,
+                      numberOfParticles: 16,
+                      emissionFrequency: 0.03,
+                      gravity: 0.1,
+                      minimumSize: const Size(10.0, 10.0),
+                      maximumSize: const Size(10.0, 10.0),
+                      colors: const [Colors.orange, Colors.amber, Colors.green, Colors.red, Colors.white],
+                    ),
                   ),
                 ),
               ]
-
             ),
           ),
         ],
