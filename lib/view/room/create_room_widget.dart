@@ -116,7 +116,7 @@ class _CreateRoomWidgetState extends State<CreateRoomWidget> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      padding: const EdgeInsets.only(bottom: 16.0),
                       child: SizedBox(
                         width: 300,
                         child: TextFormField(
@@ -152,7 +152,7 @@ class _CreateRoomWidgetState extends State<CreateRoomWidget> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 30.0),
+                      padding: const EdgeInsets.only(bottom: 16.0),
                       child: SizedBox(
                         width: 300,
                         child: TextFormField(
