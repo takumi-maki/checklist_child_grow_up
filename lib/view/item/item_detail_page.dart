@@ -123,7 +123,10 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                             ),
                             item.achievedTime == null
                               ? const SizedBox()
-                              : AchievedTimeWidget(checkList: widget.checkList, item: item),
+                              : Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                                child: AchievedTimeWidget(checkList: widget.checkList, item: item),
+                              ),
                             AchievementButtonWidget(checkList: widget.checkList, item: item),
                             const Padding(
                               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),

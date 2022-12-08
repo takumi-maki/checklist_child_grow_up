@@ -20,7 +20,11 @@ class _AchievedTimeWidgetState extends State<AchievedTimeWidget> {
   final DateTime currentTime = DateTime.now();
 
   Future<Timestamp?> modifyAchievedTime(DateTime achievedDate) async {
-    final DateTime? pickedDate = await FunctionUtils.pickDateFromDatePicker(context, achievedDate);
+    final DateTime? pickedDate = await FunctionUtils.pickDateFromDatePicker(
+      context: context,
+      initialDate: achievedDate,
+      lastDate: achievedDate
+    );
     if (pickedDate != null && pickedDate != achievedDate) {
       return Timestamp.fromDate(pickedDate);
     }
@@ -29,38 +33,42 @@ class _AchievedTimeWidgetState extends State<AchievedTimeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+    return GestureDetector(
+      onTap: () async {
+        final Timestamp? modifiedAchievedTime = await modifyAchievedTime(widget.item.achievedTime!.toDate());
+        if (modifiedAchievedTime == null) return;
+        if (currentTime.isBefore(modifiedAchievedTime.toDate())) {
+          if (!mounted) return;
+          WidgetUtils.errorSnackBar(context, '達成した日は本日以前で修正してください');
+          return;
+        }
+        Item updatedItem = Item(
+          id: widget.item.id,
+          month: widget.item.month,
+          isAchieved: widget.item.isAchieved,
+          content: widget.item.content,
+          achievedTime: modifiedAchievedTime,
+        );
+        var result = await CheckListFirestore.updateItem(updatedItem, widget.checkList);
+        if (!result) {
+          if (!mounted) return;
+          WidgetUtils.errorSnackBar(context, '達成した日の更新に失敗しました');
+          return;
+        }
+      },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('達成した日 ： ${DateFormat('yyyy年MM月dd日').format(widget.item.achievedTime!.toDate())}',
-            style: const TextStyle(color: Colors.black54),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Text('達成した日 ： ${DateFormat('yyyy年MM月dd日').format(widget.item.achievedTime!.toDate())}',
+              style: const TextStyle(color: Colors.black54),
+            ),
           ),
-          IconButton(
-            onPressed: () async {
-              final Timestamp? modifiedAchievedTime = await modifyAchievedTime(widget.item.achievedTime!.toDate());
-              if (modifiedAchievedTime == null) return;
-              if (currentTime.isBefore(modifiedAchievedTime.toDate())) {
-                if (!mounted) return;
-                WidgetUtils.errorSnackBar(context, '達成した日は本日以前で修正してください');
-                return;
-              }
-              Item updatedItem = Item(
-                id: widget.item.id,
-                month: widget.item.month,
-                isAchieved: widget.item.isAchieved,
-                content: widget.item.content,
-                achievedTime: modifiedAchievedTime,
-              );
-              var result = await CheckListFirestore.updateItem(updatedItem, widget.checkList);
-              if (!result) {
-                if (!mounted) return;
-                WidgetUtils.errorSnackBar(context, '達成した日の更新に失敗しました');
-                return;
-              }
-            },
-            icon: const Icon(Icons.edit_calendar, size: 18.0, color: Colors.black54))
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            child: Icon(Icons.edit_calendar, size: 18.0, color: Colors.black54),
+          )
         ],
       ),
     );
