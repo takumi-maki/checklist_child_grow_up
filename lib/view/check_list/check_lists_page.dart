@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';
 import '../../utils/firestore/authentications.dart';
-import '../banner/ad_banner_widget.dart';
 import '../error_page.dart';
 import 'check_list_card_detail_widget.dart';
 
@@ -103,39 +102,34 @@ class _CheckListsPageWidgetState extends State<CheckListsPageWidget> {
                         itemCount: checkList.items.length,
                         itemBuilder: (context, index) {
                           final Item item = checkList.items[index];
-                          return Column(
-                            children: [
-                              index != 0 && index % 7 == 0 ? const AdBannerWidget() : const SizedBox(),
-                              StreamBuilder<QuerySnapshot>(
-                                stream: RoomFirestore.rooms.doc(checkList.roomId)
-                                  .collection('check_lists').doc(checkList.id)
-                                  .collection('comments').orderBy('created_time', descending: false)
-                                  .where('item_id', isEqualTo: item.id)
-                                  .snapshots(),
-                                builder: (context, commentSnapshot) {
-                                  if (!commentSnapshot.hasData) {
-                                    return const SizedBox(
-                                      height: 64.0,
-                                      width: double.infinity,
-                                    );
-                                  }
-                                  if (commentSnapshot.data!.docs.isNotEmpty) {
-                                    final unreadCommentsCount = countUnreadComments(commentSnapshot.data!.docs);
-                                    return CheckListCardDetailWidget(
-                                      checkList: checkList,
-                                      item: item,
-                                      hasComments: true,
-                                      unreadCommentsCount: unreadCommentsCount,
-                                    );
-                                  }
-                                  return CheckListCardDetailWidget(
-                                    checkList: checkList,
-                                    item: item,
-                                    hasComments: false,
-                                  );
-                                }
-                              )
-                            ],
+                          return StreamBuilder<QuerySnapshot>(
+                            stream: RoomFirestore.rooms.doc(checkList.roomId)
+                              .collection('check_lists').doc(checkList.id)
+                              .collection('comments').orderBy('created_time', descending: false)
+                              .where('item_id', isEqualTo: item.id)
+                              .snapshots(),
+                            builder: (context, commentSnapshot) {
+                              if (!commentSnapshot.hasData) {
+                                return const SizedBox(
+                                  height: 64.0,
+                                  width: double.infinity,
+                                );
+                              }
+                              if (commentSnapshot.data!.docs.isNotEmpty) {
+                                final unreadCommentsCount = countUnreadComments(commentSnapshot.data!.docs);
+                                return CheckListCardDetailWidget(
+                                  checkList: checkList,
+                                  item: item,
+                                  hasComments: true,
+                                  unreadCommentsCount: unreadCommentsCount,
+                                );
+                              }
+                              return CheckListCardDetailWidget(
+                                checkList: checkList,
+                                item: item,
+                                hasComments: false,
+                              );
+                            }
                           );
                         }
                       );

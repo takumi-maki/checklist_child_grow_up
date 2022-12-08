@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:checklist_child_grow_up/utils/advertisement/rewarded_advertisement.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -23,14 +20,11 @@ class AchievementButtonWidget extends StatefulWidget {
 
 class _AchievementButtonWidgetState extends State<AchievementButtonWidget> {
   final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
-  final rewardAd = RewardedAdvertisement();
-  final random = Random();
   late final bool isAchieved;
 
   @override
   void initState() {
     super.initState();
-    rewardAd.loadRewardedAd();
     isAchieved = widget.item.isAchieved;
   }
 
@@ -59,7 +53,6 @@ class _AchievementButtonWidgetState extends State<AchievementButtonWidget> {
             ? await showDialog(context: context, builder: (context) {
               return CongratulationScreen(itemContent: widget.item.content);
             }) : null;
-          updateItem.isAchieved && random.nextInt(29) == 0 ? rewardAd.showRewardedAd() : null;
           if(!mounted) return;
           Navigator.pop(context);
         },
