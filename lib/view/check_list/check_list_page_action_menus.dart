@@ -47,7 +47,7 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
               child: Row(
                 children: [
                   const Padding(
-                    padding: EdgeInsets.only(right: 16.0),
+                    padding: EdgeInsets.only(right: 14.0),
                     child: Icon(Icons.checklist),
                   ),
                   Text('成長のチェックリストについて', style: Theme.of(context).textTheme.bodyText1),
@@ -60,7 +60,7 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
               child: Row(
                 children: [
                   const Padding(
-                    padding: EdgeInsets.only(right: 16.0),
+                    padding: EdgeInsets.only(right: 14.0),
                     child: Icon(Icons.room_preferences),
                   ),
                   Text('ルームについて', style: Theme.of(context).textTheme.bodyText1),
@@ -73,7 +73,7 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
               child: Row(
                 children: [
                   const Padding(
-                    padding: EdgeInsets.only(right: 16.0),
+                    padding: EdgeInsets.only(right: 14.0),
                     child: Icon(Icons.info),
                   ),
                   Text('アプリについて', style: Theme.of(context).textTheme.bodyText1),
