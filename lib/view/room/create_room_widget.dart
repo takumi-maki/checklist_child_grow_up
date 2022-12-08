@@ -46,7 +46,10 @@ class _CreateRoomWidgetState extends State<CreateRoomWidget> {
   }
 
   Future<void> pickBirthdate() async {
-    final DateTime? pickedDate = await FunctionUtils.pickDateFromDatePicker(context, DateTime.now());
+    final DateTime? pickedDate = await FunctionUtils.pickDateFromDatePicker(
+      context: context,
+      initialDate: DateTime.now()
+    );
     if (pickedDate != null) {
        birthdateController.text = DateFormat('yyyy年MM月dd日').format(pickedDate);
        setState(() {

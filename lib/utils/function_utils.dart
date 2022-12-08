@@ -9,12 +9,16 @@ class FunctionUtils {
     final List data  = json.decode(dataJson);
     return data;
   }
-  static Future<DateTime?> pickDateFromDatePicker(BuildContext context, DateTime initialDate) async {
+  static Future<DateTime?> pickDateFromDatePicker(
+      { required BuildContext context,
+      required DateTime initialDate,
+      DateTime? firstDate,
+      DateTime? lastDate}) async {
     return await showDatePicker(
         context: context,
         initialDate: initialDate,
-        firstDate: initialDate.add(const Duration(days: - 1096)),
-        lastDate: initialDate.add(const Duration(days: 1096)),
+        firstDate: firstDate ?? initialDate.add(const Duration(days: - 1096)),
+        lastDate:  lastDate ?? initialDate.add(const Duration(days: 1096)),
         builder: (context, child) {
           return Theme(
             data: Theme.of(context).copyWith(
