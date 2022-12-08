@@ -37,7 +37,10 @@ class CheckListCardDetailWidget extends StatelessWidget {
         ),
         title: Text(item.content),
         subtitle: item.achievedTime != null
-          ? Text('達成した日:${DateFormat('yyyy年MM月dd日').format(item.achievedTime!.toDate())}')
+          ? Text(
+            '達成した日:${DateFormat('yyyy年MM月dd日').format(item.achievedTime!.toDate())}',
+            style: Theme.of(context).textTheme.bodySmall,
+          )
           : null,
         trailing: hasComments
           ? Badge(
