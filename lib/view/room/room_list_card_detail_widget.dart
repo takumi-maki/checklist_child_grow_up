@@ -89,7 +89,10 @@ class _RoomListCardDetailWidgetState extends State<RoomListCardDetailWidget> {
                     child: Column(
                       // crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('達成したアイテム数', style: Theme.of(context).textTheme.bodySmall),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Text('達成したアイテム数', style: Theme.of(context).textTheme.bodySmall),
+                        ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.6,
                           child: Column(
@@ -98,22 +101,22 @@ class _RoomListCardDetailWidgetState extends State<RoomListCardDetailWidget> {
                               switch (checkListProgress.type) {
                                 case CheckListType.body:
                                   return CheckListProgressWidget(
-                                      title: '体の大きな動き',
+                                      title: '・体の大きな動き',
                                       checkListProgress: checkListProgress
                                   );
                                 case CheckListType.hand:
                                   return CheckListProgressWidget(
-                                      title: '手の動き',
+                                      title: '・手の動き',
                                       checkListProgress: checkListProgress
                                   );
                                 case CheckListType.voice:
                                   return CheckListProgressWidget(
-                                      title: 'ことばの成長と理解',
+                                      title: '・ことばの成長と理解',
                                       checkListProgress: checkListProgress
                                   );
                                 case CheckListType.life:
                                   return CheckListProgressWidget(
-                                      title: '生活習慣',
+                                      title: '・生活習慣',
                                       checkListProgress: checkListProgress
                                   );
                                 default:
