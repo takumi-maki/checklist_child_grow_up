@@ -52,18 +52,13 @@ class _EditRoomWidgetState extends State<EditRoomWidget> {
                   stream: RoomFirestore.rooms.doc(widget.roomId).snapshots(),
                   builder: (context, roomSnapshot) {
                     if (!roomSnapshot.hasData) {
-                      return Center(
-                        child: Column(
-                          children: const [
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 6.0),
-                              child: Icon(Icons.error_outline_rounded, color: Colors.black54),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 6.0),
-                              child: Text('ルーム情報の取得に失敗しました'),
-                            ),
-                          ],
+                      return const Center(
+                        child: SizedBox(
+                          height: 20.0,
+                          width: 20.0,
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(Colors.amber),
+                          ),
                         ),
                       );
                     }

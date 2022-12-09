@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';
 import '../../utils/firestore/authentications.dart';
-import '../error_page.dart';
 import 'check_list_card_detail_widget.dart';
 
 class CheckListsPageWidget extends StatefulWidget {
@@ -73,7 +72,18 @@ class _CheckListsPageWidgetState extends State<CheckListsPageWidget> {
         stream: RoomFirestore.rooms.doc(widget.roomId).snapshots(),
         builder: (context, roomSnapshot) {
           if (!roomSnapshot.hasData) {
-            return const ErrorPage(text: 'ルーム情報の取得に失敗しました');
+            return Container(
+              color: Colors.white,
+              child: const Center(
+                child: SizedBox(
+                  height: 20.0,
+                  width: 20.0,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(Colors.amber),
+                  ),
+                ),
+              ),
+            );
           }
           final String childName = getChildName(roomSnapshot);
           return Scaffold(

@@ -59,12 +59,15 @@ class _RoomListPageState extends State<RoomListPage> {
             .snapshots(),
           builder: (context, roomSnapshot) {
             if(!roomSnapshot.hasData) {
-              return const Center(
-                child: SizedBox(
-                  height: 20.0,
-                  width: 20.0,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(Colors.amber),
+              return Container(
+                color: Colors.white,
+                child: const Center(
+                  child: SizedBox(
+                    height: 20.0,
+                    width: 20.0,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(Colors.amber),
+                    ),
                   ),
                 ),
               );

@@ -85,19 +85,13 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                 .snapshots(),
             builder: (context, checkListSnapshot) {
               if (!checkListSnapshot.hasData) {
-                return Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 6.0),
-                        child: Icon(Icons.error_outline_rounded, color: Colors.black54),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 6.0),
-                        child: Text('アイテムの取得に失敗しました'),
-                      ),
-                    ],
+                return const Center(
+                  child: SizedBox(
+                    height: 20.0,
+                    width: 20.0,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(Colors.amber),
+                    ),
                   ),
                 );
               }
@@ -141,7 +135,15 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                                 .snapshots(),
                               builder: (context, commentSnapshot) {
                                 if (!commentSnapshot.hasData) {
-                                  return const SizedBox();
+                                  return const Center(
+                                    child: SizedBox(
+                                      height: 20.0,
+                                      width: 20.0,
+                                      child: CircularProgressIndicator(
+                                        valueColor: AlwaysStoppedAnimation(Colors.amber),
+                                      ),
+                                    ),
+                                  );
                                 }
                                 List<QueryDocumentSnapshot<Object?>> commentDocs = commentSnapshot.data!.docs;
                                 if (commentDocs.isEmpty) {
