@@ -18,6 +18,7 @@ class WidgetUtils {
       automaticallyImplyLeading: false,
       iconTheme: const IconThemeData(color: Colors.black87),
       title: Text(title, style: Theme.of(context).textTheme.subtitle1),
+      centerTitle: true,
       actions: [
         IconButton(
             onPressed: () => Navigator.pop(context),
