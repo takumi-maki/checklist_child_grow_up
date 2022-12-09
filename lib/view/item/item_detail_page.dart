@@ -33,6 +33,18 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
     itemImagePath = getItemImagePath();
   }
 
+  double getItemDetailWidgetHeight() {
+    double itemDetailWidgetHeight;
+    final appBarWidgetHeight = AppBar().preferredSize.height;
+    const double textInputWidgetHeight = 66.0;
+    itemDetailWidgetHeight = MediaQuery.of(context).size.height
+      - appBarWidgetHeight
+      - textInputWidgetHeight
+      - MediaQuery.of(context).padding.top
+      - MediaQuery.of(context).padding.bottom;
+    return itemDetailWidgetHeight;
+  }
+
   @override
   void dispose() {
     scrollController.dispose();
@@ -101,7 +113,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                   Expanded(
                     child: SingleChildScrollView(
                       child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.78,
+                        height: getItemDetailWidgetHeight(),
                         child: Column(
                           children: [
                             Padding(
