@@ -62,7 +62,7 @@ class AboutCheckListPage extends StatelessWidget {
                                     padding: EdgeInsets.symmetric(vertical: 10.0),
                                     child: Text(
                                       '\n　・ 体の大きな動き (からだ) \n　・ 手の動き (手のうごき) '
-                                          '\n　・ ことばの成長と理解 (ことば) \n　・ 生活習慣 (せいかつ) ',
+                                          '\n　・ ことばの成長と理解 (ことば) \n　・ 生活習慣と社会的な成長 (せいかつ) ',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),

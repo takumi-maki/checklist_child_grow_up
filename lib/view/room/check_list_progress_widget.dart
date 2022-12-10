@@ -18,8 +18,11 @@ class CheckListProgressWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(title),
-        Text('${checkListProgress.isAchievedItemsCount} / ${checkListProgress.totalItemsCount}'),
+        Text(title, style: const TextStyle(fontSize: 14.0)),
+        Text(
+          '${checkListProgress.isAchievedItemsCount} / ${checkListProgress.totalItemsCount}',
+          style: const TextStyle(fontSize: 14.0)
+        ),
       ],
     );
   }

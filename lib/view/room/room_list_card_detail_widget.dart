@@ -85,12 +85,12 @@ class _RoomListCardDetailWidgetState extends State<RoomListCardDetailWidget> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 2.0),
                     child: Column(
                       // crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
+                          padding: const EdgeInsets.only(bottom: 2.0),
                           child: Text('達成したアイテム数', style: Theme.of(context).textTheme.bodySmall),
                         ),
                         SizedBox(
@@ -116,7 +116,7 @@ class _RoomListCardDetailWidgetState extends State<RoomListCardDetailWidget> {
                                   );
                                 case CheckListType.life:
                                   return CheckListProgressWidget(
-                                      title: '・生活習慣',
+                                      title: '・生活習慣と社会的な成長',
                                       checkListProgress: checkListProgress
                                   );
                                 default:
@@ -128,7 +128,7 @@ class _RoomListCardDetailWidgetState extends State<RoomListCardDetailWidget> {
                       ],
                     ),
                   ),
-                  const Icon(Icons.arrow_forward_ios),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.1,child: const Icon(Icons.arrow_forward_ios)),
                 ],
               ),
             ],
