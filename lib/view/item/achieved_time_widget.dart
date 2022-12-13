@@ -23,7 +23,7 @@ class _AchievedTimeWidgetState extends State<AchievedTimeWidget> {
     final DateTime? pickedDate = await FunctionUtils.pickDateFromDatePicker(
       context: context,
       initialDate: achievedDate,
-      lastDate: achievedDate
+      lastDate: currentTime,
     );
     if (pickedDate != null && pickedDate != achievedDate) {
       return Timestamp.fromDate(pickedDate);
