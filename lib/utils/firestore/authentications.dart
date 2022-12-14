@@ -8,7 +8,7 @@ class AuthenticationFirestore {
   static Future<dynamic> signUp({required String name, required String email, required String password}) async {
     try {
       UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-      await _firebaseAuth.currentUser!.updateDisplayName(name);
+      await updateDisplayName(name);
       debugPrint('Authentication ユーザ作成完了');
       return userCredential;
     } on FirebaseAuthException catch(e) {
@@ -20,6 +20,9 @@ class AuthenticationFirestore {
         return 'アカウントの作成に失敗しました';
       }
     }
+  }
+  static Future updateDisplayName(String name) async {
+    await _firebaseAuth.currentUser!.updateDisplayName(name);
   }
 
   static Future<User?> checkCurrentFirebaseUser() async {
