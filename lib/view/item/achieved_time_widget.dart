@@ -34,6 +34,7 @@ class _AchievedTimeWidgetState extends State<AchievedTimeWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () async {
         final Timestamp? modifiedAchievedTime = await modifyAchievedTime(widget.item.achievedTime!.toDate());
         if (modifiedAchievedTime == null) return;
