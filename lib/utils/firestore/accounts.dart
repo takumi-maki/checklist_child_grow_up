@@ -10,7 +10,8 @@ class AccountFirestore {
       await accounts.doc(newAccount.id).set({
         'id': newAccount.id,
         'name': newAccount.name,
-        'email': newAccount.email
+        'email': newAccount.email,
+        'image_path': newAccount.imagePath
       });
       debugPrint('アカウント作成完了');
       return true;
@@ -25,12 +26,33 @@ class AccountFirestore {
     try {
       DocumentSnapshot documentReference = await accounts.doc(accountId).get();
       Map<String, dynamic> data = documentReference.data() as Map<String, dynamic>;
-      account = Account(id: data['id'], name: data['name'], email: data['email']);
+      account = Account(
+        id: data['id'],
+        name: data['name'],
+        email: data['email'],
+        imagePath: data['image_path']
+      );
       debugPrint('アカウント情報取得成功');
       return account;
     } on FirebaseException catch (e) {
       debugPrint('アカウント情報取得失敗: $e');
       return null;
+    }
+  }
+
+  static Future<bool> updateAccount(Account updatedAccount) async {
+    try {
+      await accounts.doc(updatedAccount.id).set({
+        'id': updatedAccount.id,
+        'name': updatedAccount.name,
+        'email': updatedAccount.email,
+        'image_path': updatedAccount.imagePath,
+      });
+      debugPrint('アカウント情報更新完了');
+      return true;
+    } on FirebaseException catch(e) {
+      debugPrint('アカウント情報更新エラー: $e');
+      return false;
     }
   }
 
