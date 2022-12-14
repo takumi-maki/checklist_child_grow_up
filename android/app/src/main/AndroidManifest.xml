@@ -10,10 +10,6 @@
         android:label="0~3歳までの成長のチェックリスト"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3475146632426689~1041091378"
-            />
         <activity
             android:name=".MainActivity"
             android:exported="true"
