@@ -62,7 +62,7 @@ class _AboutRoomMenusPageState extends State<AboutRoomMenusPage> {
           padding: EdgeInsets.only(
               bottom: MediaQuery.of(context).viewInsets.bottom
           ),
-          child: EditRoomWidget(roomId: widget.roomId)
+          child: EditRoomWidget(roomId: widget.roomId, childName: widget.childName)
         );
       }
     );

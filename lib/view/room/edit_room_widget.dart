@@ -14,9 +14,10 @@ import '../../model/room.dart';
 import '../../utils/loading/loading_button.dart';
 
 class EditRoomWidget extends StatefulWidget {
-  const EditRoomWidget({Key? key, required this.roomId}) : super(key: key);
+  const EditRoomWidget({Key? key, required this.roomId, required this.childName}) : super(key: key);
 
   final String roomId;
+  final String childName;
 
   @override
   State<EditRoomWidget> createState() => _EditRoomWidgetState();
@@ -28,6 +29,12 @@ class _EditRoomWidgetState extends State<EditRoomWidget> {
   final formKey = GlobalKey<FormState>();
   File? compressedImage;
   String? imagePath;
+
+  @override
+  void initState() {
+    super.initState();
+    childNameController = TextEditingController(text: widget.childName);
+  }
 
   @override
   void dispose() {
@@ -70,7 +77,6 @@ class _EditRoomWidgetState extends State<EditRoomWidget> {
                         registeredEmailAddresses: data['registered_email_addresses'],
                         imagePath: data['image_path']
                     );
-                    childNameController = TextEditingController(text: room.childName);
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
