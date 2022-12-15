@@ -62,7 +62,7 @@ class _CreateRoomWidgetState extends State<CreateRoomWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 520,
+      height: 580,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
@@ -180,8 +180,8 @@ class _CreateRoomWidgetState extends State<CreateRoomWidget> {
                               TaskSnapshot? uploadImageTaskSnapshot = await ImageFirebaseStorage.uploadImage(compressedImage!);
                               if (uploadImageTaskSnapshot == null) {
                                 if(!mounted) return;
-                                WidgetUtils.errorSnackBar(context, '画像の送信に失敗しました');
-                                return;
+                                WidgetUtils.errorSnackBar(context, '画像の登録に失敗しました');
+                                return ChangeButton.showErrorFor4Seconds(btnController);
                               }
                               imagePath = await uploadImageTaskSnapshot.ref.getDownloadURL();
                             }
