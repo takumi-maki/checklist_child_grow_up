@@ -1,3 +1,4 @@
+import 'package:checklist_child_grow_up/model/account.dart';
 import 'package:checklist_child_grow_up/utils/firestore/accounts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
@@ -37,31 +38,56 @@ class _RegisteredEmailAddressesPageState extends State<RegisteredEmailAddressesP
             return ListView.builder(
               itemCount: registeredEmailAddresses.length,
               itemBuilder: (context, index) {
-                final email = registeredEmailAddresses[index];
                 return Card(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.orange.shade200,
-                        child: Image.asset('assets/images/chicken.png', height: 36)
-                      ),
-                      title: Text(email),
-                      subtitle: StreamBuilder<QuerySnapshot>(
-                        stream: AccountFirestore.accounts
-                          .where('email', isEqualTo: email)
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: AccountFirestore.accounts
+                          .where('email', isEqualTo: registeredEmailAddresses[index])
                           .snapshots(),
-                        builder: (context, accountSnapshot) {
-                          if (!accountSnapshot.hasData) {
-                            return const SizedBox();
-                          }
-                          if (accountSnapshot.data!.docs.isEmpty) {
-                            return const Text('未登録アカウント');
-                          }
-                          Map<String, dynamic> data = accountSnapshot.data!.docs.first.data() as Map<String, dynamic>;
-                          return Text(data['name']);
+                      builder: (context, accountSnapshot) {
+                        if (!accountSnapshot.hasData) {
+                          return const SizedBox(
+                            height: 72.0,
+                          );
                         }
-                      ),
+                        if (accountSnapshot.data!.docs.isEmpty) {
+                          return ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: Colors.orange.shade200,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Image.asset('assets/images/chicken.png'),
+                              ),
+                            ),
+                            title: Text(registeredEmailAddresses[index]),
+                            subtitle: const Text('アカウント 未作成'),
+                          );
+                        }
+                        Map<String, dynamic> data = accountSnapshot.data!.docs.first.data() as Map<String, dynamic>;
+                        final Account account = Account(
+                          id: data['id'],
+                          name: data['name'],
+                          email: data['email'],
+                          imagePath: data['image_path']
+                        );
+                        return ListTile(
+                          leading: account.imagePath != null
+                            ? CircleAvatar(
+                              backgroundColor: Colors.grey.shade200,
+                              backgroundImage: NetworkImage(account.imagePath!)
+                            )
+                            : CircleAvatar(
+                              backgroundColor: Colors.orange.shade200,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Image.asset('assets/images/chicken.png'),
+                              ),
+                          ),
+                          title: Text(account.email),
+                          subtitle: Text('${data['name']}',),
+                        );
+                      }
                     ),
                   )
                 );
