@@ -107,7 +107,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                             return Validator.getRequiredValidatorMessage(value);
                           },
                           decoration: const InputDecoration(
-                            labelText: 'ユーザ名',
+                            labelText: 'アカウント名',
                             labelStyle: TextStyle(fontSize: 14),
                           ),
                         ),

@@ -107,7 +107,7 @@ class _EditAccountFormsWidgetState extends State<EditAccountFormsWidget> {
                     return Validator.getRequiredValidatorMessage(value);
                   },
                   decoration: const InputDecoration(
-                    labelText: 'ユーザ名 (必須)',
+                    labelText: 'アカウント名 (必須)',
                     labelStyle: TextStyle(fontSize: 14.0),
                   ),
                 ),
