@@ -1,11 +1,8 @@
-import 'package:checklist_child_grow_up/view/start_up/account_delete_alert_dialog.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/tile.dart';
-import '../../utils/firestore/authentications.dart';
 import '../../utils/launch_url.dart';
 import '../../utils/widget_utils.dart';
-import '../start_up/login_page.dart';
 
 class AboutAppMenusPage extends StatefulWidget {
   const AboutAppMenusPage({Key? key}) : super(key: key);
@@ -41,32 +38,7 @@ class _AboutAppMenusPageState extends State<AboutAppMenusPage> {
         title: const Text('お問い合わせ'),
         onTap: () => launchUrl.contactForm()
       ),
-      Tile(
-        leading: const Icon(Icons.logout),
-        title: const Text('ログアウト'),
-        onTap: () => handleSignOutOnTap()
-      ),
-      Tile(
-        leading: const Icon(Icons.delete),
-        title: const Text('アカウント削除'),
-        isErrorText: true,
-        onTap: () => handleAccountDeleteOnTap(),
-      ),
     ];
-  }
-
-  void handleSignOutOnTap() {
-    AuthenticationFirestore.signOut();
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-        return const LoginPage();
-      }), (_) => false
-    );
-  }
-
-  void handleAccountDeleteOnTap() {
-    showDialog(context: context, barrierDismissible: false, builder: (context) {
-      return const AccountDeleteAlertDialog();
-    });
   }
 
   @override

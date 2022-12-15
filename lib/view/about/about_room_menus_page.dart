@@ -34,7 +34,7 @@ class _AboutRoomMenusPageState extends State<AboutRoomMenusPage> {
         }))
       ),
       Tile(
-          leading: const Icon(Icons.edit_note),
+          leading: const Icon(Icons.room_preferences),
           title: const Text('ルーム編集'),
           onTap: () => handleEditRoomOnTap()
       ),

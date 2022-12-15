@@ -105,8 +105,9 @@ class Item {
 }
 
 enum CheckListPopupMenuItem {
-  aboutRoom,
   aboutCheckList,
+  aboutRoom,
+  aboutAccount,
   aboutApp,
 }
 
