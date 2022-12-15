@@ -127,7 +127,7 @@ class _AccountDeleteAlertDialogState extends State<AccountDeleteAlertDialog> {
                 btnController: btnController,
                 onPressed: () => onDeletedAccount(),
                 color: Theme.of(context).errorColor,
-                child: const Text('アカウント削除')
+                child: const Text('削除')
               ),
             ),
             const SizedBox(height: 16.0),
