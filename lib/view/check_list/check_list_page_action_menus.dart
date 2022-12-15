@@ -43,7 +43,7 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
                 }
               );
           },
-            icon: const Icon(Icons.person)
+            icon: const Icon(Icons.account_circle)
           ),
           PopupMenuButton<CheckListPopupMenuItem>(
             onSelected: (CheckListPopupMenuItem value) {
