@@ -1,7 +1,11 @@
 
+import 'dart:io';
+
 import 'package:checklist_child_grow_up/model/account.dart';
 import 'package:checklist_child_grow_up/utils/firestore/accounts.dart';
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import '../../utils/firebase_storage/images.dart';
 import '../../utils/loading/change_button.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,6 +30,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
+  File? compressedImage;
+  String? imagePath;
 
   @override
   void dispose() {
@@ -38,7 +44,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 500,
+      height: 600,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
@@ -51,6 +57,46 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    GestureDetector(
+                      onTap: () async {
+                        var image = await ImageFirebaseStorage.selectImage();
+                        compressedImage = await ImageFirebaseStorage.compressImage(image);
+                        setState((){});
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Stack(
+                            alignment: Alignment.topRight,
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.3,
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: compressedImage == null
+                                    ? CircleAvatar(
+                                      backgroundColor: Colors.orange.shade200,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: Image.asset(
+                                          'assets/images/chicken.png',
+                                        ),
+                                      ),
+                                    )
+                                    : CircleAvatar(
+                                      backgroundColor: Colors.orange.shade200,
+                                      backgroundImage: FileImage(compressedImage!)
+                                    ),
+                                ),
+                              ),
+                              CircleAvatar(
+                                radius: 14.0,
+                                backgroundColor: Theme.of(context).colorScheme.secondary,
+                                child: const Icon(Icons.add_a_photo, color: Colors.white, size: 20.0),
+                              )
+                            ]
+                        ),
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 16.0),
                       child: SizedBox(
@@ -119,19 +165,33 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                             WidgetUtils.errorSnackBar(context, signUpResult);
                             return ChangeButton.showErrorFor4Seconds(btnController);
                           }
-                          signUpResult.user!.sendEmailVerification();
+                          if (compressedImage != null) {
+                            TaskSnapshot? uploadImageTaskSnapshot = await ImageFirebaseStorage.uploadImage(compressedImage!);
+                            if (uploadImageTaskSnapshot == null) {
+                              if(!mounted) return;
+                              WidgetUtils.errorSnackBar(context, '画像の登録に失敗しました');
+                              AuthenticationFirestore.deleteAuth(signUpResult.user!);
+                              return ChangeButton.showErrorFor4Seconds(btnController);
+                            }
+                            imagePath = await uploadImageTaskSnapshot.ref.getDownloadURL();
+                          }
                           final newAccount = Account(
-                              id: signUpResult.user!.uid,
-                              name: nameController.text,
-                              email: emailController.text
+                            id: signUpResult.user!.uid,
+                            name: nameController.text,
+                            email: emailController.text,
+                            imagePath: imagePath,
                           );
                           final accountResult = await AccountFirestore.setAccount(newAccount);
                           if (!accountResult) {
                             if(!mounted) return;
                             WidgetUtils.errorSnackBar(context, 'アカウントの作成に失敗しました');
                             AuthenticationFirestore.deleteAuth(signUpResult.user!);
+                            if (newAccount.imagePath != null) {
+                              ImageFirebaseStorage.deleteImage(newAccount.imagePath!);
+                            }
                             return ChangeButton.showErrorFor4Seconds(btnController);
                           }
+                          signUpResult.user!.sendEmailVerification();
                           await ChangeButton.showSuccessFor1Seconds(btnController);
                           if(!mounted) return;
                           Navigator.pushAndRemoveUntil(
