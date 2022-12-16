@@ -25,7 +25,7 @@ class _LoadingIconButtonState extends State<LoadingIconButton> {
     return _sending
       ? Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: WidgetUtils.circularProgressIndicator(height: 16.0, width: 16.0)
+        child: WidgetUtils.circularProgressIndicator(height: 16.0, width: 16.0, color: widget.color)
       )
       : IconButton(
         onPressed: () async {
