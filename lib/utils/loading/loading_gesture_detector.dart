@@ -1,3 +1,4 @@
+import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:flutter/material.dart';
 
 class LoadingGestureDetector extends StatefulWidget {
@@ -34,13 +35,7 @@ class _LoadingGestureDetectorState extends State<LoadingGestureDetector> {
           alignment: Alignment.center,
           children: [
             widget.child,
-            const SizedBox(
-              height: 20,
-              width: 20,
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(Colors.amber),
-              ),
-            )
+            WidgetUtils.circularProgressIndicator()
           ]
         )
         : widget.child

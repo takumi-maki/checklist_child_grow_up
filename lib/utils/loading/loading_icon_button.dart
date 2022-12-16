@@ -1,3 +1,4 @@
+import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:flutter/material.dart';
 
 class LoadingIconButton extends StatefulWidget {
@@ -22,15 +23,9 @@ class _LoadingIconButtonState extends State<LoadingIconButton> {
   @override
   Widget build(BuildContext context) {
     return _sending
-      ? const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
-        child: SizedBox(
-          height: 16.0,
-          width: 16.0,
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation(Colors.amber),
-          ),
-        ),
+      ? Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: WidgetUtils.circularProgressIndicator(height: 16.0, width: 16.0)
       )
       : IconButton(
         onPressed: () async {

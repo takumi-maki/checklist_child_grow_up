@@ -1,3 +1,4 @@
+import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/check_list/check_lists_app_bar_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
@@ -74,14 +75,8 @@ class _CheckListsPageWidgetState extends State<CheckListsPageWidget> {
           if (!roomSnapshot.hasData) {
             return Container(
               color: Colors.white,
-              child: const Center(
-                child: SizedBox(
-                  height: 20.0,
-                  width: 20.0,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(Colors.amber),
-                  ),
-                ),
+              child: Center(
+                child: WidgetUtils.circularProgressIndicator()
               ),
             );
           }

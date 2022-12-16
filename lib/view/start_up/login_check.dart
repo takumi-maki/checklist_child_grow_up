@@ -1,3 +1,4 @@
+import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/start_up/title_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -34,19 +35,13 @@ class _LoginCheckState extends State<LoginCheck> {
                 child: Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        TitleWidget(),
+                      children: [
+                        const TitleWidget(),
                         Padding(
-                          padding: EdgeInsets.symmetric(vertical: 20.0),
-                          child: SizedBox(
-                            height: 26,
-                            width: 26,
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation(Colors.amber),
-                            ),
-                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 20.0),
+                          child: WidgetUtils.circularProgressIndicator()
                         ),
-                        Text('　読み込み中...')
+                        Text('　読み込み中...', style: Theme.of(context).textTheme.bodySmall)
                       ],
                     )
                 ),

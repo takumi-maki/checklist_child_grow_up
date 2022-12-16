@@ -97,14 +97,8 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                 .snapshots(),
             builder: (context, checkListSnapshot) {
               if (!checkListSnapshot.hasData) {
-                return const Center(
-                  child: SizedBox(
-                    height: 20.0,
-                    width: 20.0,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(Colors.amber),
-                    ),
-                  ),
+                return Center(
+                  child: WidgetUtils.circularProgressIndicator()
                 );
               }
               final item = getItem(checkListSnapshot.data!.data() as Map<String, dynamic>);
@@ -147,15 +141,8 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                                 .snapshots(),
                               builder: (context, commentSnapshot) {
                                 if (!commentSnapshot.hasData) {
-                                  return const Center(
-                                    child: SizedBox(
-                                      height: 20.0,
-                                      width: 20.0,
-                                      child: CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation(Colors.amber),
-                                      ),
-                                    ),
-                                  );
+                                  return WidgetUtils.circularProgressIndicator();
+
                                 }
                                 List<QueryDocumentSnapshot<Object?>> commentDocs = commentSnapshot.data!.docs;
                                 if (commentDocs.isEmpty) {

@@ -61,14 +61,8 @@ class _RoomListPageState extends State<RoomListPage> {
             if(!roomSnapshot.hasData) {
               return Container(
                 color: Colors.white,
-                child: const Center(
-                  child: SizedBox(
-                    height: 20.0,
-                    width: 20.0,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(Colors.amber),
-                    ),
-                  ),
+                child: Center(
+                  child: WidgetUtils.circularProgressIndicator()
                 ),
               );
             }

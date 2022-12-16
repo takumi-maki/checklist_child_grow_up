@@ -32,13 +32,7 @@ class _EditAccountWidgetState extends State<EditAccountWidget> {
               stream: AccountFirestore.accounts.doc(currentFirebaseUser.uid).snapshots(),
               builder: (context, accountSnapshot) {
                 if (!accountSnapshot.hasData) {
-                  return const SizedBox(
-                    height: 20.0,
-                    width: 20.0,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(Colors.amber),
-                    ),
-                  );
+                  return WidgetUtils.circularProgressIndicator();
                 }
                 Map<String, dynamic> data = accountSnapshot.data!.data() as Map<String, dynamic>;
                 final Account account = Account(

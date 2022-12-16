@@ -24,14 +24,8 @@ class _RegisteredEmailAddressesPageState extends State<RegisteredEmailAddressesP
           stream: RoomFirestore.rooms.doc(widget.roomId).snapshots(),
           builder: (context, roomSnapshot) {
             if(!roomSnapshot.hasData) {
-              return const Center(
-                child: SizedBox(
-                  height: 20.0,
-                  width: 20.0,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(Colors.amber),
-                  ),
-                ),
+              return Center(
+                child: WidgetUtils.circularProgressIndicator()
               );
             }
             List<dynamic> registeredEmailAddresses = roomSnapshot.data!['registered_email_addresses'];
