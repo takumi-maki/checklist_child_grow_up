@@ -1,10 +1,12 @@
 import 'package:checklist_child_grow_up/utils/firestore/accounts.dart';
 import 'package:checklist_child_grow_up/utils/firestore/comments.dart';
+import 'package:checklist_child_grow_up/view/item/comment_account_detail_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../model/account.dart';
 import '../../model/comment.dart';
 import '../../utils/firestore/authentications.dart';
 import '../../utils/widget_utils.dart';
@@ -98,13 +100,21 @@ class _CommentDetailWidgetState extends State<CommentDetailWidget> {
           widget.comment.imagePath == null
             ? const SizedBox()
             : Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
+              padding: EdgeInsets.only(
+                bottom: 8.0,
+                right: widget.isMine ? 8.0 : 0.0,
+                left: widget.isMine ? 0.0 : 8.0
+              ),
               child: CommentImageWidget(comment: widget.comment),
             ),
           widget.comment.text == null
             ? const SizedBox()
             : Padding(
-              padding: const EdgeInsets.only(bottom: 4.0),
+              padding: EdgeInsets.only(
+                bottom: 8.0,
+                right: widget.isMine ? 8.0 : 0.0,
+                left: widget.isMine ? 0.0 : 8.0
+              ),
               child: Container(
                 constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width * 0.80
@@ -128,20 +138,16 @@ class _CommentDetailWidgetState extends State<CommentDetailWidget> {
               .where('id', isEqualTo: widget.comment.postedAccountId).snapshots(),
             builder: (context, accountSnapshot) {
               if (!accountSnapshot.hasData  || accountSnapshot.data!.docs.isEmpty) {
-                return Row(
-                  mainAxisAlignment: widget.isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
-                  children: const [
-                    Text('unknown'),
-                  ],
-                );
+                return CommentAccountDetailWidget(isMine: widget.isMine);
               }
-              Map<String, dynamic> account = accountSnapshot.data!.docs.first.data() as Map<String, dynamic>;
-              return Row(
-                mainAxisAlignment: widget.isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
-                children: [
-                  Text(account['name']),
-                ],
+              Map<String, dynamic> data = accountSnapshot.data!.docs.first.data() as Map<String, dynamic>;
+              final Account account = Account(
+                id: data['id'],
+                name: data['name'],
+                email: data['email'],
+                imagePath: data['image_path']
               );
+              return CommentAccountDetailWidget(account : account, isMine: widget.isMine);
             }
           ),
         ],
