@@ -20,10 +20,10 @@ class _AboutAccountMenusPageState extends State<AboutAccountMenusPage> {
   @override
   void initState() {
     super.initState();
-    aboutAccountMenus = generateAboutAppMenus();
+    aboutAccountMenus = generateAboutAccountMenus();
   }
 
-  List<Tile> generateAboutAppMenus () {
+  List<Tile> generateAboutAccountMenus () {
     return [
       Tile(
         leading: const Icon(Icons.manage_accounts),
