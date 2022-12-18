@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../utils/widget_utils.dart';
+import '../widget_utils/loading/loading_button.dart';
 import 'room_list_page.dart';
 import '../../utils/firestore/rooms.dart';
-import '../../utils/loading/loading_button.dart';
 
 class RoomDeleteAlertDialog extends StatefulWidget {
   final String childName;

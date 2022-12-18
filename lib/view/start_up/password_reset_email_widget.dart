@@ -3,9 +3,9 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../utils/firestore/authentications.dart';
 import '../../utils/loading/change_button.dart';
-import '../../utils/loading/loading_button.dart';
 import '../../utils/validator.dart';
 import '../../utils/widget_utils.dart';
+import '../widget_utils/loading/loading_button.dart';
 
 class PasswordRestEmailWidget extends StatefulWidget {
   const PasswordRestEmailWidget({Key? key}) : super(key: key);

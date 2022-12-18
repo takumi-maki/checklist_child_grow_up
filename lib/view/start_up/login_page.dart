@@ -11,7 +11,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-import '../../utils/loading/loading_button.dart';
+import '../widget_utils/loading/loading_button.dart';
 import 'send_email_verification_alert_dialog.dart';
 
 class LoginPage extends StatefulWidget {

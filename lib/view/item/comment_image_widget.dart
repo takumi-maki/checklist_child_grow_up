@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../model/comment.dart';
-import '../../utils/loading/loading_gesture_detector.dart';
+import '../widget_utils/loading/loading_gesture_detector.dart';
 import 'image_preview_widget.dart';
 
 class CommentImageWidget extends StatefulWidget {

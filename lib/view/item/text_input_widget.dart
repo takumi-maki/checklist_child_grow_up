@@ -11,8 +11,8 @@ import '../../model/check_list.dart';
 import '../../model/comment.dart';
 import '../../utils/firestore/authentications.dart';
 import '../../utils/firestore/comments.dart';
-import '../../utils/loading/loading_icon_button.dart';
 import '../../utils/widget_utils.dart';
+import '../widget_utils/loading/loading_icon_button.dart';
 
 class TextInputWidget extends StatefulWidget {
   final Item item;

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../model/room.dart';
-import '../../utils/loading/loading_button.dart';
+import '../widget_utils/loading/loading_button.dart';
 
 class AddEmailWidget extends StatefulWidget {
   const AddEmailWidget({Key? key, required this.roomId}) : super(key: key);

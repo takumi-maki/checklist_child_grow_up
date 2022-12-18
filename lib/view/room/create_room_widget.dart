@@ -16,7 +16,7 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../model/room.dart';
-import '../../utils/loading/loading_button.dart';
+import '../widget_utils/loading/loading_button.dart';
 
 class CreateRoomWidget extends StatefulWidget {
   const CreateRoomWidget({Key? key}) : super(key: key);

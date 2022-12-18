@@ -11,7 +11,7 @@ import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-import '../../utils/loading/loading_button.dart';
+import '../widget_utils/loading/loading_button.dart';
 
 class EditAccountFormsWidget extends StatefulWidget {
   const EditAccountFormsWidget({Key? key, required this.account}) : super(key: key);

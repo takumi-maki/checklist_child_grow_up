@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../utils/loading/change_button.dart';
-import '../../utils/loading/loading_button.dart';
+import '../widget_utils/loading/loading_button.dart';
 
 class SendEmailVerificationAlertDialog extends StatefulWidget {
   const SendEmailVerificationAlertDialog({Key? key, required this.user}) : super(key: key);

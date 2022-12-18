@@ -5,8 +5,8 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../model/check_list.dart';
 import '../../utils/firestore/check_lists.dart';
 import '../../utils/loading/change_button.dart';
-import '../../utils/loading/loading_button.dart';
 import '../../utils/widget_utils.dart';
+import '../widget_utils/loading/loading_button.dart';
 import 'congratulations_screen.dart';
 
 class AchievementButtonWidget extends StatefulWidget {
