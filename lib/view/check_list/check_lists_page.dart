@@ -1,4 +1,3 @@
-import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/check_list/check_lists_app_bar_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
@@ -69,82 +68,67 @@ class _CheckListsPageWidgetState extends State<CheckListsPageWidget> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: CheckList.tabBarList.length,
-      child: StreamBuilder<DocumentSnapshot>(
-        stream: RoomFirestore.rooms.doc(widget.roomId).snapshots(),
-        builder: (context, roomSnapshot) {
-          if (!roomSnapshot.hasData) {
-            return Container(
-              color: Colors.white,
-              child: Center(
-                child: WidgetUtils.circularProgressIndicator()
-              ),
-            );
-          }
-          final String childName = getChildName(roomSnapshot);
-          return Scaffold(
-            appBar: CheckListsAppBarWidget(
-              childName: childName,
-              ageMonths: widget.ageMonths,
-              roomId: widget.roomId
-            ),
-            body: SafeArea(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: RoomFirestore.rooms.doc(widget.roomId)
+      child: Scaffold(
+        appBar: CheckListsAppBarWidget(
+          ageMonths: widget.ageMonths,
+          roomId: widget.roomId
+        ),
+        body: SafeArea(
+          child: StreamBuilder<QuerySnapshot>(
+              stream: RoomFirestore.rooms.doc(widget.roomId)
                   .collection('check_lists').orderBy('type', descending: false)
                   .snapshots(),
-                builder: (context, checkListSnapshot) {
-                  if(!checkListSnapshot.hasData || checkListSnapshot.data!.docs.length < CheckList.tabBarList.length) {
-                    return TabBarView(
+              builder: (context, checkListSnapshot) {
+                if(!checkListSnapshot.hasData || checkListSnapshot.data!.docs.length < CheckList.tabBarList.length) {
+                  return TabBarView(
                       children: CheckList.tabBarList.map((e) {
                         return const SizedBox();
                       }).toList()
-                    );
-                  }
-                  return TabBarView(
+                  );
+                }
+                return TabBarView(
                     children: checkListSnapshot.data!.docs.map((doc) {
                       CheckList checkList = getCheckList(doc);
                       return ListView.builder(
-                        itemCount: checkList.items.length,
-                        itemBuilder: (context, index) {
-                          final Item item = checkList.items[index];
-                          return StreamBuilder<QuerySnapshot>(
-                            stream: RoomFirestore.rooms.doc(checkList.roomId)
-                              .collection('check_lists').doc(checkList.id)
-                              .collection('comments').orderBy('created_time', descending: false)
-                              .where('item_id', isEqualTo: item.id)
-                              .snapshots(),
-                            builder: (context, commentSnapshot) {
-                              if (!commentSnapshot.hasData) {
-                                return const SizedBox(
-                                  height: 64.0,
-                                  width: double.infinity,
-                                );
-                              }
-                              if (commentSnapshot.data!.docs.isNotEmpty) {
-                                final unreadCommentsCount = countUnreadComments(commentSnapshot.data!.docs);
-                                return CheckListCardDetailWidget(
-                                  checkList: checkList,
-                                  item: item,
-                                  hasComments: true,
-                                  unreadCommentsCount: unreadCommentsCount,
-                                );
-                              }
-                              return CheckListCardDetailWidget(
-                                checkList: checkList,
-                                item: item,
-                                hasComments: false,
-                              );
-                            }
-                          );
-                        }
+                          itemCount: checkList.items.length,
+                          itemBuilder: (context, index) {
+                            final Item item = checkList.items[index];
+                            return StreamBuilder<QuerySnapshot>(
+                                stream: RoomFirestore.rooms.doc(checkList.roomId)
+                                    .collection('check_lists').doc(checkList.id)
+                                    .collection('comments').orderBy('created_time', descending: false)
+                                    .where('item_id', isEqualTo: item.id)
+                                    .snapshots(),
+                                builder: (context, commentSnapshot) {
+                                  if (!commentSnapshot.hasData) {
+                                    return const SizedBox(
+                                      height: 64.0,
+                                      width: double.infinity,
+                                    );
+                                  }
+                                  if (commentSnapshot.data!.docs.isNotEmpty) {
+                                    final unreadCommentsCount = countUnreadComments(commentSnapshot.data!.docs);
+                                    return CheckListCardDetailWidget(
+                                      checkList: checkList,
+                                      item: item,
+                                      hasComments: true,
+                                      unreadCommentsCount: unreadCommentsCount,
+                                    );
+                                  }
+                                  return CheckListCardDetailWidget(
+                                    checkList: checkList,
+                                    item: item,
+                                    hasComments: false,
+                                  );
+                                }
+                            );
+                          }
                       );
                     }).toList()
-                  );
-                }
-              ),
-            ),
-          );
-        }
+                );
+              }
+          ),
+        ),
       )
     );
   }
