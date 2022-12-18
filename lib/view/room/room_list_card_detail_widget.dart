@@ -9,12 +9,12 @@ class RoomListCardDetailWidget extends StatefulWidget {
   const RoomListCardDetailWidget({
     Key? key,
     required this.room,
-    required this.ageMonths,
+    this.ageMonths,
     required this.checkListsProgress
   }) : super(key: key);
 
   final Room room;
-  final int ageMonths;
+  final int? ageMonths;
   final List<CheckListProgress> checkListsProgress;
 
 
@@ -57,7 +57,9 @@ class _RoomListCardDetailWidgetState extends State<RoomListCardDetailWidget> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text('( ${widget.ageMonths}ヶ月 )', style: Theme.of(context).textTheme.titleSmall),
+                    child: widget.ageMonths != null
+                      ? Text('( ${widget.ageMonths}ヶ月 )', style: Theme.of(context).textTheme.titleSmall)
+                      : const SizedBox(),
                   ),
                 ],
               ),

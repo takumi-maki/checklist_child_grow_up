@@ -12,12 +12,12 @@ class CheckListsPageWidget extends StatefulWidget {
   const CheckListsPageWidget({
     Key? key,
     required this.childName,
-    required this.ageMonths,
+    this.ageMonths,
     required this.roomId
   }) : super(key: key);
 
   final String childName;
-  final int ageMonths;
+  final int? ageMonths;
   final String roomId;
 
   @override

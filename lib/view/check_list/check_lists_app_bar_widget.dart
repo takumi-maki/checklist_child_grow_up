@@ -10,11 +10,11 @@ import 'check_list_page_action_menus.dart';
 class CheckListsAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const CheckListsAppBarWidget({
     Key? key,
-    required this.ageMonths,
+    this.ageMonths,
     required this.roomId
   }) : super(key: key);
 
-  final int ageMonths;
+  final int? ageMonths;
   final String roomId;
 
   @override
@@ -42,7 +42,9 @@ class CheckListsAppBarWidget extends StatelessWidget implements PreferredSizeWid
           title: Column(
             children: [
               Text('$childName の ルーム', style: Theme.of(context).textTheme.subtitle1),
-              Text('( $ageMonthsヶ月 )', style: Theme.of(context).textTheme.bodySmall),
+              ageMonths != null
+                ? Text('( $ageMonthsヶ月 )', style: Theme.of(context).textTheme.bodySmall)
+                : const SizedBox(),
             ],
           ),
           centerTitle: true, systemOverlayStyle: SystemUiOverlayStyle.dark,

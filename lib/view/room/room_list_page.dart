@@ -42,9 +42,11 @@ class _RoomListPageState extends State<RoomListPage> {
     }).toList();
   }
 
-  calculateAgeMonths(DateTime birthdate) {
+  int? calculateAgeMonths(DateTime birthdate) {
     final age = AgeCalculator.age(birthdate);
-    return age.years * 12 + age.months;
+    final ageMonths = age.years * 12 + age.months;
+    if (ageMonths < 0) return null;
+    return ageMonths;
   }
 
   @override
