@@ -16,6 +16,7 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../model/room.dart';
+import '../widget_utils/app_bar/modal_bottom_sheet_app_bar_widget.dart';
 import '../widget_utils/loading/loading_button.dart';
 
 class CreateRoomWidget extends StatefulWidget {
@@ -66,7 +67,7 @@ class _CreateRoomWidgetState extends State<CreateRoomWidget> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
-        appBar: WidgetUtils.createModalBottomSheetAppBar(context, 'ルーム作成'),
+        appBar: const ModalBottomSheetAppBarWidget(title: 'ルーム作成'),
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(

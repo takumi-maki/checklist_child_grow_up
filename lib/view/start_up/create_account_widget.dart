@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../utils/validator.dart';
+import '../widget_utils/app_bar/modal_bottom_sheet_app_bar_widget.dart';
 import '../widget_utils/loading/loading_button.dart';
 import 'check_email_page.dart';
 
@@ -48,7 +49,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
-        appBar: WidgetUtils.createModalBottomSheetAppBar(context, 'アカウント作成'),
+        appBar: const ModalBottomSheetAppBarWidget(title: 'アカウント作成'),
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(

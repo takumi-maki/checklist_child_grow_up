@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import '../../model/check_list.dart';
 import '../../model/room.dart';
 import '../../utils/firestore/authentications.dart';
+import '../widget_utils/app_bar/app_bar_widget.dart';
 
 
 class RoomListPage extends StatefulWidget {
@@ -52,7 +53,7 @@ class _RoomListPageState extends State<RoomListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WidgetUtils.createAppBar(context, 'ルーム一覧'),
+      appBar: const AppBarWidget(title: 'ルーム一覧'),
       body: SafeArea(
         child: StreamBuilder<QuerySnapshot>(
           stream: RoomFirestore.rooms

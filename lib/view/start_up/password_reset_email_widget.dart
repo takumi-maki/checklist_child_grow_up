@@ -5,6 +5,7 @@ import '../../utils/firestore/authentications.dart';
 import '../../utils/loading/change_button.dart';
 import '../../utils/validator.dart';
 import '../../utils/widget_utils.dart';
+import '../widget_utils/app_bar/modal_bottom_sheet_app_bar_widget.dart';
 import '../widget_utils/loading/loading_button.dart';
 
 class PasswordRestEmailWidget extends StatefulWidget {
@@ -32,7 +33,7 @@ class _PasswordRestEmailWidgetState extends State<PasswordRestEmailWidget> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
-        appBar: WidgetUtils.createModalBottomSheetAppBar(context, 'パスワード再設定'),
+        appBar: const ModalBottomSheetAppBarWidget(title: 'パスワード再設定'),
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(

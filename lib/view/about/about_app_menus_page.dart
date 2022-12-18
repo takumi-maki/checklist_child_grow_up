@@ -1,8 +1,8 @@
+import 'package:checklist_child_grow_up/view/widget_utils/app_bar/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/tile.dart';
 import '../../utils/launch_url.dart';
-import '../../utils/widget_utils.dart';
 
 class AboutAppMenusPage extends StatefulWidget {
   const AboutAppMenusPage({Key? key}) : super(key: key);
@@ -44,7 +44,7 @@ class _AboutAppMenusPageState extends State<AboutAppMenusPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WidgetUtils.createAppBar(context, 'アプリについて'),
+      appBar: const AppBarWidget(title: 'アプリについて'),
       body: SafeArea(
         child: ListView.builder(
           itemCount: aboutAppMenus.length,

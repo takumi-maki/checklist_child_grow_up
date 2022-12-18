@@ -2,9 +2,9 @@ import 'package:checklist_child_grow_up/model/tile.dart';
 import 'package:checklist_child_grow_up/view/room/edit_room_widget.dart';
 import 'package:checklist_child_grow_up/view/room/room_delete_alert_dialog.dart';
 import 'package:checklist_child_grow_up/view/room/registered_email_addresses_page.dart';
+import 'package:checklist_child_grow_up/view/widget_utils/app_bar/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 
-import '../../utils/widget_utils.dart';
 
 class AboutRoomMenusPage extends StatefulWidget {
   final String roomId;
@@ -78,7 +78,7 @@ class _AboutRoomMenusPageState extends State<AboutRoomMenusPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: WidgetUtils.createAppBar(context, 'ルームについて'),
+      appBar: const AppBarWidget(title: 'ルームについて'),
       body: SafeArea(
         child: ListView.builder(
             itemCount: aboutRoomMenus.length,

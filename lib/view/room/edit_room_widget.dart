@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../model/room.dart';
+import '../widget_utils/app_bar/modal_bottom_sheet_app_bar_widget.dart';
 import '../widget_utils/loading/loading_button.dart';
 
 class EditRoomWidget extends StatefulWidget {
@@ -49,7 +50,7 @@ class _EditRoomWidgetState extends State<EditRoomWidget> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
-        appBar: WidgetUtils.createModalBottomSheetAppBar(context, 'ルーム編集'),
+        appBar: const ModalBottomSheetAppBarWidget(title: 'ルーム編集'),
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(

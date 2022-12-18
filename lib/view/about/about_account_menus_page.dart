@@ -1,8 +1,8 @@
+import 'package:checklist_child_grow_up/view/widget_utils/app_bar/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/tile.dart';
 import '../../utils/firestore/authentications.dart';
-import '../../utils/widget_utils.dart';
 import '../start_up/account_delete_alert_dialog.dart';
 import '../start_up/edit_account_widget.dart';
 import '../start_up/login_page.dart';
@@ -82,7 +82,7 @@ class _AboutAccountMenusPageState extends State<AboutAccountMenusPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WidgetUtils.createAppBar(context, 'アカウントについて'),
+      appBar: const AppBarWidget(title: 'アカウントについて'),
       body: SafeArea(
         child: ListView.builder(
             itemCount: aboutAccountMenus.length,

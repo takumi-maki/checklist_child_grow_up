@@ -7,6 +7,7 @@ import '../../model/check_list.dart';
 import '../../model/comment.dart';
 import '../../utils/firestore/rooms.dart';
 import '../../utils/widget_utils.dart';
+import '../widget_utils/app_bar/app_bar_widget.dart';
 import 'achievement_button_widget.dart';
 import 'achieved_time_widget.dart';
 import 'comment_detail_widget.dart';
@@ -89,7 +90,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: WidgetUtils.createAppBar(context, 'アイテム詳細'),
+        appBar: const AppBarWidget(title: 'アイテム詳細'),
         body: SafeArea(
           child: StreamBuilder<DocumentSnapshot>(
               stream: RoomFirestore.rooms.doc(widget.checkList.roomId)

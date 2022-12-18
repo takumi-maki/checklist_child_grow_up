@@ -6,6 +6,8 @@ import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/room/add_email_widget.dart';
 import 'package:flutter/material.dart';
 
+import '../widget_utils/app_bar/app_bar_widget.dart';
+
 class RegisteredEmailAddressesPage extends StatefulWidget {
   final String roomId;
   const RegisteredEmailAddressesPage({Key? key, required this.roomId}) : super(key: key);
@@ -18,7 +20,7 @@ class _RegisteredEmailAddressesPageState extends State<RegisteredEmailAddressesP
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WidgetUtils.createAppBar(context, '登録中のメールアドレス一覧'),
+      appBar: const AppBarWidget(title: '登録中のメールアドレス一覧'),
       body: SafeArea(
         child: StreamBuilder<DocumentSnapshot>(
           stream: RoomFirestore.rooms.doc(widget.roomId).snapshots(),

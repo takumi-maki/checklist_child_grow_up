@@ -1,3 +1,5 @@
+import 'package:checklist_child_grow_up/view/widget_utils/app_bar/modal_bottom_sheet_app_bar_widget.dart';
+
 import '../../utils/loading/change_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
@@ -36,7 +38,7 @@ class _RoomAddEmailPageState extends State<AddEmailWidget> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
-        appBar: WidgetUtils.createModalBottomSheetAppBar(context, 'メールアドレス追加'),
+        appBar: const ModalBottomSheetAppBarWidget(title: 'メールアドレス追加'),
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(

@@ -6,6 +6,7 @@ import '../../model/account.dart';
 import '../../utils/firestore/accounts.dart';
 import '../../utils/firestore/authentications.dart';
 import '../../utils/widget_utils.dart';
+import '../widget_utils/app_bar/modal_bottom_sheet_app_bar_widget.dart';
 import 'edit_account_forms_widget.dart';
 
 class EditAccountWidget extends StatefulWidget {
@@ -25,7 +26,7 @@ class _EditAccountWidgetState extends State<EditAccountWidget> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
-        appBar: WidgetUtils.createModalBottomSheetAppBar(context, 'アカウント編集'),
+        appBar: const ModalBottomSheetAppBarWidget(title: 'アカウント編集'),
         body: SafeArea(
           child: Center(
             child: StreamBuilder<DocumentSnapshot>(

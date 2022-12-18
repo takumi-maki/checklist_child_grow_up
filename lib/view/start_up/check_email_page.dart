@@ -1,6 +1,7 @@
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
 import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/room/room_list_page.dart';
+import 'package:checklist_child_grow_up/view/widget_utils/app_bar/app_bar_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -24,7 +25,7 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WidgetUtils.createAppBar(context, 'メールアドレス確認'),
+      appBar: const AppBarWidget(title: 'メールアドレス確認'),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
