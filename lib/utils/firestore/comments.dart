@@ -9,7 +9,7 @@ import '../../model/comment.dart';
 class CommentFirestore {
   static final _firebaseFirestore = FirebaseFirestore.instance;
 
-  static Future<bool> addComment(CheckList checkList, Comment newComment) async {
+  static Future<bool> setNewComment(CheckList checkList, Comment newComment) async {
     try {
       final batch = _firebaseFirestore.batch();
       final DocumentReference newCommentDoc = RoomFirestore.rooms.doc(checkList.roomId)
