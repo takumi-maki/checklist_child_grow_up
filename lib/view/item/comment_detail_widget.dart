@@ -57,7 +57,7 @@ class _CommentDetailWidgetState extends State<CommentDetailWidget> {
       readAccountIds: updatedReadAccountIds,
       createdTime: widget.comment.createdTime
     );
-    var updateCommentResult = await CommentFireStore.updateComment(
+    var updateCommentResult = await CommentFirestore.updateComment(
       widget.roomId,
       widget.checkListId,
       updatedComment

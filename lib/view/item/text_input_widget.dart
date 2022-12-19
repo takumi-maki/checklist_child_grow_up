@@ -138,7 +138,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                     readAccountIds: [currentFirebaseUser.uid],
                     createdTime: Timestamp.now()
                   );
-                  var commentAddResult = await CommentFireStore.addComment(widget.checkList, newComment);
+                  var commentAddResult = await CommentFirestore.addComment(widget.checkList, newComment);
                   if (!commentAddResult) {
                     if (!mounted) return;
                     final setNewCommentErrorSnackBar = ErrorSnackBar(context, title: 'コメントの送信に失敗しました');

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../../model/check_list.dart';
 import '../../model/comment.dart';
 
-class CommentFireStore {
+class CommentFirestore {
   static final _firebaseFirestore = FirebaseFirestore.instance;
 
   static Future<bool> addComment(CheckList checkList, Comment newComment) async {

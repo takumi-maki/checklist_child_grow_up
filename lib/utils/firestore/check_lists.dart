@@ -64,7 +64,7 @@ class CheckListFirestore {
       final DocumentReference checkListsDocRef = roomsDocRef.collection(
           'check_lists').doc(checkList.id);
       batch.delete(checkListsDocRef);
-      await CommentFireStore.deleteComments(batch, checkListsDocRef);
+      await CommentFirestore.deleteComments(batch, checkListsDocRef);
     }
   }
 }

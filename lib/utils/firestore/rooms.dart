@@ -8,13 +8,13 @@ import '../../model/check_list.dart';
 import '../function_utils.dart';
 
 class RoomFirestore {
-  static final _firebaseFireStore = FirebaseFirestore.instance;
-  static final CollectionReference rooms = _firebaseFireStore.collection(('rooms'));
+  static final _firebaseFirestore = FirebaseFirestore.instance;
+  static final CollectionReference rooms = _firebaseFirestore.collection(('rooms'));
   static const uuid = Uuid();
 
   static Future<bool> setNewRoom(Room newRoom) async {
     try {
-      final batch = _firebaseFireStore.batch();
+      final batch = _firebaseFirestore.batch();
       DocumentReference newRoomsDoc = rooms.doc(newRoom.id);
       batch.set(newRoomsDoc, {
         'id': newRoom.id,
@@ -63,7 +63,7 @@ class RoomFirestore {
   }
   static Future<bool> deleteRoom(String roomId) async {
     try {
-      final batch = _firebaseFireStore.batch();
+      final batch = _firebaseFirestore.batch();
       final DocumentReference roomsDocRef = rooms.doc(roomId);
       batch.delete(roomsDocRef);
       await CheckListFirestore.deleteCheckLists(batch, roomsDocRef);
