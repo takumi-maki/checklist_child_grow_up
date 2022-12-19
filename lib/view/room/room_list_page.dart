@@ -1,5 +1,4 @@
 import 'package:age_calculator/age_calculator.dart';
-import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/room/room_list_card_detail_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
@@ -11,6 +10,7 @@ import '../../model/check_list.dart';
 import '../../model/room.dart';
 import '../../utils/firestore/authentications.dart';
 import '../widget_utils/app_bar/app_bar_widget.dart';
+import '../widget_utils/loading/circular_progress_indicator_widget.dart';
 
 
 class RoomListPage extends StatefulWidget {
@@ -64,8 +64,8 @@ class _RoomListPageState extends State<RoomListPage> {
             if(!roomSnapshot.hasData) {
               return Container(
                 color: Colors.white,
-                child: Center(
-                  child: WidgetUtils.circularProgressIndicator()
+                child: const Center(
+                  child: CircularProgressIndicatorWidget()
                 ),
               );
             }

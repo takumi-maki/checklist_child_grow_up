@@ -1,10 +1,10 @@
-import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/start_up/title_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/firestore/authentications.dart';
 import '../room/room_list_page.dart';
+import '../widget_utils/loading/circular_progress_indicator_widget.dart';
 import 'login_page.dart';
 
 class LoginCheck extends StatefulWidget {
@@ -37,9 +37,9 @@ class _LoginCheckState extends State<LoginCheck> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const TitleWidget(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20.0),
-                          child: WidgetUtils.circularProgressIndicator()
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 20.0),
+                          child: CircularProgressIndicatorWidget()
                         ),
                         Text('　読み込み中...', style: Theme.of(context).textTheme.bodySmall)
                       ],

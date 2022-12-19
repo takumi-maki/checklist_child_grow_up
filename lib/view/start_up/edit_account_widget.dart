@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import '../../model/account.dart';
 import '../../utils/firestore/accounts.dart';
 import '../../utils/firestore/authentications.dart';
-import '../../utils/widget_utils.dart';
 import '../widget_utils/app_bar/modal_bottom_sheet_app_bar_widget.dart';
+import '../widget_utils/loading/circular_progress_indicator_widget.dart';
 import 'edit_account_forms_widget.dart';
 
 class EditAccountWidget extends StatefulWidget {
@@ -33,7 +33,7 @@ class _EditAccountWidgetState extends State<EditAccountWidget> {
               stream: AccountFirestore.accounts.doc(currentFirebaseUser.uid).snapshots(),
               builder: (context, accountSnapshot) {
                 if (!accountSnapshot.hasData) {
-                  return WidgetUtils.circularProgressIndicator();
+                  return const CircularProgressIndicatorWidget();
                 }
                 Map<String, dynamic> data = accountSnapshot.data!.data() as Map<String, dynamic>;
                 final Account account = Account(

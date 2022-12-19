@@ -1,5 +1,6 @@
-import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:flutter/material.dart';
+
+import 'circular_progress_indicator_widget.dart';
 
 class LoadingIconButton extends StatefulWidget {
   final dynamic onPressed;
@@ -25,7 +26,7 @@ class _LoadingIconButtonState extends State<LoadingIconButton> {
     return _sending
       ? Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: WidgetUtils.circularProgressIndicator(height: 16.0, width: 16.0, color: widget.color)
+        child: CircularProgressIndicatorWidget(height: 16.0, width: 16.0, color: widget.color)
       )
       : IconButton(
         onPressed: () async {

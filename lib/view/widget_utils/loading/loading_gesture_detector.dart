@@ -1,5 +1,6 @@
-import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:flutter/material.dart';
+
+import 'circular_progress_indicator_widget.dart';
 
 class LoadingGestureDetector extends StatefulWidget {
   final dynamic onTap;
@@ -35,7 +36,7 @@ class _LoadingGestureDetectorState extends State<LoadingGestureDetector> {
           alignment: Alignment.center,
           children: [
             widget.child,
-            WidgetUtils.circularProgressIndicator()
+            const CircularProgressIndicatorWidget()
           ]
         )
         : widget.child

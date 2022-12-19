@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../model/check_list.dart';
-import '../../utils/widget_utils.dart';
+import '../widget_utils/loading/circular_progress_indicator_widget.dart';
 import 'check_list_page_action_menus.dart';
 
 class CheckListsAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -28,8 +28,8 @@ class CheckListsAppBarWidget extends StatelessWidget implements PreferredSizeWid
         if (!roomSnapshot.hasData || !roomSnapshot.data!.exists) {
           return Container(
             color: Colors.white,
-            child: Center(
-                child: WidgetUtils.circularProgressIndicator()
+            child: const Center(
+                child: CircularProgressIndicatorWidget()
             ),
           );
         }

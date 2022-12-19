@@ -6,12 +6,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import '../../utils/firebase_storage/images.dart';
 import '../../utils/loading/change_button.dart';
 import 'package:checklist_child_grow_up/utils/validator.dart';
-import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../model/room.dart';
 import '../widget_utils/app_bar/modal_bottom_sheet_app_bar_widget.dart';
+import '../widget_utils/loading/circular_progress_indicator_widget.dart';
 import '../widget_utils/loading/loading_button.dart';
 import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
 
@@ -61,8 +61,8 @@ class _EditRoomWidgetState extends State<EditRoomWidget> {
                   stream: RoomFirestore.rooms.doc(widget.roomId).snapshots(),
                   builder: (context, roomSnapshot) {
                     if (!roomSnapshot.hasData) {
-                      return Center(
-                        child: WidgetUtils.circularProgressIndicator()
+                      return const Center(
+                        child: CircularProgressIndicatorWidget()
                       );
                     }
                     Map<String, dynamic> data = roomSnapshot.data!.data() as Map<String, dynamic>;

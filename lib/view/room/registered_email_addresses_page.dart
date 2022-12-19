@@ -2,11 +2,11 @@ import 'package:checklist_child_grow_up/model/account.dart';
 import 'package:checklist_child_grow_up/utils/firestore/accounts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
-import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/room/add_email_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../widget_utils/app_bar/app_bar_widget.dart';
+import '../widget_utils/loading/circular_progress_indicator_widget.dart';
 
 class RegisteredEmailAddressesPage extends StatefulWidget {
   final String roomId;
@@ -26,8 +26,8 @@ class _RegisteredEmailAddressesPageState extends State<RegisteredEmailAddressesP
           stream: RoomFirestore.rooms.doc(widget.roomId).snapshots(),
           builder: (context, roomSnapshot) {
             if(!roomSnapshot.hasData) {
-              return Center(
-                child: WidgetUtils.circularProgressIndicator()
+              return const Center(
+                child: CircularProgressIndicatorWidget()
               );
             }
             List<dynamic> registeredEmailAddresses = roomSnapshot.data!['registered_email_addresses'];

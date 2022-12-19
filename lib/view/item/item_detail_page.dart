@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import '../../model/check_list.dart';
 import '../../model/comment.dart';
 import '../../utils/firestore/rooms.dart';
-import '../../utils/widget_utils.dart';
 import '../widget_utils/app_bar/app_bar_widget.dart';
+import '../widget_utils/loading/circular_progress_indicator_widget.dart';
 import 'achievement_button_widget.dart';
 import 'achieved_time_widget.dart';
 import 'comment_detail_widget.dart';
@@ -98,8 +98,8 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                 .snapshots(),
             builder: (context, checkListSnapshot) {
               if (!checkListSnapshot.hasData) {
-                return Center(
-                  child: WidgetUtils.circularProgressIndicator()
+                return const Center(
+                  child: CircularProgressIndicatorWidget()
                 );
               }
               final item = getItem(checkListSnapshot.data!.data() as Map<String, dynamic>);
@@ -142,7 +142,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                                 .snapshots(),
                               builder: (context, commentSnapshot) {
                                 if (!commentSnapshot.hasData) {
-                                  return WidgetUtils.circularProgressIndicator();
+                                  return const CircularProgressIndicatorWidget();
 
                                 }
                                 List<QueryDocumentSnapshot<Object?>> commentDocs = commentSnapshot.data!.docs;
