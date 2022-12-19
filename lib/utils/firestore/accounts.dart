@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 class AccountFirestore {
   static final CollectionReference accounts = FirebaseFirestore.instance.collection('accounts');
 
-  static Future<bool> setAccount(Account newAccount) async {
+  static Future<bool> setNewAccount(Account newAccount) async {
     try {
       await accounts.doc(newAccount.id).set({
         'id': newAccount.id,

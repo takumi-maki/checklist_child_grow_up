@@ -185,7 +185,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                             email: emailController.text,
                             imagePath: imagePath,
                           );
-                          final accountResult = await AccountFirestore.setAccount(newAccount);
+                          final accountResult = await AccountFirestore.setNewAccount(newAccount);
                           if (!accountResult) {
                             if (!mounted) return;
                             final setNewAccountErrorSnackBar = ErrorSnackBar(context, title: 'アカウントの作成に失敗しました');

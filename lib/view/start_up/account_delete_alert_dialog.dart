@@ -53,13 +53,13 @@ class _AccountDeleteAlertDialogState extends State<AccountDeleteAlertDialog> {
     final reAuthResult = await AuthenticationFirestore.reAuthenticate(currentFirebaseUser, passwordController.text);
     if (reAuthResult is! UserCredential) {
       // 先ほど削除したアカウントを作り直す ( Authentication と Firestore の垣根を越えたトランザクション処理ができないため )
-      await AccountFirestore.setAccount(myAccount);
+      await AccountFirestore.setNewAccount(myAccount);
       return deleteErrorHandling(reAuthResult);
     }
     final deleteAuthResult = await AuthenticationFirestore.deleteAuth(currentFirebaseUser);
     if(!deleteAuthResult) {
       // 先ほど削除したアカウントを作り直す ( Authentication と Firestore の垣根を越えたトランザクション処理ができないため )
-      await AccountFirestore.setAccount(myAccount);
+      await AccountFirestore.setNewAccount(myAccount);
       return deleteErrorHandling('アカウントの削除に失敗しました');
     }
     await ChangeButton.showSuccessFor1Seconds(btnController);
