@@ -7,15 +7,12 @@ import '../../model/check_list.dart';
 import '../../model/comment.dart';
 
 class CommentFirestore {
-  static final _firebaseFirestore = FirebaseFirestore.instance;
-
   static Future<bool> setNewComment(CheckList checkList, Comment newComment) async {
     try {
-      final batch = _firebaseFirestore.batch();
       final DocumentReference newCommentDoc = RoomFirestore.rooms.doc(checkList.roomId)
         .collection('check_lists').doc(checkList.id)
         .collection('comments').doc(newComment.id);
-      batch.set(newCommentDoc, {
+      await newCommentDoc.set({
         'id': newComment.id,
         'text': newComment.text,
         'image_path': newComment.imagePath,
@@ -24,7 +21,6 @@ class CommentFirestore {
         'read_account_ids': newComment.readAccountIds,
         'created_time': newComment.createdTime
       });
-      await batch.commit();
       debugPrint('メッセージの作成完了');
       return true;
     } on FirebaseException catch(e) {
