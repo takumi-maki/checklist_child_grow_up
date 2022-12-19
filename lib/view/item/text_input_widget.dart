@@ -11,8 +11,8 @@ import '../../model/check_list.dart';
 import '../../model/comment.dart';
 import '../../utils/firestore/authentications.dart';
 import '../../utils/firestore/comments.dart';
-import '../../utils/widget_utils.dart';
 import '../widget_utils/loading/loading_icon_button.dart';
+import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
 
 class TextInputWidget extends StatefulWidget {
   final Item item;
@@ -122,8 +122,9 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                   if (compressedImage != null) {
                     TaskSnapshot? uploadImageTaskSnapshot = await ImageFirebaseStorage.uploadImage(compressedImage!);
                     if (uploadImageTaskSnapshot == null) {
-                      if(!mounted) return;
-                      WidgetUtils.errorSnackBar(context, '画像の送信に失敗しました');
+                      if (!mounted) return;
+                      final uploadImageErrorSnackBar = ErrorSnackBar(context, title: '画像の送信に失敗しました');
+                      ScaffoldMessenger.of(context).showSnackBar(uploadImageErrorSnackBar);
                       return;
                     }
                     imagePath = await uploadImageTaskSnapshot.ref.getDownloadURL();
@@ -139,8 +140,9 @@ class _TextInputWidgetState extends State<TextInputWidget> {
                   );
                   var commentAddResult = await CommentFireStore.addComment(widget.checkList, newComment);
                   if (!commentAddResult) {
-                    if(!mounted) return;
-                    WidgetUtils.errorSnackBar(context, 'コメントの送信に失敗しました');
+                    if (!mounted) return;
+                    final setNewCommentErrorSnackBar = ErrorSnackBar(context, title: 'コメントの送信に失敗しました');
+                    ScaffoldMessenger.of(context).showSnackBar(setNewCommentErrorSnackBar);
                     return;
                   }
                   compressedImage = null;

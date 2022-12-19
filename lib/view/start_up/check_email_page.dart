@@ -1,5 +1,4 @@
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
-import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/room/room_list_page.dart';
 import 'package:checklist_child_grow_up/view/widget_utils/app_bar/app_bar_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,6 +7,7 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../utils/loading/change_button.dart';
 import '../widget_utils/loading/loading_button.dart';
+import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
 
 class CheckEmailPage extends StatefulWidget {
   final String email;
@@ -75,12 +75,14 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
                       );
                       if(signInResult is! UserCredential) {
                         if (!mounted) return;
-                        WidgetUtils.errorSnackBar(context, signInResult);
+                        final signInErrorSnackBar = ErrorSnackBar(context, title: signInResult);
+                        ScaffoldMessenger.of(context).showSnackBar(signInErrorSnackBar);
                         return ChangeButton.showErrorFor4Seconds(btnController);
                       }
                       if(!signInResult.user!.emailVerified) {
                         if (!mounted) return;
-                        WidgetUtils.errorSnackBar(context, 'メール認証が完了していません');
+                        final authErrorSnackBar = ErrorSnackBar(context, title: 'メール認証が完了していません');
+                        ScaffoldMessenger.of(context).showSnackBar(authErrorSnackBar);
                         return ChangeButton.showErrorFor4Seconds(btnController);
                       }
                       await ChangeButton.showSuccessFor1Seconds(btnController);

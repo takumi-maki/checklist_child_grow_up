@@ -4,9 +4,9 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../utils/firestore/authentications.dart';
 import '../../utils/loading/change_button.dart';
 import '../../utils/validator.dart';
-import '../../utils/widget_utils.dart';
 import '../widget_utils/app_bar/modal_bottom_sheet_app_bar_widget.dart';
 import '../widget_utils/loading/loading_button.dart';
+import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
 
 class PasswordRestEmailWidget extends StatefulWidget {
   const PasswordRestEmailWidget({Key? key}) : super(key: key);
@@ -64,13 +64,15 @@ class _PasswordRestEmailWidgetState extends State<PasswordRestEmailWidget> {
                         btnController: btnController,
                         onPressed: () async {
                           if(!formKey.currentState!.validate()) {
-                            WidgetUtils.errorSnackBar(context, '正しく入力されていない項目があります');
+                            final validationErrorSnackBar = ErrorSnackBar(context, title: '正しく入力されていない項目があります');
+                            ScaffoldMessenger.of(context).showSnackBar(validationErrorSnackBar);
                             return ChangeButton.showErrorFor4Seconds(btnController);
                           }
                           var passwordRestResult = await AuthenticationFirestore.sendPasswordRestEmail(emailController.text);
                           if (passwordRestResult != 'success') {
-                            if(!mounted) return;
-                            WidgetUtils.errorSnackBar(context, passwordRestResult);
+                            if (!mounted) return;
+                            final passwordRestErrorSnackBar = ErrorSnackBar(context, title: passwordRestResult);
+                            ScaffoldMessenger.of(context).showSnackBar(passwordRestErrorSnackBar);
                             return ChangeButton.showErrorFor4Seconds(btnController);
                           }
                           await ChangeButton.showSuccessFor1Seconds(btnController);

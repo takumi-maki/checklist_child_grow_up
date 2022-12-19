@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../utils/validator.dart';
-import '../../utils/widget_utils.dart';
 import '../widget_utils/loading/loading_button.dart';
+import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
 
 class AccountDeleteAlertDialog extends StatefulWidget {
   const AccountDeleteAlertDialog({Key? key}) : super(key: key);
@@ -31,8 +31,8 @@ class _AccountDeleteAlertDialogState extends State<AccountDeleteAlertDialog> {
   }
 
   void deleteErrorHandling(String message) {
-    if(!mounted) return;
-    WidgetUtils.errorSnackBar(context, message);
+    final deleteAccountErrorSnackBar = ErrorSnackBar(context, title: message);
+    ScaffoldMessenger.of(context).showSnackBar(deleteAccountErrorSnackBar);
     ChangeButton.showErrorFor4Seconds(btnController);
     if(!mounted) return;
     return Navigator.pop(context);

@@ -2,8 +2,8 @@ import '../../utils/loading/change_button.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-import '../../utils/widget_utils.dart';
 import '../widget_utils/loading/loading_button.dart';
+import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
 import 'room_list_page.dart';
 import '../../utils/firestore/rooms.dart';
 
@@ -48,8 +48,9 @@ class _RoomDeleteAlertDialogState extends State<RoomDeleteAlertDialog> {
                     var result = await RoomFirestore.deleteRoom(widget.roomId);
                     if(!result) {
                       btnController.error();
-                      if(!mounted) return;
-                      WidgetUtils.errorSnackBar(context, 'ルーム削除に失敗しました');
+                      if (!mounted) return;
+                      final deleteRoomErrorSnackBar = ErrorSnackBar(context, title: 'ルーム削除に失敗しました');
+                      ScaffoldMessenger.of(context).showSnackBar(deleteRoomErrorSnackBar);
                       ChangeButton.showErrorFor4Seconds(btnController);
                       if(!mounted) return;
                       return Navigator.pop(context);

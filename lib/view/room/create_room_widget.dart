@@ -9,7 +9,6 @@ import 'package:intl/intl.dart';
 import '../../utils/firebase_storage/images.dart';
 import '../../utils/loading/change_button.dart';
 import 'package:checklist_child_grow_up/utils/validator.dart';
-import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -18,6 +17,7 @@ import 'package:uuid/uuid.dart';
 import '../../model/room.dart';
 import '../widget_utils/app_bar/modal_bottom_sheet_app_bar_widget.dart';
 import '../widget_utils/loading/loading_button.dart';
+import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
 
 class CreateRoomWidget extends StatefulWidget {
   const CreateRoomWidget({Key? key}) : super(key: key);
@@ -174,14 +174,16 @@ class _CreateRoomWidgetState extends State<CreateRoomWidget> {
                           btnController: btnController,
                           onPressed: () async {
                             if(!formKey.currentState!.validate()) {
-                              WidgetUtils.errorSnackBar(context, '正しく入力されていない項目があります');
+                              final validationErrorSnackBar = ErrorSnackBar(context, title: '正しく入力されていない項目があります');
+                              ScaffoldMessenger.of(context).showSnackBar(validationErrorSnackBar);
                               return ChangeButton.showErrorFor4Seconds(btnController);
                             }
                             if (compressedImage != null) {
                               TaskSnapshot? uploadImageTaskSnapshot = await ImageFirebaseStorage.uploadImage(compressedImage!);
                               if (uploadImageTaskSnapshot == null) {
-                                if(!mounted) return;
-                                WidgetUtils.errorSnackBar(context, '画像の登録に失敗しました');
+                                if (!mounted) return;
+                                final uploadImageErrorSnackBar = ErrorSnackBar(context, title: '画像の登録に失敗しました');
+                                ScaffoldMessenger.of(context).showSnackBar(uploadImageErrorSnackBar);
                                 return ChangeButton.showErrorFor4Seconds(btnController);
                               }
                               imagePath = await uploadImageTaskSnapshot.ref.getDownloadURL();
@@ -198,8 +200,9 @@ class _CreateRoomWidgetState extends State<CreateRoomWidget> {
                             );
                             var setNewRoomResult = await RoomFirestore.setNewRoom(newRoom);
                             if (!setNewRoomResult) {
-                              if(!mounted) return;
-                              WidgetUtils.errorSnackBar(context, 'ルームの作成に失敗しました');
+                              if (!mounted) return;
+                              final setNewRoomErrorSnackBar = ErrorSnackBar(context, title: 'ルームの作成に失敗しました');
+                              ScaffoldMessenger.of(context).showSnackBar(setNewRoomErrorSnackBar);
                               return ChangeButton.showErrorFor4Seconds(btnController);
                             }
                             await ChangeButton.showSuccessFor1Seconds(btnController);

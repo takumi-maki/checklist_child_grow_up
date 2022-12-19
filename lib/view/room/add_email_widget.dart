@@ -4,12 +4,12 @@ import '../../utils/loading/change_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:checklist_child_grow_up/utils/validator.dart';
-import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../model/room.dart';
 import '../widget_utils/loading/loading_button.dart';
+import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
 
 class AddEmailWidget extends StatefulWidget {
   const AddEmailWidget({Key? key, required this.roomId}) : super(key: key);
@@ -69,7 +69,8 @@ class _RoomAddEmailPageState extends State<AddEmailWidget> {
                         btnController: btnController,
                         onPressed: () async {
                           if(!formKey.currentState!.validate()) {
-                            WidgetUtils.errorSnackBar(context, '正しく入力されていない項目があります');
+                            final validationErrorSnackBar = ErrorSnackBar(context, title: '正しく入力されていない項目があります');
+                            ScaffoldMessenger.of(context).showSnackBar(validationErrorSnackBar);
                             return ChangeButton.showErrorFor4Seconds(btnController);
                           }
                           if(emailController.text.isNotEmpty) {
@@ -79,7 +80,8 @@ class _RoomAddEmailPageState extends State<AddEmailWidget> {
                             registeredEmailAddresses = data['registered_email_addresses'];
                             if(registeredEmailAddresses.contains(emailController.text)) {
                               if(!mounted) return;
-                              WidgetUtils.errorSnackBar(context, '既に登録済みのメールアドレスです');
+                              final duplicationErrorSnackBar = ErrorSnackBar(context, title: '既に登録済みのメールアドレスです');
+                              ScaffoldMessenger.of(context).showSnackBar(duplicationErrorSnackBar);
                               return ChangeButton.showErrorFor4Seconds(btnController);
                             }
                             registeredEmailAddresses.add(emailController.text);
@@ -93,7 +95,8 @@ class _RoomAddEmailPageState extends State<AddEmailWidget> {
                             var result = await RoomFirestore.updateRoom(updateRoom);
                             if(!result) {
                               if(!mounted) return;
-                              WidgetUtils.errorSnackBar(context, 'メールアドレスの追加に失敗しました');
+                              final updateErrorSnackBar = ErrorSnackBar(context, title: 'メールアドレスの追加に失敗しました');
+                              ScaffoldMessenger.of(context).showSnackBar(updateErrorSnackBar);
                               return ChangeButton.showErrorFor4Seconds(btnController);
                             }
                             await ChangeButton.showSuccessFor1Seconds(btnController);

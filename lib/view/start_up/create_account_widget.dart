@@ -7,7 +7,6 @@ import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../../utils/firebase_storage/images.dart';
 import '../../utils/loading/change_button.dart';
-import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -15,6 +14,7 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../utils/validator.dart';
 import '../widget_utils/app_bar/modal_bottom_sheet_app_bar_widget.dart';
 import '../widget_utils/loading/loading_button.dart';
+import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
 import 'check_email_page.dart';
 
 
@@ -153,7 +153,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                         btnController: btnController,
                         onPressed: () async {
                           if(!formKey.currentState!.validate()) {
-                            WidgetUtils.errorSnackBar(context, '正しく入力されていない項目があります');
+                            final validationErrorSnackBar = ErrorSnackBar(context, title: '正しく入力されていない項目があります');
+                            ScaffoldMessenger.of(context).showSnackBar(validationErrorSnackBar);
                             return ChangeButton.showErrorFor4Seconds(btnController);
                           }
                           final signUpResult = await AuthenticationFirestore.signUp(
@@ -162,15 +163,17 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                               password: passwordController.text
                           );
                           if (signUpResult is! UserCredential) {
-                            if(!mounted) return;
-                            WidgetUtils.errorSnackBar(context, signUpResult);
+                            if (!mounted) return;
+                            final signUpErrorSnackBar = ErrorSnackBar(context, title: signUpResult);
+                            ScaffoldMessenger.of(context).showSnackBar(signUpErrorSnackBar);
                             return ChangeButton.showErrorFor4Seconds(btnController);
                           }
                           if (compressedImage != null) {
                             TaskSnapshot? uploadImageTaskSnapshot = await ImageFirebaseStorage.uploadImage(compressedImage!);
                             if (uploadImageTaskSnapshot == null) {
-                              if(!mounted) return;
-                              WidgetUtils.errorSnackBar(context, '画像の登録に失敗しました');
+                              if (!mounted) return;
+                              final uploadImageErrorSnackBar = ErrorSnackBar(context, title: '画像の登録に失敗しました');
+                              ScaffoldMessenger.of(context).showSnackBar(uploadImageErrorSnackBar);
                               AuthenticationFirestore.deleteAuth(signUpResult.user!);
                               return ChangeButton.showErrorFor4Seconds(btnController);
                             }
@@ -184,8 +187,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                           );
                           final accountResult = await AccountFirestore.setAccount(newAccount);
                           if (!accountResult) {
-                            if(!mounted) return;
-                            WidgetUtils.errorSnackBar(context, 'アカウントの作成に失敗しました');
+                            if (!mounted) return;
+                            final setNewAccountErrorSnackBar = ErrorSnackBar(context, title: 'アカウントの作成に失敗しました');
+                            ScaffoldMessenger.of(context).showSnackBar(setNewAccountErrorSnackBar);
                             AuthenticationFirestore.deleteAuth(signUpResult.user!);
                             if (newAccount.imagePath != null) {
                               ImageFirebaseStorage.deleteImage(newAccount.imagePath!);
@@ -195,13 +199,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                           signUpResult.user!.sendEmailVerification();
                           await ChangeButton.showSuccessFor1Seconds(btnController);
                           if(!mounted) return;
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CheckEmailPage(email: emailController.text, password: passwordController.text)
-                            ),
-                              (_) => false
-                          );
+                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                            builder: (context) => CheckEmailPage(email: emailController.text, password: passwordController.text)
+                          ), (_) => false);
                         },
                         child: const Text('作成')
                       ),

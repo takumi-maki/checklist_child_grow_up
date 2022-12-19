@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../../model/check_list.dart';
 import '../../utils/firestore/check_lists.dart';
-import '../../utils/widget_utils.dart';
+import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
 
 class AchievedTimeWidget extends StatefulWidget {
   final CheckList checkList;
@@ -40,7 +40,8 @@ class _AchievedTimeWidgetState extends State<AchievedTimeWidget> {
         if (modifiedAchievedTime == null) return;
         if (currentTime.isBefore(modifiedAchievedTime.toDate())) {
           if (!mounted) return;
-          WidgetUtils.errorSnackBar(context, '達成した日は本日以前で修正してください');
+          final dateErrorSnackBar = ErrorSnackBar(context, title: '達成した日は本日以前で修正してください');
+          ScaffoldMessenger.of(context).showSnackBar(dateErrorSnackBar);
           return;
         }
         Item updatedItem = Item(
@@ -53,7 +54,8 @@ class _AchievedTimeWidgetState extends State<AchievedTimeWidget> {
         var result = await CheckListFirestore.updateItem(updatedItem, widget.checkList);
         if (!result) {
           if (!mounted) return;
-          WidgetUtils.errorSnackBar(context, '達成した日の更新に失敗しました');
+          final updateErrorSnackBar = ErrorSnackBar(context, title: '達成した日の更新に失敗しました');
+          ScaffoldMessenger.of(context).showSnackBar(updateErrorSnackBar);
           return;
         }
       },

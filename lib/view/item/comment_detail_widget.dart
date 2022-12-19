@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 import '../../model/account.dart';
 import '../../model/comment.dart';
 import '../../utils/firestore/authentications.dart';
-import '../../utils/widget_utils.dart';
+import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
 import 'comment_image_widget.dart';
 
 class CommentDetailWidget extends StatefulWidget {
@@ -64,7 +64,8 @@ class _CommentDetailWidgetState extends State<CommentDetailWidget> {
     );
     if (!updateCommentResult) {
       if (!mounted) return;
-      WidgetUtils.errorSnackBar(context, '既読機能の更新に失敗しました');
+      final updateErrorSnackBar = ErrorSnackBar(context, title: '既読機能の更新に失敗しました');
+      ScaffoldMessenger.of(context).showSnackBar(updateErrorSnackBar);
       return;
     }
   }

@@ -7,11 +7,11 @@ import '../../utils/firestore/accounts.dart';
 import '../../utils/firestore/authentications.dart';
 import '../../utils/loading/change_button.dart';
 import 'package:checklist_child_grow_up/utils/validator.dart';
-import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../widget_utils/loading/loading_button.dart';
+import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
 
 class EditAccountFormsWidget extends StatefulWidget {
   const EditAccountFormsWidget({Key? key, required this.account}) : super(key: key);
@@ -119,7 +119,8 @@ class _EditAccountFormsWidgetState extends State<EditAccountFormsWidget> {
                   btnController: btnController,
                   onPressed: () async {
                     if(!formKey.currentState!.validate()) {
-                      WidgetUtils.errorSnackBar(context, '正しく入力されていない項目があります');
+                      final validationErrorSnackBar = ErrorSnackBar(context, title: '正しく入力されていない項目があります');
+                      ScaffoldMessenger.of(context).showSnackBar(validationErrorSnackBar);
                       return ChangeButton.showErrorFor4Seconds(btnController);
                     }
                     if (compressedImage != null) {
@@ -127,7 +128,8 @@ class _EditAccountFormsWidgetState extends State<EditAccountFormsWidget> {
                       await ImageFirebaseStorage.uploadImage(compressedImage!);
                       if (uploadImageTaskSnapshot == null) {
                         if(!mounted) return;
-                        WidgetUtils.errorSnackBar(context, '画像の登録に失敗しました');
+                        final uploadImageErrorSnackBar = ErrorSnackBar(context, title: '画像の登録に失敗しました');
+                        ScaffoldMessenger.of(context).showSnackBar(uploadImageErrorSnackBar);
                         return ChangeButton.showErrorFor4Seconds(btnController);
                       }
                       imagePath = await uploadImageTaskSnapshot.ref.getDownloadURL();
@@ -141,7 +143,8 @@ class _EditAccountFormsWidgetState extends State<EditAccountFormsWidget> {
                     final updateAccountResult = await AccountFirestore.updateAccount(updatedAccount);
                     if (!updateAccountResult) {
                       if(!mounted) return;
-                      WidgetUtils.errorSnackBar(context, 'アカウントの編集に失敗しました');
+                      final updateAccountErrorSnackBar = ErrorSnackBar(context, title: 'アカウントの編集に失敗しました');
+                      ScaffoldMessenger.of(context).showSnackBar(updateAccountErrorSnackBar);
                       if (compressedImage != null) {
                         await ImageFirebaseStorage.deleteImage(updatedAccount.imagePath!);
                       }

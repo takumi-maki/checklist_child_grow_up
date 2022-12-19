@@ -1,7 +1,6 @@
 import 'package:checklist_child_grow_up/utils/firestore/authentications.dart';
 import '../../utils/loading/change_button.dart';
 import 'package:checklist_child_grow_up/utils/validator.dart';
-import 'package:checklist_child_grow_up/utils/widget_utils.dart';
 import 'package:checklist_child_grow_up/view/room/room_list_page.dart';
 import 'package:checklist_child_grow_up/view/start_up/create_account_widget.dart';
 import 'package:checklist_child_grow_up/view/start_up/password_reset_email_widget.dart';
@@ -12,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../widget_utils/loading/loading_button.dart';
+import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
 import 'send_email_verification_alert_dialog.dart';
 
 class LoginPage extends StatefulWidget {
@@ -151,13 +151,15 @@ class _LoginPageState extends State<LoginPage> {
                       btnController: btnController,
                       onPressed: () async {
                         if(!formKey.currentState!.validate()) {
-                          WidgetUtils.errorSnackBar(context, '正しく入力されていない項目があります');
+                          final validationErrorSnackBar = ErrorSnackBar(context, title: '正しく入力されていない項目があります');
+                          ScaffoldMessenger.of(context).showSnackBar(validationErrorSnackBar);
                           return ChangeButton.showErrorFor4Seconds(btnController);
                         }
                         var signInResult = await AuthenticationFirestore.emailSignIn(email: emailController.text, password: passwordController.text);
                         if(signInResult is! UserCredential) {
-                          if(!mounted) return;
-                          WidgetUtils.errorSnackBar(context, signInResult);
+                          if (!mounted) return;
+                          final signInErrorSnackBar = ErrorSnackBar(context, title: signInResult);
+                          ScaffoldMessenger.of(context).showSnackBar(signInErrorSnackBar);
                           return ChangeButton.showErrorFor4Seconds(btnController);
                         }
                         if(!signInResult.user!.emailVerified) {

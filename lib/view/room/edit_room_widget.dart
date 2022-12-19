@@ -13,6 +13,7 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../model/room.dart';
 import '../widget_utils/app_bar/modal_bottom_sheet_app_bar_widget.dart';
 import '../widget_utils/loading/loading_button.dart';
+import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
 
 class EditRoomWidget extends StatefulWidget {
   const EditRoomWidget({Key? key, required this.roomId, required this.childName}) : super(key: key);
@@ -142,7 +143,8 @@ class _EditRoomWidgetState extends State<EditRoomWidget> {
                             btnController: btnController,
                             onPressed: () async {
                               if(!formKey.currentState!.validate()) {
-                                WidgetUtils.errorSnackBar(context, '正しく入力されていない項目があります');
+                                final validationErrorSnackBar = ErrorSnackBar(context, title: '正しく入力されていない項目があります');
+                                ScaffoldMessenger.of(context).showSnackBar(validationErrorSnackBar);
                                 return ChangeButton.showErrorFor4Seconds(btnController);
                               }
                               if (compressedImage != null) {
@@ -150,7 +152,8 @@ class _EditRoomWidgetState extends State<EditRoomWidget> {
                                   await ImageFirebaseStorage.uploadImage(compressedImage!);
                                 if (uploadImageTaskSnapshot == null) {
                                   if(!mounted) return;
-                                  WidgetUtils.errorSnackBar(context, '画像の登録に失敗しました');
+                                  final uploadImageErrorSnackBar = ErrorSnackBar(context, title: '画像の登録に失敗しました');
+                                  ScaffoldMessenger.of(context).showSnackBar(uploadImageErrorSnackBar);
                                   return ChangeButton.showErrorFor4Seconds(btnController);
                                 }
                                 imagePath = await uploadImageTaskSnapshot.ref.getDownloadURL();
@@ -165,7 +168,8 @@ class _EditRoomWidgetState extends State<EditRoomWidget> {
                               var updateRoomResult = await RoomFirestore.updateRoom(updatedRoom);
                               if (!updateRoomResult) {
                                 if(!mounted) return;
-                                WidgetUtils.errorSnackBar(context, 'ルームの編集に失敗しました');
+                                final updateRoomErrorSnackBar = ErrorSnackBar(context, title: 'ルームの編集に失敗しました');
+                                ScaffoldMessenger.of(context).showSnackBar(updateRoomErrorSnackBar);
                                 return ChangeButton.showErrorFor4Seconds(btnController);
                               }
                               // 画像変更を含むルーム更新が成功した場合、元の画像データ(Storageデータ)を削除
