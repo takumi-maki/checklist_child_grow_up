@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../model/check_list.dart';
-import '../widget_utils/loading/circular_progress_indicator_widget.dart';
 import 'check_list_page_action_menus.dart';
 
 class CheckListsAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -18,7 +17,7 @@ class CheckListsAppBarWidget extends StatelessWidget implements PreferredSizeWid
   final String roomId;
 
   @override
-  Size get preferredSize => const Size.fromHeight(130.0);
+  Size get preferredSize => const Size.fromHeight(138.0);
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +25,8 @@ class CheckListsAppBarWidget extends StatelessWidget implements PreferredSizeWid
       stream: RoomFirestore.rooms.doc(roomId).snapshots(),
       builder: (context, roomSnapshot) {
         if (!roomSnapshot.hasData || !roomSnapshot.data!.exists) {
-          return Container(
-            color: Colors.white,
-            child: const Center(
-                child: CircularProgressIndicatorWidget()
-            ),
+          return const SizedBox(
+            height: 138.0,
           );
         }
         Map<String, dynamic> data = roomSnapshot.data!.data() as Map<String, dynamic>;
