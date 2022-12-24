@@ -47,13 +47,12 @@ class _RoomDeleteAlertDialogState extends State<RoomDeleteAlertDialog> {
                   onPressed: () async {
                     var result = await RoomFirestore.deleteRoom(widget.roomId);
                     if(!result) {
-                      btnController.error();
+                      if(!mounted) return;
+                      Navigator.pop(context);
                       if (!mounted) return;
                       final deleteRoomErrorSnackBar = ErrorSnackBar(context, title: 'ルーム削除に失敗しました');
                       ScaffoldMessenger.of(context).showSnackBar(deleteRoomErrorSnackBar);
-                      ChangeButton.showErrorFor4Seconds(btnController);
-                      if(!mounted) return;
-                      return Navigator.pop(context);
+                      return;
                     }
                     await ChangeButton.showSuccessFor1Seconds(btnController);
                     if(!mounted) return;

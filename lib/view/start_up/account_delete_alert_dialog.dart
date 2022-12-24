@@ -31,11 +31,11 @@ class _AccountDeleteAlertDialogState extends State<AccountDeleteAlertDialog> {
   }
 
   void deleteErrorHandling(String message) {
+    if(!mounted) return;
+    Navigator.pop(context);
     final deleteAccountErrorSnackBar = ErrorSnackBar(context, title: message);
     ScaffoldMessenger.of(context).showSnackBar(deleteAccountErrorSnackBar);
-    ChangeButton.showErrorFor4Seconds(btnController);
-    if(!mounted) return;
-    return Navigator.pop(context);
+    return;
   }
 
   Future onDeletedAccount() async {
