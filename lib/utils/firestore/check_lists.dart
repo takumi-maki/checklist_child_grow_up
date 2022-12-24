@@ -18,38 +18,22 @@ class CheckListFirestore {
       'items': newItems,
     });
   }
-
-  static Future<bool> updateItem(Item updatedItem,  CheckList checkList) async {
+  static Future<bool> updateItems(List<Item> updatedItems,  CheckList checkList) async {
     try {
       DocumentReference<Map<String, dynamic>> documentReference = _firebaseFirestore
           .collection('rooms').doc(checkList.roomId)
           .collection('check_lists').doc(checkList.id);
-      List updatedItems = [];
-      await documentReference.get().then((doc){
-        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-        List itemList = data['items'];
-        for (var item in itemList) {
-          if(item['id'] == updatedItem.id) {
-            updatedItems.add({
-              'id': updatedItem.id,
-              'month': updatedItem.month,
-              'is_achieved': updatedItem.isAchieved,
-              'content': updatedItem.content,
-              'achieved_time': updatedItem.achievedTime
-            });
-          } else {
-            updatedItems.add({
-              'id': item['id'],
-              'month': item['month'],
-              'is_achieved': item['is_achieved'],
-              'content': item['content'],
-              'achieved_time': item['achieved_time']
-            });
-          }
-        }
-      });
+      List items = updatedItems.map((item) {
+        return {
+          'id': item.id,
+          'month': item.month,
+          'is_achieved': item.isAchieved,
+          'content': item.content,
+          'achieved_time': item.achievedTime
+        };
+      }).toList();
       await documentReference.update({
-        'items': updatedItems,
+        'items': items,
       });
       debugPrint('チェックリストアイテム更新完了');
       return true;

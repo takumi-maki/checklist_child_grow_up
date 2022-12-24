@@ -10,7 +10,10 @@ import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
 class AchievedTimeWidget extends StatefulWidget {
   final CheckList checkList;
   final Item item;
-  const AchievedTimeWidget({Key? key, required this.checkList, required this.item}) : super(key: key);
+
+  const AchievedTimeWidget(
+      {Key? key, required this.checkList, required this.item})
+      : super(key: key);
 
   @override
   State<AchievedTimeWidget> createState() => _AchievedTimeWidgetState();
@@ -36,25 +39,37 @@ class _AchievedTimeWidgetState extends State<AchievedTimeWidget> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () async {
-        final Timestamp? modifiedAchievedTime = await modifyAchievedTime(widget.item.achievedTime!.toDate());
+        final Timestamp? modifiedAchievedTime =
+            await modifyAchievedTime(widget.item.achievedTime!.toDate());
         if (modifiedAchievedTime == null) return;
         if (currentTime.isBefore(modifiedAchievedTime.toDate())) {
           if (!mounted) return;
-          final dateErrorSnackBar = ErrorSnackBar(context, title: '達成した日は本日以前で修正してください');
+          final dateErrorSnackBar =
+              ErrorSnackBar(context, title: '達成した日は本日以前で修正してください');
           ScaffoldMessenger.of(context).showSnackBar(dateErrorSnackBar);
           return;
         }
-        Item updatedItem = Item(
-          id: widget.item.id,
-          month: widget.item.month,
-          isAchieved: widget.item.isAchieved,
-          content: widget.item.content,
-          achievedTime: modifiedAchievedTime,
-        );
-        var result = await CheckListFirestore.updateItem(updatedItem, widget.checkList);
-        if (!result) {
+        final List<Item> updatedItems = widget.checkList.items.map((item) {
+          return item.id == widget.item.id
+              ? Item(
+                  id: widget.item.id,
+                  month: widget.item.month,
+                  isAchieved: widget.item.isAchieved,
+                  content: widget.item.content,
+                  achievedTime: modifiedAchievedTime)
+              : Item(
+                  id: item.id,
+                  month: item.month,
+                  isAchieved: item.isAchieved,
+                  content: item.content,
+                  achievedTime: item.achievedTime);
+        }).toList();
+        var updateItemsResult = await CheckListFirestore.updateItems(
+            updatedItems, widget.checkList);
+        if (!updateItemsResult) {
           if (!mounted) return;
-          final updateErrorSnackBar = ErrorSnackBar(context, title: '達成した日の更新に失敗しました');
+          final updateErrorSnackBar =
+              ErrorSnackBar(context, title: '達成した日の更新に失敗しました');
           ScaffoldMessenger.of(context).showSnackBar(updateErrorSnackBar);
           return;
         }
@@ -64,7 +79,8 @@ class _AchievedTimeWidgetState extends State<AchievedTimeWidget> {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text('達成した日 ： ${DateFormat('yyyy年MM月dd日').format(widget.item.achievedTime!.toDate())}',
+            child: Text(
+              '達成した日 ： ${DateFormat('yyyy年MM月dd日').format(widget.item.achievedTime!.toDate())}',
               style: const TextStyle(color: Colors.black54),
             ),
           ),
