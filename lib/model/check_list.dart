@@ -37,6 +37,22 @@ class CheckList {
   ];
 }
 
+String getCheckListTypeImagePath(int type) {
+  final CheckListType checkListType = intToCheckListType(type);
+  final Map<dynamic, dynamic> result = CheckList.tabBarList.firstWhere((tabBar) {
+    return tabBar['type'] == checkListType;
+  }, orElse: () => {'imagePath': 'assets/images/hiyoko_dance.png'});
+  return result['imagePath'];
+}
+
+String getCheckListTypeText(int type) {
+  final CheckListType checkListType = intToCheckListType(type);
+  final Map<dynamic, dynamic> result = CheckList.tabBarList.firstWhere((tabBar) {
+    return tabBar['type'] == checkListType;
+  }, orElse: () => {'text': 'せいちょう'});
+  return result['text'];
+}
+
 enum CheckListType {
   body,
   hand,

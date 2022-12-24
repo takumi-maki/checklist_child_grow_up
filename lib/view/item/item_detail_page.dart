@@ -31,7 +31,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
   @override
   void initState() {
     super.initState();
-    itemImagePath = getItemImagePath();
+    itemImagePath = getCheckListTypeImagePath(widget.checkList.type);
   }
 
   double getItemDetailWidgetHeight() {
@@ -50,14 +50,6 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
   void dispose() {
     scrollController.dispose();
     super.dispose();
-  }
-
-  String getItemImagePath() {
-    final CheckListType checkListType = intToCheckListType(widget.checkList.type);
-    final Map<dynamic, dynamic> result = CheckList.tabBarList.firstWhere((tabBar) {
-      return tabBar['type'] == checkListType;
-    }, orElse: () => {'imagePath': 'assets/images/hiyoko_dance.png'});
-    return result['imagePath'];
   }
 
   Item getItem(Map<String, dynamic> checkList) {
