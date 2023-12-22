@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ModalBottomSheetAppBarWidget extends StatelessWidget with PreferredSizeWidget {
+class ModalBottomSheetAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const ModalBottomSheetAppBarWidget({Key? key, required this.title}) : super(key: key);
 
   final String title;
