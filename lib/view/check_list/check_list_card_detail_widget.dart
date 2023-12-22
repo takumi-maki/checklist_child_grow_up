@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -43,14 +43,16 @@ class CheckListCardDetailWidget extends StatelessWidget {
           )
           : null,
         trailing: hasComments
-          ? Badge(
+          ? badges.Badge(
           showBadge: unreadCommentsCount! > 0,
           badgeContent: Text(
             unreadCommentsCount!.toString(),
             style: const TextStyle(color: Colors.white, fontSize: 8.0)
           ),
-          badgeColor: Theme.of(context).colorScheme.secondary,
-          animationType: BadgeAnimationType.scale,
+          badgeStyle: badges.BadgeStyle(
+            badgeColor: Theme.of(context).colorScheme.secondary,
+          ),
+          badgeAnimation: const badges.BadgeAnimation.scale(),
           child: const Icon(Icons.chat, color: Colors.black54)
         )
           : null,
