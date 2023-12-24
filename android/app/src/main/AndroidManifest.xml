@@ -1,5 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="checklist.child_grow_up">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />
@@ -36,5 +35,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+       <meta-data
+           android:name="com.google.android.gms.ads.APPLICATION_ID"
+           android:value="ca-app-pub-3701968782958798~8899605259"/>
     </application>
 </manifest>
