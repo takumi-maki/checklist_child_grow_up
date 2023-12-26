@@ -75,6 +75,7 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    namespace 'checklist.child_grow_up'
 }
 
 flutter {
