@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.orange[700]),
         dividerColor: Colors.black54,
+        useMaterial3: false
       ),
       home: const LoginCheck(),
     );
