@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../../model/check_list.dart';
 import '../../model/comment.dart';
 import '../../utils/firestore/rooms.dart';
+import '../banner/ad_banner_widget.dart';
 import '../widget_utils/app_bar/app_bar_widget.dart';
 import '../widget_utils/loading/circular_progress_indicator_widget.dart';
 import 'achievement_button_widget.dart';
@@ -186,6 +187,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
             }
           ),
         ),
+          bottomNavigationBar: const AdBannerWidget(),
       ),
     );
   }

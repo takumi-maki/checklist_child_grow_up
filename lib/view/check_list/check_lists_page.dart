@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';
 import '../../utils/firestore/authentications.dart';
+import '../banner/ad_banner_widget.dart';
 import 'check_list_card_detail_widget.dart';
 
 class CheckListsPageWidget extends StatefulWidget {
@@ -65,9 +66,11 @@ class _CheckListsPageWidgetState extends State<CheckListsPageWidget> {
     double checkListItemsWidgetHeight;
     const appBarWidgetHeight = 138.0;
     const bulkAchievementWidgetHeight = 40.0;
+    const bottomNavigationBarHeight = 30.0;
     checkListItemsWidgetHeight = MediaQuery.of(context).size.height -
         appBarWidgetHeight -
         bulkAchievementWidgetHeight -
+        bottomNavigationBarHeight -
         MediaQuery.of(context).padding.top -
         MediaQuery.of(context).padding.bottom;
     return checkListItemsWidgetHeight;
@@ -177,6 +180,7 @@ class _CheckListsPageWidgetState extends State<CheckListsPageWidget> {
                   }).toList());
                 }),
           ),
+          bottomNavigationBar: const AdBannerWidget(),
         ));
   }
 }

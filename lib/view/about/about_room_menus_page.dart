@@ -5,6 +5,8 @@ import 'package:checklist_child_grow_up/view/room/registered_email_addresses_pag
 import 'package:checklist_child_grow_up/view/widget_utils/app_bar/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 
+import '../banner/ad_banner_widget.dart';
+
 
 class AboutRoomMenusPage extends StatefulWidget {
   final String roomId;
@@ -99,6 +101,7 @@ class _AboutRoomMenusPageState extends State<AboutRoomMenusPage> {
             }
         ),
       ),
+      bottomNavigationBar: const AdBannerWidget(),
     );
   }
 }

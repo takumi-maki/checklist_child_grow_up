@@ -1,3 +1,4 @@
+import 'package:checklist_child_grow_up/view/banner/ad_banner_widget.dart';
 import 'package:checklist_child_grow_up/view/widget_utils/app_bar/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -65,6 +66,7 @@ class _AboutAppMenusPageState extends State<AboutAppMenusPage> {
           }
         ),
       ),
+      bottomNavigationBar: const AdBannerWidget(),
     );
   }
 }

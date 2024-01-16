@@ -5,6 +5,7 @@ import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:checklist_child_grow_up/view/room/add_email_widget.dart';
 import 'package:flutter/material.dart';
 
+import '../banner/ad_banner_widget.dart';
 import '../widget_utils/app_bar/app_bar_widget.dart';
 import '../widget_utils/loading/circular_progress_indicator_widget.dart';
 
@@ -92,6 +93,7 @@ class _RegisteredEmailAddressesPageState extends State<RegisteredEmailAddressesP
           }
         ),
       ),
+      bottomNavigationBar: const AdBannerWidget(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(

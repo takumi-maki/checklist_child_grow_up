@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import '../../model/check_list.dart';
 import '../../model/room.dart';
 import '../../utils/firestore/authentications.dart';
+import '../banner/ad_banner_widget.dart';
 import '../widget_utils/app_bar/app_bar_widget.dart';
 import '../widget_utils/loading/circular_progress_indicator_widget.dart';
 
@@ -131,6 +132,7 @@ class _RoomListPageState extends State<RoomListPage> {
           }
         ),
       ),
+      bottomNavigationBar: const AdBannerWidget(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(

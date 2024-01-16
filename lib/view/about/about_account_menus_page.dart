@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../model/tile.dart';
 import '../../utils/firestore/authentications.dart';
+import '../banner/ad_banner_widget.dart';
 import '../start_up/account_delete_alert_dialog.dart';
 import '../start_up/edit_account_widget.dart';
 import '../start_up/login_page.dart';
@@ -103,6 +104,7 @@ class _AboutAccountMenusPageState extends State<AboutAccountMenusPage> {
             }
         ),
       ),
+      bottomNavigationBar: const AdBannerWidget(),
     );
   }
 }
