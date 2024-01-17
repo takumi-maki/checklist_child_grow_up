@@ -28,8 +28,7 @@ class _AdBannerWidgetState extends State<AdBannerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
+    return BottomAppBar(
       height: 64.0,
       child: AdWidget(ad: bannerAd),
     );

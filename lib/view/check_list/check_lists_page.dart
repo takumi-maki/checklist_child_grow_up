@@ -66,7 +66,7 @@ class _CheckListsPageWidgetState extends State<CheckListsPageWidget> {
     double checkListItemsWidgetHeight;
     const appBarWidgetHeight = 138.0;
     const bulkAchievementWidgetHeight = 40.0;
-    const bottomNavigationBarHeight = 30.0;
+    const bottomNavigationBarHeight = 64.0;
     checkListItemsWidgetHeight = MediaQuery.of(context).size.height -
         appBarWidgetHeight -
         bulkAchievementWidgetHeight -
