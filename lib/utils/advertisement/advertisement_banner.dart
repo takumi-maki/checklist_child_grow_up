@@ -4,10 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AdvertisementBanner {
-  static String get bannerAdUnitId {
+  final isDebug = false;
+  static String get devBannerAdUnitId {
     return Platform.isAndroid
         ? 'ca-app-pub-3940256099942544/6300978111'
         : 'ca-app-pub-3940256099942544/2934735716';
+  }
+  static String get prodBannerAdUnitId {
+    return Platform.isAndroid
+        ? 'ca-app-pub-3701968782958798/8427222108'
+        : 'ca-app-pub-3701968782958798/6185607110';
   }
 
   final BannerAdListener listener = BannerAdListener(
@@ -21,7 +27,7 @@ class AdvertisementBanner {
   BannerAd createBannerAd() {
     return BannerAd(
         size: AdSize.fullBanner,
-        adUnitId: bannerAdUnitId,
+        adUnitId: isDebug ? devBannerAdUnitId : prodBannerAdUnitId,
         listener: listener,
         request: const AdRequest()
     );
