@@ -14,14 +14,16 @@ class ImageFirebaseStorage {
     debugPrint('画像選択完了');
     return File(pickedImage.path);
   }
-  static Future compressImage(File? image) async {
+  static Future<File?> compressImage(File? image) async {
     if (image == null) return null;
     String targetPath = image.absolute.path.replaceAll('.jpg', '_compressed.jpg');
-    return await FlutterImageCompress.compressAndGetFile(
+    XFile? xFile = await FlutterImageCompress.compressAndGetFile(
       image.absolute.path,
       targetPath,
       quality: 70
     );
+    if (xFile == null) return null;
+    return File(xFile.path);
   }
   static Future<TaskSnapshot?> uploadImage(File image) async {
     String path = image.path.substring(image.path.lastIndexOf('/') + 1);
