@@ -1,8 +1,10 @@
 import 'package:checklist_child_grow_up/view/banner/ad_banner_widget.dart';
 import 'package:checklist_child_grow_up/view/widget_utils/app_bar/app_bar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../model/tile.dart';
+import '../../utils/advertisement/advertisement_rewarded.dart';
 import '../../utils/launch_url.dart';
 
 class AboutAppMenusPage extends StatefulWidget {
@@ -14,16 +16,31 @@ class AboutAppMenusPage extends StatefulWidget {
 
 class _AboutAppMenusPageState extends State<AboutAppMenusPage> {
   late List<Tile> aboutAppMenus;
+  final rewardedAd = AdvertisementRewarded();
 
   @override
   void initState() {
     super.initState();
     aboutAppMenus = generateAboutAppMenus();
+    rewardedAd.loadAd();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    rewardedAd.dispose();
   }
 
   List<Tile> generateAboutAppMenus () {
     final launchUrl = LaunchUrl();
     return [
+      Tile(
+          leading: const Icon(Icons.volunteer_activism),
+          title: const Text('広告を観てアプリを支援'),
+          onTap: () => {
+            rewardedAd.showAd()
+          }
+      ),
       Tile(
         leading: const Icon(Icons.security),
         title: const Text('プライバシーポリシー'),
