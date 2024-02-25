@@ -6,16 +6,20 @@ import '../../utils/loading/change_button.dart';
 import '../widget_utils/loading/loading_button.dart';
 
 class SendEmailVerificationAlertDialog extends StatefulWidget {
-  const SendEmailVerificationAlertDialog({Key? key, required this.user}) : super(key: key);
+  const SendEmailVerificationAlertDialog({Key? key, required this.user})
+      : super(key: key);
 
   final User user;
 
   @override
-  State<SendEmailVerificationAlertDialog> createState() => _SendEmailVerificationAlertDialogState();
+  State<SendEmailVerificationAlertDialog> createState() =>
+      _SendEmailVerificationAlertDialogState();
 }
 
-class _SendEmailVerificationAlertDialogState extends State<SendEmailVerificationAlertDialog> {
-  final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
+class _SendEmailVerificationAlertDialogState
+    extends State<SendEmailVerificationAlertDialog> {
+  final RoundedLoadingButtonController btnController =
+      RoundedLoadingButtonController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,25 +34,22 @@ class _SendEmailVerificationAlertDialogState extends State<SendEmailVerification
                 Navigator.of(context).pop();
               },
               style: OutlinedButton.styleFrom(
-                  primary: Colors.black87,
+                  foregroundColor: Colors.black87,
                   minimumSize: const Size(150, 36),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)
-                  )
-              ),
+                      borderRadius: BorderRadius.circular(20.0))),
               child: const Text('キャンセル'),
             ),
             LoadingButton(
-              btnController: btnController,
-              onPressed: () async {
-                widget.user.sendEmailVerification();
-                if(!mounted) return;
-                await ChangeButton.showSuccessFor1Seconds(btnController);
-                if(!mounted) return;
-                return Navigator.pop(context);
-              },
-              child: const Text('メール送信')
-            ),
+                btnController: btnController,
+                onPressed: () async {
+                  widget.user.sendEmailVerification();
+                  if (!mounted) return;
+                  await ChangeButton.showSuccessFor1Seconds(btnController);
+                  if (!mounted) return;
+                  return Navigator.pop(context);
+                },
+                child: const Text('メール送信')),
           ],
         ),
         const SizedBox(height: 16.0),
