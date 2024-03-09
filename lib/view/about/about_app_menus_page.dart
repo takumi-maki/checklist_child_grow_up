@@ -22,7 +22,7 @@ class _AboutAppMenusPageState extends State<AboutAppMenusPage> {
   void initState() {
     super.initState();
     aboutAppMenus = generateAboutAppMenus();
-    rewardedAd.loadAd();
+    rewardedAd.loadAd(context);
   }
 
   @override
@@ -44,7 +44,7 @@ class _AboutAppMenusPageState extends State<AboutAppMenusPage> {
               ScaffoldMessenger.of(context)
                   .showSnackBar(validationErrorSnackBar);
             }
-            rewardedAd.showAd();
+            rewardedAd.showAd(context);
           }),
       Tile(
           leading: const Icon(Icons.security),
