@@ -10,8 +10,9 @@ class AdvertisementRewarded {
   static String get devRewardedAdUnitId {
     return Platform.isAndroid
         ? 'ca-app-pub-3940256099942544/5224354917'
-        : 'ca-app-pub-3940256099942544/6978759866';
+        : 'ca-app-pub-3940256099942544/1712485313';
   }
+
   static String get prodRewardedAdUnitId {
     return Platform.isAndroid
         ? 'ca-app-pub-3701968782958798/4890902391'
@@ -20,23 +21,20 @@ class AdvertisementRewarded {
 
   void loadAd() {
     RewardedAd.load(
-        adUnitId: isDebug ? devRewardedAdUnitId: prodRewardedAdUnitId,
+        adUnitId: isDebug ? devRewardedAdUnitId : prodRewardedAdUnitId,
         request: const AdRequest(),
-        rewardedAdLoadCallback: RewardedAdLoadCallback(
-            onAdLoaded: (RewardedAd ad) {
-              debugPrint('リワード広告 ロード完了');
-              rewardedAd = ad;
-            },
-            onAdFailedToLoad: (LoadAdError error) {
-              debugPrint('リワード広告 ロードエラー: $error');
-              rewardedAd = null;
-            }
-        )
-    );
+        rewardedAdLoadCallback:
+            RewardedAdLoadCallback(onAdLoaded: (RewardedAd ad) {
+          debugPrint('リワード広告 ロード完了');
+          rewardedAd = ad;
+        }, onAdFailedToLoad: (LoadAdError error) {
+          debugPrint('リワード広告 ロードエラー: $error');
+          rewardedAd = null;
+        }));
   }
 
   void showAd() {
-    if(rewardedAd == null) return;
+    if (rewardedAd == null) return;
     rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
       onAdDismissedFullScreenContent: (RewardedAd ad) {
         debugPrint('$ad onAdDismissedFullScreenContent');
@@ -49,11 +47,13 @@ class AdvertisementRewarded {
         loadAd();
       },
     );
-    rewardedAd!.show(onUserEarnedReward: (AdWithoutView ad, RewardItem rewardedItem) {
+    rewardedAd!.show(
+        onUserEarnedReward: (AdWithoutView ad, RewardItem rewardedItem) {
       debugPrint('リワード広告視聴完了');
     });
     rewardedAd = null;
   }
+
   void dispose() {
     rewardedAd?.dispose();
     debugPrint('リワード広告 廃棄');
