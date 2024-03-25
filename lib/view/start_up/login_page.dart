@@ -12,6 +12,7 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../utils/loading/change_button.dart';
 import '../widget_utils/loading/loading_button.dart';
 import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
+import 'about_app_menus_widget.dart';
 import 'send_email_verification_alert_dialog.dart';
 
 class LoginPage extends StatefulWidget {
@@ -141,6 +142,36 @@ class _LoginPageState extends State<LoginPage> {
                                                 .viewInsets
                                                 .bottom),
                                         child: const PasswordRestEmailWidget(),
+                                      );
+                                    });
+                                resetControllers();
+                              }),
+                      ])),
+                  const SizedBox(height: 8.0),
+                  RichText(
+                      text: TextSpan(
+                          style: Theme.of(context).textTheme.bodyLarge,
+                          children: [
+                        const TextSpan(text: 'アプリについては'),
+                        TextSpan(
+                            text: 'こちら',
+                            style: const TextStyle(color: Colors.blue),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                showModalBottomSheet(
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(20.0))),
+                                    isDismissible: false,
+                                    isScrollControlled: true,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                .viewInsets
+                                                .bottom),
+                                        child: const AboutAppMenusWidget(),
                                       );
                                     });
                                 resetControllers();
