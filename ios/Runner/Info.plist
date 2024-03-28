@@ -50,9 +50,9 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
   <key>NSPhotoLibraryUsageDescription</key>
-  <string>アプリに表示・使用するための写真や動画をライブラリから選択する目的でリクエストします。</string>
+  <string>チェックリストのアイテムに対してユーザーが写真を投稿機能を利用できるようにするため、ユーザーの写真や動画をライブラリから選択することをリクエストします。</string>
   <key>NSCameraUsageDescription</key>
-  <string>アプリに表示・使用するための写真や動画を撮影する目的でリクエストします。</string>
+  <string>チェックリストのアイテムに対してユーザーが写真を投稿機能を利用できるようにするため、ユーザーのカメラから写真や動画を撮影することをリクエストします。</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Need microphone access for uploading videos</string>
 	<key>GADApplicationIdentifier</key>
