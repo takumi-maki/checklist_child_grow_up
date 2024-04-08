@@ -9,20 +9,24 @@ import '../../model/check_list.dart';
 class CheckListPageActionMenus extends StatefulWidget {
   final String childName;
   final String roomId;
-  const CheckListPageActionMenus({Key? key, required this.childName, required this.roomId}) : super(key: key);
+
+  const CheckListPageActionMenus(
+      {Key? key, required this.childName, required this.roomId})
+      : super(key: key);
 
   @override
-  State<CheckListPageActionMenus> createState() => _CheckListPageActionMenusState();
+  State<CheckListPageActionMenus> createState() =>
+      _CheckListPageActionMenusState();
 }
 
 class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: PopupMenuButton<CheckListPopupMenuItem>(
         onSelected: (CheckListPopupMenuItem value) {
-          switch(value) {
+          switch (value) {
             case CheckListPopupMenuItem.aboutCheckList:
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const AboutCheckListPage();
@@ -30,7 +34,8 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
               break;
             case CheckListPopupMenuItem.aboutRoom:
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return AboutRoomMenusPage(childName: widget.childName, roomId: widget.roomId);
+                return AboutRoomMenusPage(
+                    childName: widget.childName, roomId: widget.roomId);
               }));
               break;
             case CheckListPopupMenuItem.aboutAccount:
@@ -56,10 +61,10 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
                     padding: EdgeInsets.only(right: 14.0),
                     child: Icon(Icons.checklist),
                   ),
-                  Text('成長のチェックリストについて', style: Theme.of(context).textTheme.bodyText1),
+                  Text('成長のチェックリストについて',
+                      style: Theme.of(context).textTheme.bodyText1),
                 ],
-              )
-          ),
+              )),
           const PopupMenuDivider(),
           PopupMenuItem(
               value: CheckListPopupMenuItem.aboutRoom,
@@ -71,8 +76,7 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
                   ),
                   Text('ルームについて', style: Theme.of(context).textTheme.bodyText1),
                 ],
-              )
-          ),
+              )),
           const PopupMenuDivider(),
           PopupMenuItem(
               value: CheckListPopupMenuItem.aboutAccount,
@@ -82,10 +86,10 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
                     padding: EdgeInsets.only(right: 14.0),
                     child: Icon(Icons.account_circle),
                   ),
-                  Text('アカウントについて', style: Theme.of(context).textTheme.bodyText1),
+                  Text('アカウントについて',
+                      style: Theme.of(context).textTheme.bodyText1),
                 ],
-              )
-          ),
+              )),
           const PopupMenuDivider(),
           PopupMenuItem(
               value: CheckListPopupMenuItem.aboutApp,
@@ -97,8 +101,7 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
                   ),
                   Text('アプリについて', style: Theme.of(context).textTheme.bodyText1),
                 ],
-              )
-          ),
+              )),
         ],
         offset: const Offset(0.0, 60.0),
         shape: RoundedRectangleBorder(
