@@ -107,7 +107,7 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
-        child: const Icon(Icons.menu),
+        child: const Icon(Icons.menu, size: 34.0, color: Colors.black87),
       ),
     );
   }
