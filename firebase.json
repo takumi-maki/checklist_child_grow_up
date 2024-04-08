@@ -5,6 +5,13 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "redirects": [
+      {
+        "source": "/",
+        "destination": "https://checklist-child-grow-up.web.app/home.html",
+        "type": 301
+      }
     ]
   }
 }
