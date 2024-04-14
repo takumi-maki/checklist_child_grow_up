@@ -23,7 +23,7 @@ class _CheckListPageActionMenusState extends State<CheckListPageActionMenus> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: PopupMenuButton<CheckListPopupMenuItem>(
         onSelected: (CheckListPopupMenuItem value) {
           switch (value) {
