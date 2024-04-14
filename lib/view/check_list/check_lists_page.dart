@@ -119,17 +119,17 @@ class _CheckListsPageWidgetState extends State<CheckListsPageWidget> {
                                         });
                                   },
                                   style: OutlinedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.0)
-                                    )
-                                  ),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0))),
                                   icon: const Icon(
                                     Icons.edit_note,
                                     color: Colors.black87,
                                   ),
                                   label: Text('まとめて達成',
                                       style: Theme.of(context)
-                                          .textTheme.subtitle2)),
+                                          .textTheme
+                                          .titleSmall)),
                             )),
                         SizedBox(
                           height: getCheckListItemsWidgetHeight(),

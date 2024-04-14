@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ModalBottomSheetAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
-  const ModalBottomSheetAppBarWidget({Key? key, required this.title}) : super(key: key);
+class ModalBottomSheetAppBarWidget extends StatelessWidget
+    implements PreferredSizeWidget {
+  const ModalBottomSheetAppBarWidget({Key? key, required this.title})
+      : super(key: key);
 
   final String title;
 
@@ -15,13 +17,12 @@ class ModalBottomSheetAppBarWidget extends StatelessWidget implements PreferredS
       elevation: 0.0,
       automaticallyImplyLeading: false,
       iconTheme: const IconThemeData(color: Colors.black87),
-      title: Text(title, style: Theme.of(context).textTheme.subtitle1),
+      title: Text(title, style: Theme.of(context).textTheme.titleMedium),
       centerTitle: true,
       actions: [
         IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.close)
-        )
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.close))
       ],
     );
   }

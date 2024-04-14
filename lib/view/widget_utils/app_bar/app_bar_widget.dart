@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AppBarWidget extends StatelessWidget implements PreferredSizeWidget{
+class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWidget({Key? key, required this.title}) : super(key: key);
 
   final String title;
@@ -15,8 +15,9 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget{
       backgroundColor: Colors.transparent,
       elevation: 0,
       iconTheme: const IconThemeData(color: Colors.black87),
-      title: Text(title, style: Theme.of(context).textTheme.subtitle1),
-      centerTitle: true, systemOverlayStyle: SystemUiOverlayStyle.dark,
+      title: Text(title, style: Theme.of(context).textTheme.titleMedium),
+      centerTitle: true,
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
     );
   }
 }

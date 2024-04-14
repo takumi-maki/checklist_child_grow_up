@@ -68,7 +68,7 @@ class _RoomDeleteAlertDialogState extends State<RoomDeleteAlertDialog> {
                       MaterialPageRoute(
                           builder: (context) => const RoomListPage()));
                 },
-                color: Theme.of(context).errorColor,
+                color: Theme.of(context).colorScheme.error,
                 child: const Text('削除')),
             const SizedBox(height: 16.0),
           ],

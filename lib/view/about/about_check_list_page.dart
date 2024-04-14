@@ -52,7 +52,7 @@ class AboutCheckListPage extends StatelessWidget {
                     vertical: 20.0, horizontal: 40.0),
                 child: RichText(
                     text: TextSpan(
-                        style: Theme.of(context).textTheme.bodyText1,
+                        style: Theme.of(context).textTheme.bodyLarge,
                         children: const [
                       TextSpan(
                         text: '　まず、成長のチェックリストで、'
@@ -115,7 +115,7 @@ class AboutCheckListPage extends StatelessWidget {
                     vertical: 16.0, horizontal: 40.0),
                 child: RichText(
                     text: TextSpan(
-                        style: Theme.of(context).textTheme.bodyText1,
+                        style: Theme.of(context).textTheme.bodyLarge,
                         children: const [
                       TextSpan(
                         text: '「次の段階へのステップは、その前の段階をいかに充実して経験してきたかにかかっている」',
@@ -140,7 +140,7 @@ class AboutCheckListPage extends StatelessWidget {
                     vertical: 20.0, horizontal: 40.0),
                 child: RichText(
                     text: TextSpan(
-                        style: Theme.of(context).textTheme.bodyText1,
+                        style: Theme.of(context).textTheme.bodyLarge,
                         children: const [
                       TextSpan(text: '　ですから、'),
                       TextSpan(

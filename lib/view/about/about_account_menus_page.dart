@@ -24,18 +24,16 @@ class _AboutAccountMenusPageState extends State<AboutAccountMenusPage> {
     aboutAccountMenus = generateAboutAccountMenus();
   }
 
-  List<Tile> generateAboutAccountMenus () {
+  List<Tile> generateAboutAccountMenus() {
     return [
       Tile(
-        leading: const Icon(Icons.manage_accounts),
-        title: const Text('アカウント編集'),
-        onTap: () => handleAccountEditOnTap()
-      ),
+          leading: const Icon(Icons.manage_accounts),
+          title: const Text('アカウント編集'),
+          onTap: () => handleAccountEditOnTap()),
       Tile(
-        leading: const Icon(Icons.logout),
-        title: const Text('ログアウト'),
-        onTap: () => handleSignOutOnTap()
-      ),
+          leading: const Icon(Icons.logout),
+          title: const Text('ログアウト'),
+          onTap: () => handleSignOutOnTap()),
       Tile(
         leading: const Icon(Icons.delete),
         title: const Text('アカウント削除'),
@@ -48,36 +46,32 @@ class _AboutAccountMenusPageState extends State<AboutAccountMenusPage> {
   void handleAccountEditOnTap() {
     showModalBottomSheet(
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-              top: Radius.circular(20.0)
-          )
-        ),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20.0))),
         isScrollControlled: true,
         isDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom
-            ),
-            child: const EditAccountWidget()
-          );
-        }
-    );
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: const EditAccountWidget());
+        });
   }
 
   void handleSignOutOnTap() {
     AuthenticationFirestore.signOut();
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
       return const LoginPage();
-    }), (_) => false
-    );
+    }), (_) => false);
   }
 
   void handleAccountDeleteOnTap() {
-    showDialog(context: context, barrierDismissible: false, builder: (context) {
-      return const AccountDeleteAlertDialog();
-    });
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return const AccountDeleteAlertDialog();
+        });
   }
 
   @override
@@ -95,14 +89,17 @@ class _AboutAccountMenusPageState extends State<AboutAccountMenusPage> {
                     leading: aboutAccountMenus[index].leading,
                     title: aboutAccountMenus[index].title,
                     trailing: const Icon(Icons.arrow_forward_ios),
-                    iconColor: aboutAccountMenus[index].isErrorText ? Theme.of(context).errorColor : Colors.black87,
-                    textColor: aboutAccountMenus[index].isErrorText ? Theme.of(context).errorColor : Colors.black87,
+                    iconColor: aboutAccountMenus[index].isErrorText
+                        ? Theme.of(context).colorScheme.error
+                        : Colors.black87,
+                    textColor: aboutAccountMenus[index].isErrorText
+                        ? Theme.of(context).colorScheme.error
+                        : Colors.black87,
                     onTap: aboutAccountMenus[index].onTap,
                   ),
                 ),
               );
-            }
-        ),
+            }),
       ),
       bottomNavigationBar: const AdBannerWidget(),
     );
