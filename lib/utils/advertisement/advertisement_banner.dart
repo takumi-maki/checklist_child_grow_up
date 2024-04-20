@@ -5,15 +5,17 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AdvertisementBanner {
   final isDebug = false;
+
   static String get devBannerAdUnitId {
     return Platform.isAndroid
         ? 'ca-app-pub-3940256099942544/6300978111'
         : 'ca-app-pub-3940256099942544/2934735716';
   }
+
   static String get prodBannerAdUnitId {
     return Platform.isAndroid
-        ? 'ca-app-pub-3701968782958798/8427222108'
-        : 'ca-app-pub-3701968782958798/6185607110';
+        ? 'ca-app-pub-3701968782958798/2870274488'
+        : 'ca-app-pub-3701968782958798/4120944262';
   }
 
   final BannerAdListener listener = BannerAdListener(
@@ -29,7 +31,6 @@ class AdvertisementBanner {
         size: AdSize.fullBanner,
         adUnitId: isDebug ? devBannerAdUnitId : prodBannerAdUnitId,
         listener: listener,
-        request: const AdRequest()
-    );
+        request: const AdRequest());
   }
 }

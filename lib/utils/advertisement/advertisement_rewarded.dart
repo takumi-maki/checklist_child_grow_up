@@ -15,8 +15,8 @@ class AdvertisementRewarded {
 
   static String get prodRewardedAdUnitId {
     return Platform.isAndroid
-        ? 'ca-app-pub-3701968782958798/4890902391'
-        : 'ca-app-pub-3701968782958798/1334800763';
+        ? 'ca-app-pub-3701968782958798/5434025939'
+        : 'ca-app-pub-3701968782958798/8845490043';
   }
 
   void loadAd() {
