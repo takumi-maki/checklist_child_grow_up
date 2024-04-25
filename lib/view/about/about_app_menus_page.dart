@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../model/tile.dart';
 import '../../utils/advertisement/advertisement_rewarded.dart';
 import '../../utils/launch_url.dart';
+import '../widget_utils/loading/circular_progress_indicator_widget.dart';
 import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
 
 class AboutAppMenusPage extends StatefulWidget {
@@ -37,14 +38,30 @@ class _AboutAppMenusPageState extends State<AboutAppMenusPage> {
       Tile(
           leading: const Icon(Icons.volunteer_activism),
           title: const Text('広告を観てアプリを支援'),
-          onTap: () {
+          onTap: () async {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const Center(
+                      child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.symmetric(vertical: 20.0),
+                          child: CircularProgressIndicatorWidget()),
+                    ],
+                  ));
+                });
+            await Future.delayed(const Duration(seconds: 3));
             if (rewardedAd.rewardedAd == null) {
+              Navigator.of(context).pop();
               final validationErrorSnackBar =
                   ErrorSnackBar(context, title: '広告が読み込めませんでした');
               ScaffoldMessenger.of(context)
                   .showSnackBar(validationErrorSnackBar);
             }
             rewardedAd.showAd();
+            Navigator.of(context).pop();
           }),
       Tile(
           leading: const Icon(Icons.security),
