@@ -4,6 +4,7 @@ import 'package:checklist_child_grow_up/view/check_list/check_lists_app_bar_widg
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:rate_my_app/rate_my_app.dart';
 
 import '../../model/check_list.dart';
 import '../../utils/firestore/authentications.dart';
@@ -74,6 +75,30 @@ class _CheckListsPageWidgetState extends State<CheckListsPageWidget> {
         MediaQuery.of(context).padding.top -
         MediaQuery.of(context).padding.bottom;
     return checkListItemsWidgetHeight;
+  }
+
+  final RateMyApp _rateMyApp = RateMyApp(
+    preferencesPrefix: 'rateMyApp_',
+    // minDays: 0,
+    minDays: 7,
+    // minLaunches: 0,
+    minLaunches: 10,
+    remindDays: 7,
+    remindLaunches: 10,
+  );
+
+  void _initRateMyApp() {
+    _rateMyApp.init().then((_) {
+      if (_rateMyApp.shouldOpenDialog) {
+        _rateMyApp.showRateDialog(context);
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    _initRateMyApp();
+    super.initState();
   }
 
   @override
