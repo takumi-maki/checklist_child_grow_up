@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:checklist_child_grow_up/view/check_list/bulk_achieve_check_list_dialog.dart';
 import 'package:checklist_child_grow_up/view/check_list/check_lists_app_bar_widget.dart';
@@ -79,9 +81,7 @@ class _CheckListsPageWidgetState extends State<CheckListsPageWidget> {
 
   final RateMyApp _rateMyApp = RateMyApp(
     preferencesPrefix: 'rateMyApp_',
-    // minDays: 0,
     minDays: 7,
-    // minLaunches: 0,
     minLaunches: 10,
     remindDays: 7,
     remindLaunches: 10,
@@ -90,15 +90,25 @@ class _CheckListsPageWidgetState extends State<CheckListsPageWidget> {
   void _initRateMyApp() {
     _rateMyApp.init().then((_) {
       if (_rateMyApp.shouldOpenDialog) {
-        _rateMyApp.showRateDialog(context);
+        if (Platform.isAndroid) {
+          _rateMyApp.showRateDialog(context,
+              ignoreNativeDialog: Platform.isAndroid,
+              title: '0~3歳までの成長のチェックリスト',
+              message: 'はいかがですか? 左下のボタンから Google Play のページで評価していただけると大変嬉しいです。',
+              rateButton: '評価する',
+              laterButton: 'あとで通知',
+              noButton: '今はしない');
+        } else {
+          _rateMyApp.showRateDialog(context);
+        }
       }
     });
   }
 
   @override
   void initState() {
-    _initRateMyApp();
     super.initState();
+    _initRateMyApp();
   }
 
   @override
