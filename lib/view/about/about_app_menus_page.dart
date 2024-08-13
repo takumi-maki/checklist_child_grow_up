@@ -3,10 +3,7 @@ import 'package:checklist_child_grow_up/view/widget_utils/app_bar/app_bar_widget
 import 'package:flutter/material.dart';
 
 import '../../model/tile.dart';
-import '../../utils/advertisement/advertisement_rewarded.dart';
 import '../../utils/launch_url.dart';
-import '../widget_utils/loading/circular_progress_indicator_widget.dart';
-import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
 
 class AboutAppMenusPage extends StatefulWidget {
   const AboutAppMenusPage({Key? key}) : super(key: key);
@@ -17,52 +14,21 @@ class AboutAppMenusPage extends StatefulWidget {
 
 class _AboutAppMenusPageState extends State<AboutAppMenusPage> {
   late List<Tile> aboutAppMenus;
-  final rewardedAd = AdvertisementRewarded();
 
   @override
   void initState() {
     super.initState();
     aboutAppMenus = generateAboutAppMenus();
-    rewardedAd.loadAd();
   }
 
   @override
   void dispose() {
     super.dispose();
-    rewardedAd.dispose();
   }
 
   List<Tile> generateAboutAppMenus() {
     final launchUrl = LaunchUrl();
     return [
-      Tile(
-          leading: const Icon(Icons.volunteer_activism),
-          title: const Text('広告を観てアプリを支援'),
-          onTap: () async {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return const Center(
-                      child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                          padding: EdgeInsets.symmetric(vertical: 20.0),
-                          child: CircularProgressIndicatorWidget()),
-                    ],
-                  ));
-                });
-            await Future.delayed(const Duration(seconds: 3));
-            if (rewardedAd.rewardedAd == null) {
-              Navigator.of(context).pop();
-              final validationErrorSnackBar =
-                  ErrorSnackBar(context, title: '広告が読み込めませんでした');
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(validationErrorSnackBar);
-            }
-            rewardedAd.showAd();
-            Navigator.of(context).pop();
-          }),
       Tile(
           leading: const Icon(Icons.security),
           title: const Text('プライバシーポリシー'),
