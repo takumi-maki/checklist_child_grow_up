@@ -1,31 +1,40 @@
 import 'package:checklist_child_grow_up/utils/function_utils.dart';
+import 'package:checklist_child_grow_up/view/item/achieved_date_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../../model/check_list.dart';
 import '../../utils/firestore/check_lists.dart';
 import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
 
-class AchievedTimeWidget extends StatefulWidget {
+class AchievedDateCalenderWidget extends StatefulWidget {
   final CheckList checkList;
   final Item item;
+  final DateTime birthDateTime;
+  final DateTime achievedDateTime;
 
-  const AchievedTimeWidget(
-      {Key? key, required this.checkList, required this.item})
+  const AchievedDateCalenderWidget(
+      {Key? key,
+      required this.checkList,
+      required this.item,
+      required this.birthDateTime,
+      required this.achievedDateTime})
       : super(key: key);
 
   @override
-  State<AchievedTimeWidget> createState() => _AchievedTimeWidgetState();
+  State<AchievedDateCalenderWidget> createState() =>
+      _AchievedDateCalenderWidgetState();
 }
 
-class _AchievedTimeWidgetState extends State<AchievedTimeWidget> {
+class _AchievedDateCalenderWidgetState
+    extends State<AchievedDateCalenderWidget> {
   final DateTime currentTime = DateTime.now();
 
   Future<Timestamp?> modifyAchievedTime(DateTime achievedDate) async {
     final DateTime? pickedDate = await FunctionUtils.pickDateFromDatePicker(
       context: context,
       initialDate: achievedDate,
+      firstDate: widget.birthDateTime,
       lastDate: currentTime,
     );
     if (pickedDate != null && pickedDate != achievedDate) {
@@ -78,12 +87,10 @@ class _AchievedTimeWidgetState extends State<AchievedTimeWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text(
-              '達成した日 ： ${DateFormat('yyyy年MM月dd日').format(widget.item.achievedTime!.toDate())}',
-              style: const TextStyle(color: Colors.black54),
-            ),
-          ),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: AchievedDateWidget(
+                  birthDateTime: widget.birthDateTime,
+                  achievedDateTime: widget.achievedDateTime)),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.0),
             child: Icon(Icons.edit_calendar, size: 18.0, color: Colors.black54),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math' as math;
 
+import 'package:age_calculator/age_calculator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -40,5 +41,13 @@ class FunctionUtils {
   static int generateRandomInt(int maxInt) {
     var random = math.Random();
     return random.nextInt(maxInt);
+  }
+
+  static int? calculateAgeMonths(
+      {required DateTime birthdate, DateTime? targetDate}) {
+    final age = AgeCalculator.age(birthdate, today: targetDate);
+    final ageMonths = age.years * 12 + age.months;
+    if (ageMonths < 0) return null;
+    return ageMonths;
   }
 }

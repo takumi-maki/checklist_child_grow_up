@@ -9,18 +9,22 @@ import '../../utils/firestore/rooms.dart';
 import '../banner/ad_banner_widget.dart';
 import '../widget_utils/app_bar/app_bar_widget.dart';
 import '../widget_utils/loading/circular_progress_indicator_widget.dart';
-import 'achieved_time_widget.dart';
+import 'achieved_date_calender_widget.dart';
 import 'achievement_button_widget.dart';
 import 'comment_detail_widget.dart';
 import 'text_input_widget.dart';
 
 class ItemDetailPage extends StatefulWidget {
-  const ItemDetailPage(
-      {Key? key, required this.checkList, required this.itemId})
-      : super(key: key);
+  const ItemDetailPage({
+    Key? key,
+    required this.checkList,
+    required this.itemId,
+    required this.birthDateTime,
+  }) : super(key: key);
 
   final CheckList checkList;
   final String itemId;
+  final DateTime birthDateTime;
 
   @override
   State<ItemDetailPage> createState() => _ItemDetailPageState();
@@ -125,9 +129,12 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                                   : Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 10.0),
-                                      child: AchievedTimeWidget(
+                                      child: AchievedDateCalenderWidget(
                                           checkList: widget.checkList,
-                                          item: item),
+                                          item: item,
+                                          birthDateTime: widget.birthDateTime,
+                                          achievedDateTime:
+                                              item.achievedTime!.toDate()),
                                     ),
                               AchievementButtonWidget(
                                   checkList: widget.checkList, item: item),

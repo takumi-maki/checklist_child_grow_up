@@ -7,18 +7,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/check_list.dart';
+import '../../model/room.dart';
 import '../../utils/firestore/authentications.dart';
 import '../banner/ad_banner_widget.dart';
 import 'check_list_card_detail_widget.dart';
 
 class CheckListsPageWidget extends StatefulWidget {
-  const CheckListsPageWidget(
-      {Key? key, required this.childName, this.ageMonths, required this.roomId})
-      : super(key: key);
+  const CheckListsPageWidget({Key? key, required this.room}) : super(key: key);
 
-  final String childName;
-  final int? ageMonths;
-  final String roomId;
+  final Room room;
 
   @override
   State<CheckListsPageWidget> createState() => _CheckListsPageWidgetState();
@@ -90,11 +87,12 @@ class _CheckListsPageWidgetState extends State<CheckListsPageWidget> {
         length: CheckList.tabBarList.length,
         child: Scaffold(
           appBar: CheckListsAppBarWidget(
-              ageMonths: widget.ageMonths, roomId: widget.roomId),
+            roomId: widget.room.id,
+          ),
           body: SafeArea(
             child: StreamBuilder<QuerySnapshot>(
                 stream: RoomFirestore.rooms
-                    .doc(widget.roomId)
+                    .doc(widget.room.id)
                     .collection('check_lists')
                     .orderBy('type', descending: false)
                     .snapshots(),
@@ -171,6 +169,8 @@ class _CheckListsPageWidgetState extends State<CheckListsPageWidget> {
                                           checkList: checkList,
                                           item: item,
                                           hasComments: true,
+                                          birthDateTime:
+                                              widget.room.birthdate.toDate(),
                                           unreadCommentsCount:
                                               unreadCommentsCount,
                                         );
@@ -179,6 +179,8 @@ class _CheckListsPageWidgetState extends State<CheckListsPageWidget> {
                                         checkList: checkList,
                                         item: item,
                                         hasComments: false,
+                                        birthDateTime:
+                                            widget.room.birthdate.toDate(),
                                       );
                                     });
                               }),

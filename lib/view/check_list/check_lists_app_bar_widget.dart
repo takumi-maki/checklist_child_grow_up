@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../model/check_list.dart';
+import '../../utils/function_utils.dart';
 import 'check_list_page_action_menus.dart';
 
 class CheckListsAppBarWidget extends StatelessWidget
     implements PreferredSizeWidget {
-  const CheckListsAppBarWidget({Key? key, this.ageMonths, required this.roomId})
+  const CheckListsAppBarWidget({Key? key, required this.roomId})
       : super(key: key);
 
-  final int? ageMonths;
   final String roomId;
 
   @override
@@ -30,6 +30,8 @@ class CheckListsAppBarWidget extends StatelessWidget
           Map<String, dynamic> data =
               roomSnapshot.data!.data() as Map<String, dynamic>;
           final childName = data['child_name'];
+          final ageMonths = FunctionUtils.calculateAgeMonths(
+              birthdate: data['birthdate'].toDate());
           return AppBar(
             backgroundColor: Colors.transparent,
             iconTheme: const IconThemeData(color: Colors.black87),
@@ -39,7 +41,7 @@ class CheckListsAppBarWidget extends StatelessWidget
                 Text('$childName の ルーム',
                     style: Theme.of(context).textTheme.titleMedium),
                 ageMonths != null
-                    ? Text('( $ageMonthsヶ月 )',
+                    ? Text('($ageMonthsヶ月)',
                         style: Theme.of(context).textTheme.bodySmall)
                     : const SizedBox(),
               ],
