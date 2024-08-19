@@ -1,8 +1,10 @@
+import 'package:checklist_child_grow_up/utils/function_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../model/check_list.dart';
+import '../../utils/advertisement/rewarded_interstitial_ad_manager.dart';
 import '../../utils/firestore/check_lists.dart';
 import '../../utils/loading/change_button.dart';
 import '../widget_utils/loading/loading_button.dart';
@@ -26,11 +28,14 @@ class _AchievementButtonWidgetState extends State<AchievementButtonWidget> {
   final RoundedLoadingButtonController btnController =
       RoundedLoadingButtonController();
   late final bool isAchieved;
+  RewardedInterstitialAdManager rewardedInterstitialAdManager =
+      RewardedInterstitialAdManager();
 
   @override
   void initState() {
     super.initState();
     isAchieved = widget.item.isAchieved;
+    rewardedInterstitialAdManager.loadAd();
   }
 
   @override
@@ -47,8 +52,7 @@ class _AchievementButtonWidgetState extends State<AchievementButtonWidget> {
                       month: item.month,
                       isAchieved: !item.isAchieved,
                       content: item.content,
-                      achievedTime:
-                          item.isAchieved ? null : Timestamp.now())
+                      achievedTime: item.isAchieved ? null : Timestamp.now())
                   : Item(
                       id: item.id,
                       month: item.month,
@@ -76,6 +80,10 @@ class _AchievementButtonWidgetState extends State<AchievementButtonWidget> {
                 : null;
             if (!mounted) return;
             Navigator.pop(context);
+            var randomInt = FunctionUtils.generateRandomInt(3);
+            if (widget.item.isAchieved && randomInt == 0) {
+              rewardedInterstitialAdManager.showAd();
+            }
           },
           color: isAchieved
               ? Colors.grey.shade100

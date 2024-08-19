@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,5 +35,10 @@ class FunctionUtils {
             child: child!,
           );
         });
+  }
+
+  static int generateRandomInt(int maxInt) {
+    var random = math.Random();
+    return random.nextInt(maxInt);
   }
 }
