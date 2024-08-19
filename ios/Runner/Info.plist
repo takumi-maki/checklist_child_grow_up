@@ -263,5 +263,11 @@
 	</array>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSBonjourServices</key>
+  <array>
+      <string>_dartobservatory._tcp</string>
+  </array>
+  <key>FLTEnableImpeller</key>
+  <false />
 </dict>
 </plist>
