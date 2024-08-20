@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
+import '../../utils/advertisement/rewarded_interstitial_ad_manager.dart';
+import '../../utils/function_utils.dart';
 import '../../utils/loading/change_button.dart';
 import '../widget_utils/loading/loading_button.dart';
 import '../widget_utils/snack_bar/error_snack_bar_widget.dart';
@@ -24,11 +26,14 @@ class _BulkAchieveCheckListDialogState
   final RoundedLoadingButtonController btnController =
       RoundedLoadingButtonController();
   late List<bool> isAchieved;
+  RewardedInterstitialAdManager rewardedInterstitialAdManager =
+      RewardedInterstitialAdManager();
 
   @override
   void initState() {
     isAchieved = List.generate(widget.checkList.items.length,
         (index) => widget.checkList.items[index].isAchieved);
+    rewardedInterstitialAdManager.loadAd();
     super.initState();
   }
 
@@ -135,6 +140,10 @@ class _BulkAchieveCheckListDialogState
                     await ChangeButton.showSuccessFor1Seconds(btnController);
                     if (!mounted) return;
                     Navigator.pop(context);
+                    var randomInt = FunctionUtils.generateRandomInt(2);
+                    if (randomInt == 0) {
+                      rewardedInterstitialAdManager.showAd();
+                    }
                   },
                   color: Theme.of(context).colorScheme.secondary,
                   child: const Text('達成')),

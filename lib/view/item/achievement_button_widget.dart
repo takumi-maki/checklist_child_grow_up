@@ -35,7 +35,7 @@ class _AchievementButtonWidgetState extends State<AchievementButtonWidget> {
   void initState() {
     super.initState();
     isAchieved = widget.item.isAchieved;
-    rewardedInterstitialAdManager.loadAd();
+    if (!isAchieved) rewardedInterstitialAdManager.loadAd();
   }
 
   @override
@@ -81,7 +81,7 @@ class _AchievementButtonWidgetState extends State<AchievementButtonWidget> {
             if (!mounted) return;
             Navigator.pop(context);
             var randomInt = FunctionUtils.generateRandomInt(3);
-            if (widget.item.isAchieved && randomInt == 0) {
+            if (randomInt == 0) {
               rewardedInterstitialAdManager.showAd();
             }
           },
