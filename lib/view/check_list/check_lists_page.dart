@@ -1,6 +1,6 @@
 import 'package:checklist_child_grow_up/utils/firestore/rooms.dart';
 import 'package:checklist_child_grow_up/utils/rate_my_app.dart';
-import 'package:checklist_child_grow_up/view/check_list/bulk_achieve_check_list_dialog.dart';
+import 'package:checklist_child_grow_up/view/check_list/bulk_achieve_check_list_button_widget.dart';
 import 'package:checklist_child_grow_up/view/check_list/check_lists_app_bar_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -110,33 +110,7 @@ class _CheckListsPageWidgetState extends State<CheckListsPageWidget> {
                     CheckList checkList = getCheckList(doc);
                     return Column(
                       children: [
-                        SizedBox(
-                            height: 40.0,
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: OutlinedButton.icon(
-                                  onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        barrierDismissible: false,
-                                        builder: (context) {
-                                          return BulkAchieveCheckListDialog(
-                                              checkList: checkList);
-                                        });
-                                  },
-                                  style: OutlinedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0))),
-                                  icon: const Icon(
-                                    Icons.edit_note,
-                                    color: Colors.black87,
-                                  ),
-                                  label: Text('まとめて達成',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleSmall)),
-                            )),
+                        BulkAchieveCheckListButtonWidget(checkList: checkList),
                         SizedBox(
                           height: getCheckListItemsWidgetHeight(),
                           child: ListView.builder(
