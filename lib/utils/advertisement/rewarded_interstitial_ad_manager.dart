@@ -51,6 +51,11 @@ class RewardedInterstitialAdManager
 
   // 広告を表示するメソッド
   void showAd() {
+    // 止血対応 Androidの場合広告を表示させない ポリシー違反の為
+    if (Platform.isAndroid) {
+      debugPrint('Android does not show it');
+      return;
+    }
     if (_isAdLoaded) {
       _rewardedInterstitialAd?.fullScreenContentCallback;
       _rewardedInterstitialAd?.show(
